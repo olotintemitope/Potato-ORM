@@ -1,0 +1,34 @@
+{
+    "name": "laztopaz/potatoORM",
+    "description": "This package aims to build a simple agnostic ORM that can perform the basic crud database operations.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Temitope Olotin",
+            "email": "temitope.olotin@andela.com"
+        }
+    ],
+    "autoload":{
+        "psr-4":{
+            "Laztopaz\\potatoORM\\": "src/"
+        },
+        "classmap":["src/"]
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "Laztopaz\\potatoORM\\Test\\": "test/"
+        },
+        "classmap":["test/"]
+    },
+    "scripts":{
+        "test":"phpunit"
+        },
+    "require": {
+        "php": ">=5.5.9",
+        "vlucas/phpdotenv": "^2.2",
+        "satooshi/php-coveralls": "^1.0"
+    },
+    "require-dev":{
+        "phpunit/phpunit": "^4.8.22"
+    }
+}
