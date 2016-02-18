@@ -27,11 +27,13 @@ class DatabaseHelper extends \PDO
 	 */
 	public function __construct()
 	{
+		self::loadEnv(); // load the environment variables
+
 		$this->databaseName     =  getenv('databaseName');
 		$this->databaseHost     =  getenv('databaseHost');
 		$this->databaseDriver   =  getenv('databaseDriver');
 		$this->databasePort     =  getenv('databasePort');
-		$this->databaseName     =  getenv('databaseName');
+		$this->databaseUsername =  getenv('databaseUsername');
 		$this->databasePassword =  getenv('databasePassword');
 
 	}
@@ -51,7 +53,7 @@ class DatabaseHelper extends \PDO
 
 				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 			);
-			$this->databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseName, $this->databasePassword, $options);
+			$this->databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
 
 		} catch(PDOException $e){
 
@@ -111,5 +113,17 @@ class DatabaseHelper extends \PDO
 
 		}
 		return $dsn;
+	}
+
+	/**
+	 * Load Dotenv to grant getenv() access to environment variables in .env file
+	 */
+	protected function loadEnv()
+	{
+		if (!getenv("APP_ENV"))
+		{
+			$dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
+			$dotenv->load();
+		}
 	}
 }
