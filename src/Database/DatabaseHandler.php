@@ -8,20 +8,22 @@
 
 namespace Laztopaz\potatoORM;
 
-class DatabaseHandler {
+use Laztopaz\potatoORM\DatabaseHelper;
+
+class DatabaseHandler extends DatabaseHelper{
 
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
 	 */
-	public function DatabaseHandler()
+	public function DatabaseHandler(Model $model)
 	{
 
 	}
 
 	/**
 	 * This method create a record and store it in a table row
-	 * @params
-	 * @return
+	 * @params associative array
+	 * @return boolean
 	 */
 	public function create()
 	{
