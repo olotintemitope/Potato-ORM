@@ -8,56 +8,157 @@
 
 namespace Laztopaz\potatoORM;
 
+use PDO;
 use Laztopaz\potatoORM\DatabaseHelper;
 
 class DatabaseHandler extends DatabaseHelper{
 
+	protected $dbHandle; // PDO database connection handle
+
+	private $tableFields;
+
+	private $dbHelper;
+
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
 	 */
-	public function DatabaseHandler(Model $model)
+	public function __construct()
 	{
+		$this->dbHelper = new DatabaseHelper();
 
+		$this->dbHandle = $this->dbHelper->connect(); // Instance of PDO database connection handle
+
+		$this->tableFields = $this->dbHelper->getColumnNames('users');
+
+		//print_r(array_values($this->tableFields));
 	}
 
 	/**
 	 * This method create a record and store it in a table row
-	 * @params associative array
-	 * @return boolean
+	 * @params associative array, string tablename
+	 * @return boolean true or false
 	 */
-	public function create()
+	public function create($associative1DArray, $tableName)
 	{
+		unset($this->tableFields[0]);
 
+		$associative1DArray = array_combine($this->tableFields,$associative1DArray);
+
+		$insertQuery = 'INSERT INTO '.$tableName;
+
+		$TableValues = implode(',',array_keys($associative1DArray));
+
+		foreach ($associative1DArray as $field => $value) {
+
+			$FormValues[] = "'".trim(addslashes($value))."'";
+		}
+		$splittedTableValues = implode(',', $FormValues);
+
+		$insertQuery.= ' ('.$TableValues.')';
+
+		$insertQuery.= ' VALUES ('.$splittedTableValues.')';
+
+		$executeQuery = $this->dbHandle->exec($insertQuery);
+
+		if (!$executeQuery) {
+
+			return false;
+		}
+			return true;
 	}
+
+	/*
+	 * This method updates any table by supplying 3 parameter
+	 * @params: $updateParams, $tableName, $associative1DArray
+	 * @return boolean true or false
+	 *
+	 */
+	public function update(array $updateParams, $tableName, $associative1DArray)
+	{
+		unset($this->tableFields[0]);
+
+		$associative1DArray = array_combine($this->tableFields,$associative1DArray);
+
+		$counter = 0;
+
+		$sql = "UPDATE `$tableName` SET " ;
+
+		foreach ($associative1DArray as $field => $value) {
+
+			if ($counter == 0) {
+
+				$sql = sprintf( $sql." %s = '%s' ", "`$field`" , get_magic_quotes_gpc() ? $value: addslashes($value));
+
+				$counter++;
+
+			} else {
+
+				$sql = sprintf( $sql.", %s = '%s' ", "`$field`" ,get_magic_quotes_gpc() ? $value: addslashes($value));
+			}
+		} // end foreach
+		foreach ($updateParams as $key => $val) {
+
+			$sql = $sql." WHERE $key = $val";
+		}
+		$boolResponse = $this->dbHandle->exec($sql);
+
+		if ($boolResponse) {
+
+			return true;
+		}
+			return false;
+	}
+
 
 	/**
 	 * This method retrieves record from a table
-	 * @params
-	 * @return
+	 * @params int id, string tableName
+	 * @return array
 	 */
-	public function read()
+	public function read($id, $tableName)
 	{
+		$tableData = array();
 
-	}
+		if ($id) {
 
-	/**
-	 * This method updates record in a table row
-	 * @params
-	 * @return
-	 */
-	public function update()
-	{
+			$sql = 'SELECT * FROM '.$tableName.' WHERE id = '.$id;
+
+		} else {
+
+			$sql = 'SELECT * FROM '.$tableName;
+
+		}
+
+		$stmt = $this->dbHandle->prepare($sql);
+		$stmt->bindValue(':table', $tableName);
+		$stmt->bindValue(':id', $id);
+		$stmt->execute();
+
+		while($fieldValue = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+			$tableData[] = $fieldValue;
+		}
+		return $tableData;
 
 	}
 
 
 	/**
 	 * This method deletes a record  from a table row
-	 * @params int id
+	 * @params int id, string tableName
 	 * @return boolean true or false
 	 */
-	public function delete()
+	public function delete($id,$tableName)
 	{
+		$sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
+
+		$boolResponse = $this->dbHandle->exec($sql);
+
+		if ($boolResponse) {
+
+			return true;
+		}
+		return false;
 
 	}
 

@@ -36,6 +36,8 @@ class DatabaseHelper extends \PDO
 		$this->databaseUsername =  getenv('databaseUsername');
 		$this->databasePassword =  getenv('databasePassword');
 
+		$this->databaseHandle = $this->connect();
+
 	}
 
 	/**
@@ -45,7 +47,6 @@ class DatabaseHelper extends \PDO
 	 */
 	public function connect()
 	{
-		// Create a new PDO instance
 		try {
 			$options = array (
 
@@ -59,26 +60,8 @@ class DatabaseHelper extends \PDO
 
 			return $e->getMessage();
 		}
-	}
 
-	/**
-	 * This method creates table
-	 * @params array parameter
-	 * @return boolean true or false
-	 */
-	public function createTable()
-	{
-
-	}
-
-	/**
-	 * This method creates table
-	 * @params string table name
-	 * @return boolean true or false
-	 */
-	public  function  dropTable()
-	{
-
+		return $this->databaseHandle;
 	}
 
 	/**
@@ -86,7 +69,7 @@ class DatabaseHelper extends \PDO
 	 * @params void
 	 * @return string dsn
 	 */
-	public function getDatabaseDriver()
+	protected function getDatabaseDriver()
 	{
 		$dsn = "";
 
@@ -116,6 +99,58 @@ class DatabaseHelper extends \PDO
 	}
 
 	/**
+	 * This method creates a particular table
+	 * @param tableName
+	 * $return boolean true or false
+	 */
+
+	public function createTable($tableName)
+	{
+
+		try {
+			$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(';
+			$sql.= ' id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )';
+
+			$boolResponse = $this->databaseHandle->exec($sql);
+
+			return $boolResponse;
+
+		} catch (PDOException $e) {
+
+			echo $e->getMessage();
+		}
+	}
+
+	/**
+	 * This method returns column fields of a particular table
+	 * @param $table
+	 * @return array
+	 */
+	public function getColumnNames($table){
+
+		$tableFields = array();
+
+		$sql = "SHOW COLUMNS FROM ".$table;
+
+		try {
+
+			$stmt = $this->databaseHandle->prepare($sql);
+			$stmt->bindValue(':table', $table, PDO::PARAM_STR);
+			$stmt->execute();
+
+			while ($fieldName = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+				$tableFields[] = $fieldName['Field'];
+			}
+			return $tableFields;
+
+		} catch(PDOException $e) {
+
+			trigger_error('Could not connect to MySQL database. ' . $e->getMessage() , E_USER_ERROR);
+		}
+	}
+
+	/**
 	 * Load Dotenv to grant getenv() access to environment variables in .env file
 	 */
 	protected function loadEnv()
@@ -126,4 +161,5 @@ class DatabaseHelper extends \PDO
 			$dotenv->load();
 		}
 	}
+
 }
