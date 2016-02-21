@@ -14,12 +14,12 @@ use PDOException;
 
 class DatabaseHelper extends \PDO
 {
-	protected $databaseName;
-	protected $databaseHost;
-	protected $databaseDriver;
+	protected static $databaseName;
+	protected static $databaseHost;
+	protected static $databaseDriver;
 	protected $databasePort;
-	protected $databaseUsername;
-	protected $databasePassword;
+	protected static $databaseUsername;
+	protected static $databasePassword;
 	protected $databaseHandle;
 
 	/**
@@ -29,14 +29,12 @@ class DatabaseHelper extends \PDO
 	{
 		self::loadEnv(); // load the environment variables
 
-		$this->databaseName     =  getenv('databaseName');
-		$this->databaseHost     =  getenv('databaseHost');
-		$this->databaseDriver   =  getenv('databaseDriver');
+		self::$databaseName     =  getenv('databaseName');
+		self::$databaseHost     =  getenv('databaseHost');
+		self::$databaseDriver   =  getenv('databaseDriver');
 		$this->databasePort     =  getenv('databasePort');
-		$this->databaseUsername =  getenv('databaseUsername');
-		$this->databasePassword =  getenv('databasePassword');
-
-		$this->databaseHandle = $this->connect();
+		self::$databaseUsername =  getenv('databaseUsername');
+		self::$databasePassword =  getenv('databasePassword');
 
 	}
 
@@ -45,7 +43,7 @@ class DatabaseHelper extends \PDO
 	 * @params void
 	 * @return boolean true or false
 	 */
-	public function connect()
+	public static function connect()
 	{
 		try {
 			$options = array (
@@ -54,14 +52,14 @@ class DatabaseHelper extends \PDO
 
 				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 			);
-			$this->databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
+			$databaseHandle = new PDO(self::getDatabaseDriver(), self::$databaseUsername, self::$databasePassword, $options);
 
 		} catch(PDOException $e){
 
 			return $e->getMessage();
 		}
 
-		return $this->databaseHandle;
+		return $databaseHandle;
 	}
 
 	/**
@@ -69,31 +67,30 @@ class DatabaseHelper extends \PDO
 	 * @params void
 	 * @return string dsn
 	 */
-	protected function getDatabaseDriver()
+	public static function getDatabaseDriver()
 	{
 		$dsn = "";
 
-		switch ($this->databaseDriver)
+		switch (self::$databaseDriver)
 		{
 			case 'mysql':
 
 				// Set DSN
-				$dsn = 'mysql:host='.    $this->databaseHost. ';dbname='. $this->databaseName;
+				$dsn = 'mysql:host='.    self::$databaseHost. ';dbname='. self::$databaseName;
 				break;
 			case 'sqlite':
 
 				// Set DSN
-				$dsn = 'sqlite:host='.   $this->databaseHost. ';dbname='. $this->databaseName;
+				$dsn = 'sqlite:host='.   self::$databaseHost. ';dbname='. self::$databaseName;
 				break;
 			case 'pgsql':
 
 				// Set DSN
-				$dsn = 'pgsqlsql:host='. $this->databaseHost. ';dbname='. $this->databaseName;
+				$dsn = 'pgsqlsql:host='. self::$databaseHost. ';dbname='. self::$databaseName;
 				break;
 			default:
 				// Set DSN
-				$dsn = 'mysql:host='.    $this->databaseHost. ';dbname='. $this->databaseName;
-
+				$dsn = 'mysql:host='.    self::$databaseHost. ';dbname='. self::$databaseName;
 		}
 		return $dsn;
 	}
@@ -106,9 +103,10 @@ class DatabaseHelper extends \PDO
 
 	public function createTable($tableName)
 	{
-
 		try {
+
 			$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(';
+
 			$sql.= ' id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )';
 
 			$boolResponse = $this->databaseHandle->exec($sql);
@@ -134,7 +132,7 @@ class DatabaseHelper extends \PDO
 
 		try {
 
-			$stmt = $this->databaseHandle->prepare($sql);
+			$stmt = self::connect()->prepare($sql);
 			$stmt->bindValue(':table', $table, PDO::PARAM_STR);
 			$stmt->execute();
 
@@ -144,7 +142,7 @@ class DatabaseHelper extends \PDO
 			}
 			return $tableFields;
 
-		} catch(PDOException $e) {
+		} catch (PDOException $e) {
 
 			trigger_error('Could not connect to MySQL database. ' . $e->getMessage() , E_USER_ERROR);
 		}
