@@ -8,24 +8,112 @@
 
 namespace Laztopaz\potatoORM;
 
-class BaseClass {
+use Laztopaz\potatoORM\DatabaseHandler;
+use Laztopaz\potatoORM\InterfaceBaseClass;
 
-	public $name;
+class BaseClass  implements InterfaceBaseClass
+{
+	protected $databaseModel;    // Private variable that contains instance of database
 
-	public function __construct()
+	protected  $tableName;       // Class variable holding class name pluralized
+
+	protected $properties = [];  // Properties will later contain key, value pairs from the magic setter, getter methods
+
+	use Inflector;               // Inject the inflector trait
+
+	public function  __construct()
 	{
+		$this->tableName = $this->getClassName();
 
+		$this->databaseModel = new DatabaseHandler($this->tableName);
+	}
+
+	/*
+	 * The magic getter method
+	 * @params key
+	 * @return array key
+	 */
+	public function __get($key)
+	{
+		$this->properties[$key];
+
+	}
+
+	/*
+	 * The magic setter method
+	 * @params property, key
+	 * @return array associative array properties
+	 */
+	public function  __set($property,$value)
+	{
+		$this->properties[$property] = $value;
 	}
 
 	/**
-	 * This is a getter method that return value of name
+	 * This method gets all the record from a particular table
 	 * @params void
-	 * @return string name
+	 * @return associative array
 	 */
-	public function getName()
+	public static function getAll()
 	{
-		return $this->name;
+		$allData = DatabaseHandler::read($id = false, self::getClassName());
+
+		return $allData;
 	}
 
+	/**
+	 * This method create or update record in a database table
+	 * @params void
+	 * @return boolean true or false;
+	 */
+	public function save()
+	{
+		print_r($this->properties);
+
+		if ($this->properties['id']) {
+
+			return $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
+		}
+
+		return $this->databaseModel->create($this->properties, $this->tableName);
+	}
+
+	/**
+	 * This method find a record by id
+	 * @params int id
+	 * @return int  rowid
+	 */
+	public static function find($id)
+	{
+		$staticFindInstance = new static();
+
+		$staticFindInstance->id = $id == "" ? false : $id;
+
+		return $staticFindInstance;
+	}
+
+	/**
+	 * This method delete a row from the table by the row id
+	 * @params int id
+	 * @return boolean true or false
+	 */
+	public static function destroy($id)
+	{
+		return DatabaseHandler::delete($id,self::getClassName());
+	}
+
+	/**
+	 * This method return the current class name
+	 * $params void
+	 * @return string classname
+	 */
+	public static function getClassName()
+	{
+		$tableName = preg_split('/(?=[A-Z])/', get_called_class());
+
+		$className = end($tableName);
+
+		return self::pluralize(strtolower($className));
+	}
 
 }
