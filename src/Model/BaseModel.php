@@ -11,15 +11,15 @@ namespace Laztopaz\potatoORM;
 use Laztopaz\potatoORM\DatabaseHandler;
 use Laztopaz\potatoORM\InterfaceBaseClass;
 
-class BaseClass  implements InterfaceBaseClass
+class BaseClass implements InterfaceBaseClass
 {
-	protected $databaseModel;    // Private variable that contains instance of database
+	protected $databaseModel;   // Private variable that contains instance of database
 
-	protected  $tableName;       // Class variable holding class name pluralized
+	protected $tableName;       // Class variable holding class name pluralized
 
-	protected $properties = [];  // Properties will later contain key, value pairs from the magic setter, getter methods
+	protected $properties = []; // Properties will later contain key, value pairs from the magic setter, getter methods
 
-	use Inflector;               // Inject the inflector trait
+	use Inflector;              // Inject the inflector trait
 
 	public function  __construct()
 	{
@@ -68,11 +68,16 @@ class BaseClass  implements InterfaceBaseClass
 	 */
 	public function save()
 	{
-		print_r($this->properties);
-
 		if ($this->properties['id']) {
 
-			return $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
+			$allData = DatabaseHandler::read($id = $this->properties['id'], self::getClassName());
+
+			if($this->checkIfRecordIsEmpty($allData))
+			{
+				return $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
+			}
+
+			return false;
 		}
 
 		return $this->databaseModel->create($this->properties, $this->tableName);
@@ -114,6 +119,15 @@ class BaseClass  implements InterfaceBaseClass
 		$className = end($tableName);
 
 		return self::pluralize(strtolower($className));
+	}
+
+	public function checkIfRecordIsEmpty($arrayOfRecord)
+	{
+		if (count($arrayOfRecord) > 0 ) {
+
+			return true;
+		}
+		return false;
 	}
 
 }
