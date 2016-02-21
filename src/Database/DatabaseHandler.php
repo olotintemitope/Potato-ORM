@@ -10,27 +10,21 @@ namespace Laztopaz\potatoORM;
 
 use PDO;
 use Laztopaz\potatoORM\DatabaseHelper;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
-class DatabaseHandler extends DatabaseHelper{
-
-	protected $dbHandle; // PDO database connection handle
+class DatabaseHandler {
 
 	private $tableFields;
-
-	private $dbHelper;
+	private $dbHelperInstance;
 
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
 	 */
-	public function __construct()
+	public function __construct($modelClassName)
 	{
-		$this->dbHelper = new DatabaseHelper();
+		$this->dbHelperInstance = new DatabaseHelper();
 
-		$this->dbHandle = $this->dbHelper->connect(); // Instance of PDO database connection handle
-
-		$this->tableFields = $this->dbHelper->getColumnNames('users');
-
-		//print_r(array_values($this->tableFields));
+		$this->tableFields = $this->dbHelperInstance->getColumnNames($modelClassName);
 	}
 
 	/**
@@ -41,8 +35,6 @@ class DatabaseHandler extends DatabaseHelper{
 	public function create($associative1DArray, $tableName)
 	{
 		unset($this->tableFields[0]);
-
-		$associative1DArray = array_combine($this->tableFields,$associative1DArray);
 
 		$insertQuery = 'INSERT INTO '.$tableName;
 
@@ -58,7 +50,7 @@ class DatabaseHandler extends DatabaseHelper{
 
 		$insertQuery.= ' VALUES ('.$splittedTableValues.')';
 
-		$executeQuery = $this->dbHandle->exec($insertQuery);
+		$executeQuery = DatabaseHelper::connect()->exec($insertQuery);
 
 		if (!$executeQuery) {
 
@@ -77,11 +69,9 @@ class DatabaseHandler extends DatabaseHelper{
 	{
 		unset($this->tableFields[0]);
 
-		$associative1DArray = array_combine($this->tableFields,$associative1DArray);
-
 		$counter = 0;
 
-		$sql = "UPDATE `$tableName` SET " ;
+		$sql = "UPDATE `$tableName` SET ";
 
 		foreach ($associative1DArray as $field => $value) {
 
@@ -100,7 +90,7 @@ class DatabaseHandler extends DatabaseHelper{
 
 			$sql = $sql." WHERE $key = $val";
 		}
-		$boolResponse = $this->dbHandle->exec($sql);
+		$boolResponse = DatabaseHelper::connect()->exec($sql);
 
 		if ($boolResponse) {
 
@@ -109,13 +99,12 @@ class DatabaseHandler extends DatabaseHelper{
 			return false;
 	}
 
-
 	/**
 	 * This method retrieves record from a table
 	 * @params int id, string tableName
 	 * @return array
 	 */
-	public function read($id, $tableName)
+	public static function read($id, $tableName)
 	{
 		$tableData = array();
 
@@ -126,13 +115,22 @@ class DatabaseHandler extends DatabaseHelper{
 		} else {
 
 			$sql = 'SELECT * FROM '.$tableName;
-
 		}
 
-		$stmt = $this->dbHandle->prepare($sql);
-		$stmt->bindValue(':table', $tableName);
-		$stmt->bindValue(':id', $id);
-		$stmt->execute();
+		try {
+
+			$dhl = new DatabaseHelper(); //$this->dbHelperInstance
+
+			$stmt = $dhl->connect()->prepare($sql);
+
+			$stmt->bindValue(':table', $tableName);
+			$stmt->bindValue(':id', $id);
+			$stmt->execute();
+
+		} catch (PDOException $e) {
+
+			return  $e->getMessage();
+		}
 
 		while($fieldValue = $stmt->fetch(PDO::FETCH_ASSOC)){
 
@@ -148,11 +146,13 @@ class DatabaseHandler extends DatabaseHelper{
 	 * @params int id, string tableName
 	 * @return boolean true or false
 	 */
-	public function delete($id,$tableName)
+	public static function delete($id,$tableName)
 	{
+		$databasehandle = new DatabaseHelper();
+
 		$sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
 
-		$boolResponse = $this->dbHandle->exec($sql);
+		$boolResponse = $databasehandle->connect()->exec($sql);
 
 		if ($boolResponse) {
 
