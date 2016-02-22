@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5276161d-a9ea-41ce-9683-57235378f247" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Exception/EmptyArrayException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Exception/NoArgumentPassedToFunction.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Exception/NullArgumentPassedToFunction.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Exception/TableNotCreatedException.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/BaseModel.php" afterPath="$PROJECT_DIR$/src/Model/BaseModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Exception/NoRecordDelectionException.php" afterPath="$PROJECT_DIR$/src/Exception/NoRecordDelectionException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Exception/NoRecordUpdateException.php" afterPath="$PROJECT_DIR$/src/Exception/NoRecordUpdateException.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
