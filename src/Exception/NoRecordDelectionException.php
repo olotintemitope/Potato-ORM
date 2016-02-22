@@ -8,8 +8,9 @@
 
 namespace Laztopaz\potatoORM;
 
+use Exception;
 
-class NoRecordDeletionException {
+class NoRecordDeletionException extends  Exception {
 
 	public static  function  noRecordUpdateException($message)
 	{
