@@ -10,6 +10,14 @@ namespace Laztopaz\potatoORM;
 
 use Laztopaz\potatoORM\DatabaseHandler;
 use Laztopaz\potatoORM\InterfaceBaseClass;
+use Laztopaz\potatoORM\NoRecordDeletionException;
+use Laztopaz\potatoORM\NoRecordFoundException;
+use Laztopaz\potatoORM\NoRecordInsertionException;
+use Laztopaz\potatoORM\NullArgumentPassedToFunction;
+use Laztopaz\potatoORM\TableNotCreatedException;
+use Laztopaz\potatoORM\WrongArgumentException;
+use Laztopaz\potatoORM\NoArgumentPassedToFunction;
+use Laztopaz\potatoORM\EmptyArrayException;
 
 class BaseClass implements InterfaceBaseClass
 {
@@ -58,7 +66,12 @@ class BaseClass implements InterfaceBaseClass
 	{
 		$allData = DatabaseHandler::read($id = false, self::getClassName());
 
-		return $allData;
+		if (count($allData) > 0)
+		{
+			return $allData;
+		}
+
+		throw NoRecordFoundException::noRecordFoundException("There is no record in this table");
 	}
 
 	/**
@@ -68,19 +81,35 @@ class BaseClass implements InterfaceBaseClass
 	 */
 	public function save()
 	{
+		$boolCommit = "";
+
 		if ($this->properties['id']) {
 
 			$allData = DatabaseHandler::read($id = $this->properties['id'], self::getClassName());
 
 			if($this->checkIfRecordIsEmpty($allData))
 			{
-				return $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
-			}
+				$boolCommit = $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
 
-			return false;
+				if ($boolCommit) {
+
+					return true;
+				}
+
+				throw NoRecordUpdateException::noRecordUpdateException("Record not updated successfully");
+
+			}
+			throw EmptyArrayException::emptyArrayException("Value passed didn't match any record");
 		}
 
-		return $this->databaseModel->create($this->properties, $this->tableName);
+		$boolCommit = $this->databaseModel->create($this->properties, $this->tableName);
+
+		if ($boolCommit) {
+
+			return true;
+		}
+
+		throw NoRecordInsertionException::noRecordAddedException("Record not created successfully");
 	}
 
 	/**
@@ -90,6 +119,10 @@ class BaseClass implements InterfaceBaseClass
 	 */
 	public static function find($id)
 	{
+		if ($id == "") {
+
+			throw NullArgumentPassedToFunction::nullArgumentPassedToFunction("This function expect a value");
+		}
 		$staticFindInstance = new static();
 
 		$staticFindInstance->id = $id == "" ? false : $id;
