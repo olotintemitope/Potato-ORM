@@ -32,7 +32,6 @@ class DatabaseHelper extends \PDO
 		self::$databaseName     =  getenv('databaseName');
 		self::$databaseHost     =  getenv('databaseHost');
 		self::$databaseDriver   =  getenv('databaseDriver');
-		$this->databasePort     =  getenv('databasePort');
 		self::$databaseUsername =  getenv('databaseUsername');
 		self::$databasePassword =  getenv('databasePassword');
 
@@ -46,12 +45,13 @@ class DatabaseHelper extends \PDO
 	public static function connect()
 	{
 		try {
-			$options = array (
+			$options = [
 
 				PDO::ATTR_PERSISTENT    => true,
 
 				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
-			);
+			];
+
 			$databaseHandle = new PDO(self::getDatabaseDriver(), self::$databaseUsername, self::$databasePassword, $options);
 
 		} catch(PDOException $e){

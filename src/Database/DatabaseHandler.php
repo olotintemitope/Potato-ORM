@@ -10,7 +10,7 @@ namespace Laztopaz\potatoORM;
 
 use PDO;
 use Laztopaz\potatoORM\DatabaseHelper;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Laztopaz\potatoORM\TableFieldUndefinedException;
 
 class DatabaseHandler {
 
@@ -34,6 +34,13 @@ class DatabaseHandler {
 	 */
 	public function create($associative1DArray, $tableName)
 	{
+		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->tableFields,$associative1DArray);
+
+		if (count($unexpectedFields) > 0)
+		{
+			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
+		}
+
 		unset($this->tableFields[0]);
 
 		$insertQuery = 'INSERT INTO '.$tableName;
@@ -67,6 +74,13 @@ class DatabaseHandler {
 	 */
 	public function update(array $updateParams, $tableName, $associative1DArray)
 	{
+		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->tableFields,$associative1DArray);
+
+		if (count($unexpectedFields) > 0)
+		{
+			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
+		}
+
 		unset($this->tableFields[0]);
 
 		$counter = 0;
@@ -174,9 +188,9 @@ class DatabaseHandler {
 
 		foreach ($userSetterArray as $key => $val)
 		{
-			if (!array_key_exists($userSetterArray[$key],$tableColumn)) {
+			if (!in_array($key,$tableColumn)) {
 
-				$unexpectedFields[] = $userSetterArray[$key];
+				$unexpectedFields[] = $key;
 			}
 
 		}
