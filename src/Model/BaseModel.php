@@ -160,7 +160,6 @@ class BaseClass implements InterfaceBaseClass
 			throw NoArgumentPassedToFunctionException::noArgumentPassedToFunction("Argument missing: only one argument is allowed");
 		}
 
-
 		$boolDeleted = DatabaseHandler::delete($id,self::getClassName());
 
 		if ($boolDeleted) {
@@ -168,7 +167,7 @@ class BaseClass implements InterfaceBaseClass
 			return true;
 		}
 
-		throw NoRecordDeletionException::noRecordUpdateException("Record deletion unsuccessful");
+		throw NoRecordDeletionException::noRecordUpdateException("Record deletion unsuccessful because id does not match any record");
 	}
 
 	/**
