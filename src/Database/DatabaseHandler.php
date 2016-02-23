@@ -162,4 +162,27 @@ class DatabaseHandler {
 
 	}
 
+	/**
+	 * This method checks if the magic setters array is the same as the table columns
+	 * @param array $tableColumn
+	 * @param array $userSetterArray
+	 * @return array $unexpectedFields
+	 */
+	public static function checkIfMagicSetterContainsIsSameAsClassModel(array $tableColumn, array $userSetterArray)
+	{
+		$unexpectedFields = [];
+
+		foreach ($userSetterArray as $key => $val)
+		{
+			if (!array_key_exists($userSetterArray[$key],$tableColumn)) {
+
+				$unexpectedFields[] = $userSetterArray[$key];
+			}
+
+		}
+
+		return $unexpectedFields;
+
+	}
+
 }
