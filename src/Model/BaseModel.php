@@ -122,7 +122,7 @@ class BaseClass implements InterfaceBaseClass
 	 * This method find a record by id
 	 * @params int id
 	 * @return Object
-	 * @throws NullArgumentPassedToFunctionException
+	 * @throws NoArgumentPassedToFunctionException
 	 */
 	public static function find($id)
 	{
@@ -134,7 +134,7 @@ class BaseClass implements InterfaceBaseClass
 		}
 		if ($id == "") {
 
-			throw NullArgumentPassedToFunctionException::noArgumentPassedToFunction("This function expect a value");
+			throw NoArgumentPassedToFunctionException::noArgumentPassedToFunction("This function expect a value");
 		}
 		$staticFindInstance = new static();
 
