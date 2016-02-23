@@ -14,9 +14,8 @@ use Laztopaz\potatoORM\NoRecordDeletionException;
 use Laztopaz\potatoORM\NoRecordFoundException;
 use Laztopaz\potatoORM\NoRecordInsertionException;
 use Laztopaz\potatoORM\NullArgumentPassedToFunction;
-use Laztopaz\potatoORM\TableNotCreatedException;
 use Laztopaz\potatoORM\WrongArgumentException;
-use Laztopaz\potatoORM\NoArgumentPassedToFunction;
+use Laztopaz\potatoORM\NoArgumentPassedToFunctionException;
 use Laztopaz\potatoORM\EmptyArrayException;
 
 class BaseClass implements InterfaceBaseClass
@@ -34,6 +33,8 @@ class BaseClass implements InterfaceBaseClass
 		$this->tableName = $this->getClassName();
 
 		$this->databaseModel = new DatabaseHandler($this->tableName);
+
+		$this->properties['id'] = 0;
 	}
 
 	/*
@@ -61,6 +62,7 @@ class BaseClass implements InterfaceBaseClass
 	 * This method gets all the record from a particular table
 	 * @params void
 	 * @return associative array
+	 * @throws NoRecordFoundException
 	 */
 	public static function getAll()
 	{
@@ -77,11 +79,14 @@ class BaseClass implements InterfaceBaseClass
 	/**
 	 * This method create or update record in a database table
 	 * @params void
-	 * @return boolean true or false;
+	 * @return bool true or false;
+	 * @throws EmptyArrayException
+	 * @throws NoRecordInsertionException
+	 * @throws NoRecordUpdateException
 	 */
 	public function save()
 	{
-		$boolCommit = "";
+		$boolCommit = false;
 
 		if ($this->properties['id']) {
 
@@ -107,6 +112,7 @@ class BaseClass implements InterfaceBaseClass
 		if ($boolCommit) {
 
 			return true;
+
 		}
 
 		throw NoRecordInsertionException::noRecordAddedException("Record not created successfully");
@@ -115,13 +121,20 @@ class BaseClass implements InterfaceBaseClass
 	/**
 	 * This method find a record by id
 	 * @params int id
-	 * @return int  rowid
+	 * @return Object
+	 * @throws NullArgumentPassedToFunctionException
 	 */
 	public static function find($id)
 	{
+		$num_args = (int) func_num_args(); // get number of arguments passed to
+
+		if ($num_args == 0 ||  $num_args > 1) {
+
+			throw NoArgumentPassedToFunctionException::noArgumentPassedToFunction("Argument missing: only one argument is allowed");
+		}
 		if ($id == "") {
 
-			throw NullArgumentPassedToFunction::nullArgumentPassedToFunction("This function expect a value");
+			throw NullArgumentPassedToFunctionException::noArgumentPassedToFunction("This function expect a value");
 		}
 		$staticFindInstance = new static();
 
@@ -134,16 +147,34 @@ class BaseClass implements InterfaceBaseClass
 	 * This method delete a row from the table by the row id
 	 * @params int id
 	 * @return boolean true or false
+	 * @throws NoRecordDeletionException;
 	 */
 	public static function destroy($id)
 	{
-		return DatabaseHandler::delete($id,self::getClassName());
+		$boolDeleted = false;
+
+		$num_args = (int) func_num_args(); // get number of arguments passed to
+
+		if ($num_args == 0 ||  $num_args > 1) {
+
+			throw NoArgumentPassedToFunctionException::noArgumentPassedToFunction("Argument missing: only one argument is allowed");
+		}
+
+
+		$boolDeleted = DatabaseHandler::delete($id,self::getClassName());
+
+		if ($boolDeleted) {
+
+			return true;
+		}
+
+		throw NoRecordDeletionException::noRecordUpdateException("Record deletion unsuccessful");
 	}
 
 	/**
 	 * This method return the current class name
 	 * $params void
-	 * @return string classname
+	 * @return classname
 	 */
 	public static function getClassName()
 	{
@@ -154,6 +185,11 @@ class BaseClass implements InterfaceBaseClass
 		return self::pluralize(strtolower($className));
 	}
 
+	/**
+	 * This method check if the argument passed to this function is an array
+	 * @param $arrayOfRecord
+	 * @return bool
+	 */
 	public function checkIfRecordIsEmpty($arrayOfRecord)
 	{
 		if (count($arrayOfRecord) > 0 ) {
