@@ -26,7 +26,7 @@ interface InterfaceBaseClass {
 
 	/**
 	 * This method delete a row from the table by the row id
-	 * @params int id
+	 * @params int $id
 	 * @return boolean true or false
 	 */
 	public static function destroy($id);
@@ -34,7 +34,7 @@ interface InterfaceBaseClass {
 
 	/**
 	 * This method find a record by id
-	 * @params int id
+	 * @params int $id
 	 * @return object find
 	 */
 	public static function find($id);
