@@ -9,90 +9,17 @@
 namespace Laztopaz\potatoORM;
 
 use PDO;
-use Dotenv\Dotenv;
-use PDOException;
 
-class DatabaseHelper extends \PDO
-{
-	protected static $databaseName;
-	protected static $databaseHost;
-	protected static $databaseDriver;
-	protected $databasePort;
-	protected static $databaseUsername;
-	protected static $databasePassword;
-	protected $databaseHandle;
+class DatabaseHelper {
+
+	public $dbConn;
 
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
 	 */
-	public function __construct()
+	public function __construct($dbConnect)
 	{
-		self::loadEnv(); // load the environment variables
-
-		self::$databaseName     =  getenv('databaseName');
-		self::$databaseHost     =  getenv('databaseHost');
-		self::$databaseDriver   =  getenv('databaseDriver');
-		self::$databaseUsername =  getenv('databaseUsername');
-		self::$databasePassword =  getenv('databasePassword');
-
-	}
-
-	/**
-	 * This method connects the specified database chosen by the user
-	 * @params void
-	 * @return boolean true or false
-	 */
-	public static function connect()
-	{
-		try {
-			$options = [
-
-				PDO::ATTR_PERSISTENT    => true,
-
-				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
-			];
-
-			$databaseHandle = new PDO(self::getDatabaseDriver(), self::$databaseUsername, self::$databasePassword, $options);
-
-		} catch(PDOException $e){
-
-			return $e->getMessage();
-		}
-
-		return $databaseHandle;
-	}
-
-	/**
-	 * This method determines the driver to be used for appropriate database server
-	 * @params void
-	 * @return string dsn
-	 */
-	public static function getDatabaseDriver()
-	{
-		$dsn = "";
-
-		switch (self::$databaseDriver)
-		{
-			case 'mysql':
-
-				// Set DSN
-				$dsn = 'mysql:host='.    self::$databaseHost. ';dbname='. self::$databaseName;
-				break;
-			case 'sqlite':
-
-				// Set DSN
-				$dsn = 'sqlite:host='.   self::$databaseHost. ';dbname='. self::$databaseName;
-				break;
-			case 'pgsql':
-
-				// Set DSN
-				$dsn = 'pgsqlsql:host='. self::$databaseHost. ';dbname='. self::$databaseName;
-				break;
-			default:
-				// Set DSN
-				$dsn = 'mysql:host='.    self::$databaseHost. ';dbname='. self::$databaseName;
-		}
-		return $dsn;
+		$this->dbConn = $dbConnect;
 	}
 
 	/**
@@ -100,18 +27,20 @@ class DatabaseHelper extends \PDO
 	 * @param tableName
 	 * $return boolean true or false
 	 */
-
-	public function createTable($tableName)
+	public function createTable($tableName, $conn = NULL)
 	{
 		try {
+
+			if (is_null($conn)) {
+
+				$conn = $this->dbConn;
+			}
 
 			$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(';
 
 			$sql.= ' id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )';
 
-			$boolResponse = $this->databaseHandle->exec($sql);
-
-			return $boolResponse;
+			return $conn->exec($sql);
 
 		} catch (PDOException $e) {
 
@@ -124,15 +53,20 @@ class DatabaseHelper extends \PDO
 	 * @param $table
 	 * @return array
 	 */
-	public function getColumnNames($table){
+	public function getColumnNames($table, $conn = Null){
 
 		$tableFields = array();
 
-		$sql = "SHOW COLUMNS FROM ".$table;
-
 		try {
 
-			$stmt = self::connect()->prepare($sql);
+			if (is_null($conn)) {
+
+				$conn = $this->dbConn;
+			}
+
+			$sql = "SHOW COLUMNS FROM ".$table;
+
+			$stmt = $conn->prepare($sql);
 			$stmt->bindValue(':table', $table, PDO::PARAM_STR);
 			$stmt->execute();
 
@@ -148,16 +82,5 @@ class DatabaseHelper extends \PDO
 		}
 	}
 
-	/**
-	 * Load Dotenv to grant getenv() access to environment variables in .env file
-	 */
-	protected function loadEnv()
-	{
-		if (!getenv("APP_ENV"))
-		{
-			$dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
-			$dotenv->load();
-		}
-	}
 
 }
