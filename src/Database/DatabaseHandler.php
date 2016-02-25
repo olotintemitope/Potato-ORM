@@ -12,17 +12,23 @@ use PDO;
 use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
 
-class DatabaseHandler {
+class DatabaseHandler  {
 
-	private $tableFields;
-	private $dbHelperInstance;
+	private
+		$tableFields,
+		$dbHelperInstance,
+        $dbConnection;
 
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
 	 */
 	public function __construct($modelClassName)
 	{
-		$this->dbHelperInstance = new DatabaseHelper();
+		$dbConn = new DatabaseConnection();
+
+		$this->dbConnection = $dbConn->connect();
+
+		$this->dbHelperInstance = new DatabaseHelper($this->dbConnection);
 
 		$this->tableFields = $this->dbHelperInstance->getColumnNames($modelClassName);
 	}
@@ -57,7 +63,7 @@ class DatabaseHandler {
 
 		$insertQuery.= ' VALUES ('.$splittedTableValues.')';
 
-		$executeQuery = DatabaseHelper::connect()->exec($insertQuery);
+		$executeQuery = $this->dbConnection->exec($insertQuery);
 
 		if (!$executeQuery) {
 
@@ -104,7 +110,7 @@ class DatabaseHandler {
 
 			$sql = $sql." WHERE $key = $val";
 		}
-		$boolResponse = DatabaseHelper::connect()->exec($sql);
+		$boolResponse = $this->dbConnection->exec($sql);
 
 		if ($boolResponse) {
 
@@ -120,6 +126,7 @@ class DatabaseHandler {
 	 */
 	public static function read($id, $tableName)
 	{
+
 		$tableData = array();
 
 		if ($id) {
@@ -133,7 +140,7 @@ class DatabaseHandler {
 
 		try {
 
-			$dhl = new DatabaseHelper(); //$this->dbHelperInstance
+			$dhl = new DatabaseConnection();
 
 			$stmt = $dhl->connect()->prepare($sql);
 
@@ -162,11 +169,11 @@ class DatabaseHandler {
 	 */
 	public static function delete($id,$tableName)
 	{
-		$databasehandle = new DatabaseHelper();
+		$dbhandle = new DatabaseConnection();
 
 		$sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
 
-		$boolResponse = $databasehandle->connect()->exec($sql);
+		$boolResponse = $dbhandle->connect()->exec($sql);
 
 		if ($boolResponse) {
 
