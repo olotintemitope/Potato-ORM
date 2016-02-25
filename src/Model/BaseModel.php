@@ -18,7 +18,7 @@ use Laztopaz\potatoORM\WrongArgumentException;
 use Laztopaz\potatoORM\NoArgumentPassedToFunctionException;
 use Laztopaz\potatoORM\EmptyArrayException;
 
-class BaseClass implements InterfaceBaseClass
+class BaseClass  implements InterfaceBaseClass
 {
 	protected $databaseModel;   // Private variable that contains instance of database
 
