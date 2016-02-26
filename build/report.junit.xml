@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Laztopaz\potatoORM\Test\ExceptionTest" file="/Users/andeladev/Code/potato-ORM/test/ExceptionTest.php" tests="5" assertions="4" failures="1" errors="0" time="0.015305">
+    <testcase name="testFindAndWhere" class="Laztopaz\potatoORM\Test\ExceptionTest" file="/Users/andeladev/Code/potato-ORM/test/ExceptionTest.php" line="43" assertions="1" time="0.013124"/>
+    <testcase name="testUpdateRecord" class="Laztopaz\potatoORM\Test\ExceptionTest" file="/Users/andeladev/Code/potato-ORM/test/ExceptionTest.php" line="59" assertions="1" time="0.000801"/>
+    <testcase name="testCreate" class="Laztopaz\potatoORM\Test\ExceptionTest" file="/Users/andeladev/Code/potato-ORM/test/ExceptionTest.php" line="75" assertions="1" time="0.000459"/>
+    <testcase name="testDelete" class="Laztopaz\potatoORM\Test\ExceptionTest" file="/Users/andeladev/Code/potato-ORM/test/ExceptionTest.php" line="87" assertions="1" time="0.000589">
+      <failure type="PHPUnit_Framework_ExpectationFailedException">Laztopaz\potatoORM\Test\ExceptionTest::testDelete
+Failed asserting that exception of type "BadMethodCallException" matches expected exception "Laztopaz\potatoORM\NoRecordDeletionException". Message was: "Method Mockery_0_Laztopaz_potatoORM_DatabaseConnection::exec() does not exist on this mock object" at
+#0 /Users/andeladev/Code/potato-ORM/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(16) : eval()'d code(807): Mockery_0_Laztopaz_potatoORM_DatabaseConnection-&gt;_mockery_handleMethodCall('exec', Array)
+#1 /Users/andeladev/Code/potato-ORM/src/Database/DatabaseHandler.php(157): Mockery_0_Laztopaz_potatoORM_DatabaseConnection-&gt;exec('DELETE FROM gin...')
+#2 /Users/andeladev/Code/potato-ORM/test/ExceptionTest.php(89): Laztopaz\potatoORM\DatabaseHandler::delete(1, 'gingers', Object(Mockery_0_Laztopaz_potatoORM_DatabaseConnection))
+#3 [internal function]: Laztopaz\potatoORM\Test\ExceptionTest-&gt;testDelete()
+#4 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/Framework/TestCase.php(908): ReflectionMethod-&gt;invokeArgs(Object(Laztopaz\potatoORM\Test\ExceptionTest), Array)
+#5 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/Framework/TestCase.php(768): PHPUnit_Framework_TestCase-&gt;runTest()
+#6 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/Framework/TestResult.php(612): PHPUnit_Framework_TestCase-&gt;runBare()
+#7 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/Framework/TestCase.php(724): PHPUnit_Framework_TestResult-&gt;run(Object(Laztopaz\potatoORM\Test\ExceptionTest))
+#8 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/Framework/TestSuite.php(747): PHPUnit_Framework_TestCase-&gt;run(Object(PHPUnit_Framework_TestResult))
+#9 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(440): PHPUnit_Framework_TestSuite-&gt;run(Object(PHPUnit_Framework_TestResult))
+#10 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/TextUI/Command.php(149): PHPUnit_TextUI_TestRunner-&gt;doRun(Object(PHPUnit_Framework_TestSuite), Array)
+#11 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/src/TextUI/Command.php(100): PHPUnit_TextUI_Command-&gt;run(Array, true)
+#12 /Users/andeladev/Code/potato-ORM/vendor/phpunit/phpunit/phpunit(47): PHPUnit_TextUI_Command::main()
+#13 {main}.
+
+</failure>
+    </testcase>
+    <testcase name="testings" class="Laztopaz\potatoORM\Test\ExceptionTest" file="/Users/andeladev/Code/potato-ORM/test/ExceptionTest.php" line="92" assertions="0" time="0.000332"/>
+  </testsuite>
+</testsuites>
