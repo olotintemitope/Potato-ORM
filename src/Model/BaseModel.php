@@ -73,7 +73,7 @@ class BaseClass  implements InterfaceBaseClass
 			return $allData;
 		}
 
-		throw NoRecordFoundException::noRecordFoundException("There is no record in this table");
+		throw NoRecordFoundException::noRecordFoundException("There is no record to display");
 	}
 
 	/**
@@ -92,8 +92,8 @@ class BaseClass  implements InterfaceBaseClass
 
 			$allData = DatabaseHandler::read($id = $this->properties['id'], self::getClassName());
 
-			if($this->checkIfRecordIsEmpty($allData))
-			{
+			if ($this->checkIfRecordIsEmpty($allData)) {
+
 				$boolCommit = $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
 
 				if ($boolCommit) {
@@ -102,7 +102,6 @@ class BaseClass  implements InterfaceBaseClass
 				}
 
 				throw NoRecordUpdateException::noRecordUpdateException("Record not updated successfully");
-
 			}
 			throw EmptyArrayException::emptyArrayException("Value passed didn't match any record");
 		}
@@ -112,7 +111,6 @@ class BaseClass  implements InterfaceBaseClass
 		if ($boolCommit) {
 
 			return true;
-
 		}
 
 		throw NoRecordInsertionException::noRecordAddedException("Record not created successfully");
@@ -134,7 +132,7 @@ class BaseClass  implements InterfaceBaseClass
 		}
 		if ($id == "") {
 
-			throw NoArgumentPassedToFunctionException::noArgumentPassedToFunction("This function expect a value");
+			throw NullArgumentPassedToFunction::nullArgumentPassedToFunction("This function expect a value");
 		}
 		$staticFindInstance = new static();
 
