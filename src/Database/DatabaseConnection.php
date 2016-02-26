@@ -20,20 +20,20 @@ class DatabaseConnection extends \PDO
 	    $databaseDriver,
 	    $databaseUsername,
 	    $databasePassword,
-	    $databaseHandle;
+	    $databaseHandle,
+        $envFileLoader;
 
 	public  function  __construct()
 	{
 		self::loadEnv(); // load the environment variables
+
+		$this->databaseHandle   = $this->connect(); // database connection handle
 
 		$this->databaseName     =  getenv('databaseName');
 		$this->databaseHost     =  getenv('databaseHost');
 		$this->databaseDriver   =  getenv('databaseDriver');
 		$this->databaseUsername =  getenv('databaseUsername');
 		$this->databasePassword =  getenv('databasePassword');
-
-		$this->databaseHandle = $this->connect();
-
 	}
 
 	/**
@@ -100,13 +100,15 @@ class DatabaseConnection extends \PDO
 	/**
 	 * Load Dotenv to grant getenv() access to environment variables in .env file
 	 */
-	private function loadEnv()
+	public function loadEnv()
 	{
-		if (!getenv("APP_ENV"))
-		{
-			$dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
-			$dotenv->load();
+		if (!getenv("APP_ENV")) {
+
+			//$dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
+			$dotenv = new Dotenv(__DIR__.'/../../');
+		    $dotenv->load();
 		}
+
 	}
 
 }
