@@ -101,7 +101,7 @@ class BaseClass  implements InterfaceBaseClass
 					return true;
 				}
 
-				throw NoRecordUpdateException::noRecordUpdateException("Record not updated successfully");
+				throw NoRecordUpdateException::checkNoRecordUpdateException("Record not updated successfully");
 			}
 			throw EmptyArrayException::checkEmptyArrayException("Value passed didn't match any record");
 		}
