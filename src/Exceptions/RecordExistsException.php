@@ -10,11 +10,12 @@ namespace Laztopaz\potatoORM;
 
 use Exception;
 
-class NoRecordDeletionException extends  Exception {
+class RecordExistsException extends Exception {
 
-	public static  function  noRecordUpdateException($message)
+	public function recordAlreadyExist($message)
 	{
 		return new static($message);
 	}
+
 
 }

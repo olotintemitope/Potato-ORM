@@ -8,19 +8,13 @@
 
 namespace Laztopaz\potatoORM;
 
-
 use Exception;
 
-class WrongArgumentException extends Exception {
+class NoArgumentPassedToFunctionException extends Exception {
 
-	public function __construct()
+	public static function noArgumentPassedToFunction($message)
 	{
-
-	}
-
-	public function wrongArgumentException($message)
-	{
-		return new static ($message);
+		return new static($message);
 	}
 
 }

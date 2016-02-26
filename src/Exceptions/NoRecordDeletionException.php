@@ -10,10 +10,9 @@ namespace Laztopaz\potatoORM;
 
 use Exception;
 
-class NoRecordFoundException extends  Exception {
+class NoRecordDeletionException extends  Exception {
 
-
-	public static function  noRecordFoundException($message)
+	public static function noRecordUpdateException($message)
 	{
 		return new static($message);
 	}

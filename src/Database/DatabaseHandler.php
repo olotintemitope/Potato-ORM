@@ -11,6 +11,7 @@ namespace Laztopaz\potatoORM;
 use PDO;
 use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
+use Laztopaz\potatoORM\EmptyArrayException;
 
 class DatabaseHandler  {
 
@@ -24,9 +25,9 @@ class DatabaseHandler  {
 	 */
 	public function __construct($modelClassName)
 	{
-		$dbConn = new DatabaseConnection();
+		$databaseConn = new DatabaseConnection();
 
-		$this->dbConnection = $dbConn->connect();
+		$this->dbConnection = $databaseConn->connect();
 
 		$this->dbHelperInstance = new DatabaseHelper($this->dbConnection);
 
@@ -72,7 +73,6 @@ class DatabaseHandler  {
 		$executeQuery = $dbConn->exec($insertQuery);
 
 		return $executeQuery ? : false;
-
 	}
 
 	/*
@@ -80,43 +80,45 @@ class DatabaseHandler  {
 	 * @params: $updateParams, $tableName, $associative1DArray
 	 * @return boolean true or false
 	 */
-	public function update(array $updateParams, $tableName, $associative1DArray)
+	public function update(array $updateParams, $tableName, $associative1DArray, $dbConn = Null)
 	{
 		$counter = 0;
 
+		$sql = "";
+
+		if (is_null($dbConn)) {
+
+			$dbConn = $this->dbConnection;
+		}
+
+		$updateSql = "UPDATE `$tableName` SET ";
+
+		unset($associative1DArray['id']);
+
 		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->tableFields,$associative1DArray);
 
-		if (count($unexpectedFields) > 0)
-		{
+		if (count($unexpectedFields) > 0) {
+
 			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
 		}
 
-		unset($this->tableFields[0]);
-
-		$sql = "UPDATE `$tableName` SET ";
-
-		foreach ($associative1DArray as $field => $value) {
-
-			if ($counter == 0) {
-
-				$sql = sprintf( $sql." %s = '%s' ", "`$field`" , get_magic_quotes_gpc() ? $value: addslashes($value)) or die(PDO::ERRMODE_EXCEPTION);
-
-				$counter++;
-
-			} else {
-
-				$sql = sprintf( $sql.", %s = '%s' ", "`$field`" ,get_magic_quotes_gpc() ? $value: addslashes($value)) or die(PDO::ERRMODE_EXCEPTION);
-			}
-		} // end foreach
-		foreach ($updateParams as $key => $val) {
-
-			$sql = $sql." WHERE $key = $val";
+		foreach($associative1DArray as $field => $value)
+		{
+			$sql.= "`$field` = '$value'".",";
 		}
 
-		$boolResponse = $this->dbConnection->exec($sql);
+		$updateSql.= $this->prepareUpdateQuery($sql);
 
-		return $boolResponse ? : false;
+		foreach ($updateParams as $key => $val) {
 
+			$updateSql .= " WHERE $key = $val";
+		}
+
+		$stmt = $dbConn->prepare($updateSql);
+
+		$boolResponse = $stmt->execute();
+
+		return $boolResponse ?  : false;
 	}
 
 	/**
@@ -124,18 +126,21 @@ class DatabaseHandler  {
 	 * @params int id, string tableName
 	 * @return array
 	 */
-	public static function read($id, $tableName)
+	public static function read($id, $tableName, $dbConn = Null)
 	{
 		$tableData = array();
+
+		if (is_null($dbConn)) {
+
+			$dhl = new DatabaseConnection();
+
+			$dbConn = $dhl->connect();
+		}
 
 		$sql = $id  ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
 
 		try {
-
-			$dhl = new DatabaseConnection();
-
-			$stmt = $dhl->connect()->prepare($sql);
-
+			$stmt = $dbConn->prepare($sql);
 			$stmt->bindValue(':table', $tableName);
 			$stmt->bindValue(':id', $id);
 			$stmt->execute();
@@ -147,6 +152,7 @@ class DatabaseHandler  {
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		foreach($results as $result) {
+
 			array_push($tableData, $result);
 		}
 
@@ -158,12 +164,13 @@ class DatabaseHandler  {
 	 * @params int id, string tableName
 	 * @return boolean true or false
 	 */
-	public static function delete($id,$tableName,$dbConn = "Null")
+	public static function delete($id, $tableName, $dbConn = Null)
 	{
 
 		if (is_null($dbConn)) {
 
 			$dbhandle = new DatabaseConnection();
+
 			$dbConn = $dbhandle->connect();
 		}
 
@@ -193,6 +200,31 @@ class DatabaseHandler  {
 		}
 
 		return $unexpectedFields;
+	}
+
+	/**
+	 * This method returns sql query
+	 * @param $sql
+	 * @return string
+	 */
+	private function prepareUpdateQuery($sql)
+	{
+		$splittedQuery = explode(",",$sql);
+
+		array_pop($splittedQuery);
+
+		$mergeData = implode(",",$splittedQuery);
+
+		return $mergeData;
+	}
+
+	public function findAndWhere(array $params,$tableName)
+	{
+		if (is_array($params) && !empty($params)) {
+
+			$sql = "SELECT * FROM ".$tableName." WHERE ";
+		}
+		throw EmptyArrayException::emptyArrayException("Array Expected: parameter passed to this function is not an array");
 	}
 
 }
