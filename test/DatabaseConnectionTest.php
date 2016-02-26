@@ -8,8 +8,6 @@
 
 namespace Laztopaz\potatoORM\Test;
 
-require_once '../vendor/autoload.php';
-
 use PDO;
 use \Mockery;
 use PHPUnit_Framework_TestCase;
