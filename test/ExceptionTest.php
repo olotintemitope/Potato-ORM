@@ -10,6 +10,7 @@ namespace Laztopaz\potatoORM\Test;
 
 error_reporting(0);
 
+use Laztopaz\potatoORM\DatabaseHandler;
 use PHPUnit_Framework_TestCase;
 use Laztopaz\potatoORM\User;
 use Laztopaz\potatoORM\EmptyArrayException;
@@ -22,15 +23,18 @@ use Laztopaz\potatoORM\NullArgumentPassedToFunction;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
 use Laztopaz\potatoORM\Test\TestDatabaseConnection;
 use Laztopaz\potatoORM\WrongArgumentException;
+use Laztopaz\potatoORM\RecordExistsException;
 
 class ExceptionTest extends PHPUnit_Framework_TestCase {
 
-	private $user;
+	private
+		$user,
+        $dbHandler;
 
 	public function  setUp()
 	{
 		$this->user = new User();
-
+		$this->dbHandler = new DatabaseHandler('users');
 	}
 
 	/**
@@ -65,5 +69,17 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
 	{
 		User::destroy(1);
 	}
+
+	/**
+	 * @expectedException Laztopaz\potatoORM\EmptyArrayException;
+	 */
+	public function testEmptyArrayPassedToFindAndWhere()
+	{
+		$params = [];
+		$tableName = "users";
+
+		$this->dbHandler->findAndWhere($params,$tableName);
+	}
+
 
 }

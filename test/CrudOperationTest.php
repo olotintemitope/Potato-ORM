@@ -54,7 +54,7 @@ class TestCrudOperation extends PHPUnit_Framework_TestCase {
 
 	public function testDestroy()
 	{
-		$boolResponse = User::destroy(63);
+		$boolResponse = User::destroy(46);
 		$this->assertTrue($boolResponse);
 	}
 
