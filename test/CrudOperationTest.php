@@ -8,7 +8,7 @@
 
 namespace Laztopaz\potatoORM\Test;
 
-require_once '../vendor/autoload.php';
+//require_once '../vendor/autoload.php';
 
 use Laztopaz\potatoORM\DatabaseConnection;
 use Laztopaz\potatoORM\DatabaseHelper;
@@ -45,7 +45,7 @@ class TestCrudOperation extends PHPUnit_Framework_TestCase {
 
 	public function testFind()
 	{
-		$user         = User::find(3);
+		$user         = User::find(50);
 		$user->name   = "Olotin Emmanuel";
 		$user->alias  = "Laztopaz";
 
