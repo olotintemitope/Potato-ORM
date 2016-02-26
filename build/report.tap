@@ -1,0 +1,9 @@
+TAP version 13
+ok 1 - Laztopaz\potatoORM\Test\TestCrudOperation::testSave
+ok 2 - Laztopaz\potatoORM\Test\TestCrudOperation::testFind
+not ok 3 - Error: Laztopaz\potatoORM\Test\TestCrudOperation::testDestroy
+ok 4 - Laztopaz\potatoORM\Test\TestCrudOperation::testGetAll
+ok 5 - Laztopaz\potatoORM\Test\TestCrudOperation::testResultIfReturnDataIsArray
+ok 6 - Laztopaz\potatoORM\Test\TestCrudOperation::testResultReturnIsEmptyArray
+ok 7 - Laztopaz\potatoORM\Test\TestCrudOperation::testCheckObjectRelatedMapping
+1..7

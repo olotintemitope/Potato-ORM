@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" tests="7" assertions="5" failures="0" errors="1" time="0.240155">
+    <testcase name="testSave" class="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" line="35" assertions="1" time="0.201084"/>
+    <testcase name="testFind" class="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" line="46" assertions="1" time="0.022283"/>
+    <testcase name="testDestroy" class="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" line="55" assertions="0" time="0.004486">
+      <error type="PHPUnit_Framework_ExceptionWrapper">Laztopaz\potatoORM\Test\TestCrudOperation::testDestroy
+Laztopaz\potatoORM\NoRecordDeletionException: Record deletion unsuccessful because id does not match any record
+
+/Users/andeladev/Code/potato-ORM/src/Exceptions/NoRecordDeletionException.php:17
+/Users/andeladev/Code/potato-ORM/src/Model/BaseModel.php:168
+/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php:57
+</error>
+    </testcase>
+    <testcase name="testGetAll" class="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" line="61" assertions="1" time="0.004370"/>
+    <testcase name="testResultIfReturnDataIsArray" class="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" line="68" assertions="1" time="0.002378"/>
+    <testcase name="testResultReturnIsEmptyArray" class="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" line="74" assertions="1" time="0.002359"/>
+    <testcase name="testCheckObjectRelatedMapping" class="Laztopaz\potatoORM\Test\TestCrudOperation" file="/Users/andeladev/Code/potato-ORM/test/CrudOperationTest.php" line="81" assertions="0" time="0.003195"/>
+  </testsuite>
+</testsuites>
