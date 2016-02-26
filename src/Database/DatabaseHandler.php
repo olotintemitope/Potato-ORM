@@ -82,10 +82,6 @@ class DatabaseHandler  {
 	 */
 	public function update(array $updateParams, $tableName, $associative1DArray, $dbConn = Null)
 	{
-		$counter = 0;
-
-		$sql = "";
-
 		if (is_null($dbConn)) {
 
 			$dbConn = $this->dbConnection;
@@ -104,7 +100,7 @@ class DatabaseHandler  {
 
 		foreach($associative1DArray as $field => $value)
 		{
-			$sql.= "`$field` = '$value'".",";
+			$sql = "`$field` = '$value'".",";
 		}
 
 		$updateSql.= $this->prepareUpdateQuery($sql);
