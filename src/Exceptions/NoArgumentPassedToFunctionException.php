@@ -12,7 +12,7 @@ use Exception;
 
 class NoArgumentPassedToFunctionException extends Exception {
 
-	public static function noArgumentPassedToFunction($message)
+	public static function checkNoArgumentPassedToFunction($message)
 	{
 		return new static($message);
 	}

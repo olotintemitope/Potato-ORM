@@ -13,7 +13,7 @@ use Exception;
 class NoRecordInsertionException extends Exception {
 
 
-	public static function noRecordAddedException($mesaage)
+	public static function checkNoRecordAddedException($mesaage)
 	{
 		return new static($mesaage);
 	}

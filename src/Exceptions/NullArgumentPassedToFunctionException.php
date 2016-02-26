@@ -12,7 +12,7 @@ use Exception;
 
 class NullArgumentPassedToFunction  extends  Exception{
 
-	public static function nullArgumentPassedToFunction($message)
+	public static function ckeckNullArgumentPassedToFunction($message)
 	{
 		return new static ($message);
 	}

@@ -12,7 +12,7 @@ use Exception;
 
 class EmptyArrayException extends Exception {
 
-	public static function emptyArrayException($message)
+	public static function checkEmptyArrayException($message)
 	{
 		return new static($message);
 	}
