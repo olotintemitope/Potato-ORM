@@ -220,7 +220,7 @@ class DatabaseHandler  {
 
 			$sql = "SELECT * FROM ".$tableName." WHERE ";
 		}
-		throw EmptyArrayException::emptyArrayException("Array Expected: parameter passed to this function is not an array");
+		throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
 	}
 
 }
