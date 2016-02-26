@@ -6,7 +6,7 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM;
+namespace Laztopaz\potatoORM	;
 
 use Exception;
 
