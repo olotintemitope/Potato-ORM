@@ -55,7 +55,7 @@ class DatabaseHelper {
 	 */
 	public function getColumnNames($table, $conn = Null){
 
-		$tableFields = array();
+		$tableFields = [];
 
 		try {
 
@@ -70,10 +70,12 @@ class DatabaseHelper {
 			$stmt->bindValue(':table', $table, PDO::PARAM_STR);
 			$stmt->execute();
 
-			while ($fieldName = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-				$tableFields[] = $fieldName['Field'];
+			foreach($results as $result) {
+				array_push($tableFields, $result['Field']);
 			}
+
 			return $tableFields;
 
 		} catch (PDOException $e) {
