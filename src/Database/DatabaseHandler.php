@@ -38,7 +38,7 @@ class DatabaseHandler  {
 	 * @params associative array, string tablename
 	 * @return boolean true or false
 	 */
-	public function create($associative1DArray, $tableName)
+	public function create($associative1DArray, $tableName, $dbConn = Null)
 	{
 		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->tableFields,$associative1DArray);
 
@@ -48,6 +48,12 @@ class DatabaseHandler  {
 		}
 
 		unset($this->tableFields[0]);
+
+		if (is_null($dbConn)) {
+
+			$dbhandle = new DatabaseConnection();
+			$dbConn = $dbhandle->connect();
+		}
 
 		$insertQuery = 'INSERT INTO '.$tableName;
 
@@ -63,23 +69,21 @@ class DatabaseHandler  {
 
 		$insertQuery.= ' VALUES ('.$splittedTableValues.')';
 
-		$executeQuery = $this->dbConnection->exec($insertQuery);
+		$executeQuery = $dbConn->exec($insertQuery);
 
-		if (!$executeQuery) {
+		return $executeQuery ? : false;
 
-			return false;
-		}
-			return true;
 	}
 
 	/*
 	 * This method updates any table by supplying 3 parameter
 	 * @params: $updateParams, $tableName, $associative1DArray
 	 * @return boolean true or false
-	 *
 	 */
 	public function update(array $updateParams, $tableName, $associative1DArray)
 	{
+		$counter = 0;
+
 		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->tableFields,$associative1DArray);
 
 		if (count($unexpectedFields) > 0)
@@ -89,34 +93,30 @@ class DatabaseHandler  {
 
 		unset($this->tableFields[0]);
 
-		$counter = 0;
-
 		$sql = "UPDATE `$tableName` SET ";
 
 		foreach ($associative1DArray as $field => $value) {
 
 			if ($counter == 0) {
 
-				$sql = sprintf( $sql." %s = '%s' ", "`$field`" , get_magic_quotes_gpc() ? $value: addslashes($value));
+				$sql = sprintf( $sql." %s = '%s' ", "`$field`" , get_magic_quotes_gpc() ? $value: addslashes($value)) or die(PDO::ERRMODE_EXCEPTION);
 
 				$counter++;
 
 			} else {
 
-				$sql = sprintf( $sql.", %s = '%s' ", "`$field`" ,get_magic_quotes_gpc() ? $value: addslashes($value));
+				$sql = sprintf( $sql.", %s = '%s' ", "`$field`" ,get_magic_quotes_gpc() ? $value: addslashes($value)) or die(PDO::ERRMODE_EXCEPTION);
 			}
 		} // end foreach
 		foreach ($updateParams as $key => $val) {
 
 			$sql = $sql." WHERE $key = $val";
 		}
+
 		$boolResponse = $this->dbConnection->exec($sql);
 
-		if ($boolResponse) {
+		return $boolResponse ? : false;
 
-			return true;
-		}
-			return false;
 	}
 
 	/**
@@ -126,17 +126,9 @@ class DatabaseHandler  {
 	 */
 	public static function read($id, $tableName)
 	{
-
 		$tableData = array();
 
-		if ($id) {
-
-			$sql = 'SELECT * FROM '.$tableName.' WHERE id = '.$id;
-
-		} else {
-
-			$sql = 'SELECT * FROM '.$tableName;
-		}
+		$sql = $id  ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
 
 		try {
 
@@ -152,35 +144,34 @@ class DatabaseHandler  {
 
 			return  $e->getMessage();
 		}
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		while($fieldValue = $stmt->fetch(PDO::FETCH_ASSOC)){
-
-			$tableData[] = $fieldValue;
+		foreach($results as $result) {
+			array_push($tableData, $result);
 		}
+
 		return $tableData;
-
 	}
-
 
 	/**
 	 * This method deletes a record  from a table row
 	 * @params int id, string tableName
 	 * @return boolean true or false
 	 */
-	public static function delete($id,$tableName)
+	public static function delete($id,$tableName,$dbConn = "Null")
 	{
-		$dbhandle = new DatabaseConnection();
+
+		if (is_null($dbConn)) {
+
+			$dbhandle = new DatabaseConnection();
+			$dbConn = $dbhandle->connect();
+		}
 
 		$sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
 
-		$boolResponse = $dbhandle->connect()->exec($sql);
+		$boolResponse = $dbConn->exec($sql);
 
-		if ($boolResponse) {
-
-			return true;
-		}
-		return false;
-
+		return $boolResponse ? : false;
 	}
 
 	/**
@@ -199,11 +190,9 @@ class DatabaseHandler  {
 
 				$unexpectedFields[] = $key;
 			}
-
 		}
 
 		return $unexpectedFields;
-
 	}
 
 }
