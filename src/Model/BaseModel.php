@@ -73,7 +73,7 @@ class BaseClass  implements InterfaceBaseClass
 			return $allData;
 		}
 
-		throw NoRecordFoundException::noRecordFoundException("There is no record to display");
+		throw NoRecordFoundException::checkNoRecordFoundException("There is no record to display");
 	}
 
 	/**
@@ -103,7 +103,7 @@ class BaseClass  implements InterfaceBaseClass
 
 				throw NoRecordUpdateException::noRecordUpdateException("Record not updated successfully");
 			}
-			throw EmptyArrayException::emptyArrayException("Value passed didn't match any record");
+			throw EmptyArrayException::checkEmptyArrayException("Value passed didn't match any record");
 		}
 
 		$boolCommit = $this->databaseModel->create($this->properties, $this->tableName);
@@ -113,7 +113,7 @@ class BaseClass  implements InterfaceBaseClass
 			return true;
 		}
 
-		throw NoRecordInsertionException::noRecordAddedException("Record not created successfully");
+		throw NoRecordInsertionException::checkNoRecordAddedException("Record not created successfully");
 	}
 
 	/**
@@ -128,11 +128,11 @@ class BaseClass  implements InterfaceBaseClass
 
 		if ($num_args == 0 ||  $num_args > 1) {
 
-			throw NoArgumentPassedToFunctionException::noArgumentPassedToFunction("Argument missing: only one argument is allowed");
+			throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
 		}
 		if ($id == "") {
 
-			throw NullArgumentPassedToFunction::nullArgumentPassedToFunction("This function expect a value");
+			throw NullArgumentPassedToFunction::ckeckNullArgumentPassedToFunction("This function expect a value");
 		}
 		$staticFindInstance = new static();
 
@@ -155,7 +155,7 @@ class BaseClass  implements InterfaceBaseClass
 
 		if ($num_args == 0 ||  $num_args > 1) {
 
-			throw NoArgumentPassedToFunctionException::noArgumentPassedToFunction("Argument missing: only one argument is allowed");
+			throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
 		}
 
 		$boolDeleted = DatabaseHandler::delete($id,self::getClassName());
@@ -165,7 +165,7 @@ class BaseClass  implements InterfaceBaseClass
 			return true;
 		}
 
-		throw NoRecordDeletionException::noRecordUpdateException("Record deletion unsuccessful because id does not match any record");
+		throw NoRecordDeletionException::checkNoRecordUpdateException("Record deletion unsuccessful because id does not match any record");
 	}
 
 	/**
