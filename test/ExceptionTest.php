@@ -50,54 +50,44 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
+	 *
 	 */
 	public function testNoArgumentPassedToFunctionException()
 	{
+		$this->setExpectedException('Laztopaz\potatoORM\NoArgumentPassedToFunctionException');
+
 		User::find();
 
 	}
 
 	/**
-	 * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
+	 *
 	 */
 	public function testNoArgumentForDestroy()
 	{
+		$this->setExpectedException('Laztopaz\potatoORM\NoArgumentPassedToFunctionException');
+
 		User::destroy();
 	}
 
 	/**
-	 * @expectedException Laztopaz\potatoORM\NullArgumentPassedToFunction
+	 *
 	 */
 	public function  testNullArgumentPassedToFunction()
 	{
+		$this->setExpectedException('Laztopaz\potatoORM\NullArgumentPassedToFunction');
+
 		$user = User::find("");
 	}
 
 	/**
-	 * @expectedException Laztopaz\potatoORM\NoRecordDeletionException
+	 * 
 	 */
 	public function testNoRecordDeletedException()
 	{
+		$this->setExpectedException('Laztopaz\potatoORM\NoRecordDeletionException');
+
 		User::destroy(1);
 	}
-
-
-
-	/**
-	 * @expectedException Laztopaz\potatoORM\EmptyArrayException
-	 */
-//	public function testEmptyArrayPassedToFindAndWhere()
-//	{
-//		$test = new TestDatabaseConnection;
-//		$test->setUp();
-//		$test->testings();
-//
-////		$this->setExpectedException('Laztopaz\potatoORM\EmptyArrayException');
-//
-//		$dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
-//
-//		$dbHandler->findAndWhere([],"gingers",$this->dbConnMocked);
-//	}
 
 }
