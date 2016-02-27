@@ -10,7 +10,7 @@ namespace Laztopaz\potatoORM;
 
 use Exception;
 
-class NullArgumentPassedToFunction  extends  Exception{
+class NullArgumentPassedToFunction extends Exception {
 
 	public static function ckeckNullArgumentPassedToFunction($message)
 	{

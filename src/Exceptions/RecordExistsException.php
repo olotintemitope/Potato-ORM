@@ -17,5 +17,4 @@ class RecordExistsException extends Exception {
 		return new static($message);
 	}
 
-
 }

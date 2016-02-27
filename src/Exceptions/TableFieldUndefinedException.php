@@ -12,11 +12,12 @@ use Exception;
 
 class TableFieldUndefinedException extends Exception {
 
-	public static function fieldsNotDefinedException($fieldsNotDefined,$message)
+	public static function fieldsNotDefinedException($fieldsNotDefined, $message)
 	{
-		$splittedArray = implode(",",$fieldsNotDefined);
 
-		return new static ($splittedArray."  ".$message );
+		$splittedArray = implode(",", $fieldsNotDefined);
+
+		return new static ($splittedArray . "  " . $message);
 	}
 
 }
