@@ -237,6 +237,7 @@ class DatabaseHandler {
 
 			return $returnedRowNumbers >= 1 ? true : false;
 		}
+
 		throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
 	}
 
