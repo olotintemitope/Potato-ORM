@@ -39,7 +39,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCreateTable()
 	{
-		$this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
+		//$this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
 
 		$this->dbConnMocked->shouldReceive('exec')->with("CREATE TABLE IF NOT EXISTS gingers( id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )")->andReturn(true);
 
@@ -91,4 +91,133 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($bool);
 	}
+
+	/**
+	 * This method checks if a record is successfully committed to  a table
+	 * @params void
+	 * @return boolean true
+	 */
+	public  function testCreate()
+	{
+		$this->testings();
+		$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+
+		$insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('1','Kola','Male')";
+
+		$this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+
+		$boolInsert = $this->dbHandler->create(['id' => '1', 'name' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
+
+		$this->assertTrue($boolInsert);
+	}
+
+	/**
+	 * This method test that there are records to be retrieved from a table
+	 * @params void
+	 * @return boolean true
+	 */
+	public function testReadAll()
+	{
+		$id = false;
+
+		$row1 = ['id' => 3, 'name' => 'Temitope Olotin', 'alias' => 'Laztopaz', 'class' => 14];
+		$row2 = ['id' => 5, 'name' => 'Ogunde Kehinde', 'alias' => 'codekenn', 'class' => 13];
+		$row3 = ['id' => 7, 'name' => 'Raimi Ademola', 'alias' => 'demo', 'class' => 14];
+
+		$results = [$row1,$row2,$row3];
+
+		$readQuery = $id  ? 'SELECT * FROM gingers WHERE id = '.$id : 'SELECT * FROM gingers';
+
+		$this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
+
+		$this->statement->shouldReceive('bindValue')->with(':table', 'gingers');
+
+		$this->statement->shouldReceive('bindValue')->with(':id', $id);
+
+		$this->statement->shouldReceive('execute');
+
+		$this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
+
+		$allDataset = DatabaseHandler::read($id,'gingers',$this->dbConnMocked);
+
+		$this->assertEquals($allDataset,['0'=>
+			['id' => $row1['id'], 'name' => $row1['name'], 'alias' => $row1['alias'], 'class' => $row1['class']],
+			['id' => $row2['id'], 'name' => $row2['name'], 'alias' => $row2['alias'], 'class' => $row2['class']],
+			['id' => $row3['id'], 'name' => $row3['name'], 'alias' => $row3['alias'], 'class' => $row3['class']]
+		]);
+	}
+
+	/**
+	 * This method get a single record based on the row id supplied
+	 * @params void
+	 * @return boolean true
+	 */
+	public function testReadSingleRecord()
+	{
+		$id = 3;
+
+		$row = ['id' => 3, 'name' => 'Olotin Temitope', 'alias' => 'laztopaz', 'class' => 14];
+
+		$results = [$row];
+
+		$readQuery = $id  ? 'SELECT * FROM gingers WHERE id = '.$id : 'SELECT * FROM gingers';
+
+		$this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
+
+		$this->statement->shouldReceive('bindValue')->with(':table', 'gingers');
+
+		$this->statement->shouldReceive('bindValue')->with(':id', $id);
+
+		$this->statement->shouldReceive('execute');
+
+		$this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
+
+		$allDataset = DatabaseHandler::read($id,'gingers',$this->dbConnMocked);
+
+		$this->assertEquals($allDataset,['0'=> ['id' => $row['id'], 'name' => $row['name'], 'alias' => $row['alias'],'class' => $row['class']]]);
+
+	}
+
+	public function testDelete()
+	{
+		$id = 1;
+
+		$sql =  "DELETE FROM gingers WHERE id = ".$id;
+
+		$this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
+
+		$bool = DatabaseHandler::delete($id,'gingers',$this->dbConnMocked);
+
+		$this->assertTrue($bool);
+
+	}
+
+	/**
+	 * This method if  record is successfully updated
+	 * @params void
+	 * @return boolean true
+	 */
+	public function testUpdateRecord()
+	{
+		$this->testings();
+
+		$id = 1;
+
+		$data = ['name' => 'Kola', 'gender' => 'Male'];
+
+		$updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
+
+		$this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+
+		$this->statement->shouldReceive('execute')->andReturn(true);
+
+
+		$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+		$boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
+
+//		var_dump($boolUpdate);
+
+		$this->assertFalse($boolUpdate);
+	}
+
 }
