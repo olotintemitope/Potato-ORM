@@ -20,13 +20,13 @@ use Laztopaz\potatoORM\EmptyArrayException;
 
 class BaseClass  implements InterfaceBaseClass
 {
-	protected $databaseModel;   // Private variable that contains instance of database
+	protected $databaseModel; // Private variable that contains instance of database
 
-	protected $tableName;       // Class variable holding class name pluralized
+	protected $tableName; // Class variable holding class name pluralized
 
 	protected $properties = []; // Properties will later contain key, value pairs from the magic setter, getter methods
 
-	use Inflector;              // Inject the inflector trait
+	use Inflector; // Inject the inflector trait
 
 	public function  __construct()
 	{
@@ -53,7 +53,7 @@ class BaseClass  implements InterfaceBaseClass
 	 * @params property, key
 	 * @return array associative array properties
 	 */
-	public function  __set($property,$value)
+	public function  __set($property, $value)
 	{
 		$this->properties[$property] = $value;
 	}
@@ -126,7 +126,7 @@ class BaseClass  implements InterfaceBaseClass
 	{
 		$num_args = (int) func_num_args(); // get number of arguments passed to
 
-		if ($num_args == 0 ||  $num_args > 1) {
+		if ($num_args == 0 || $num_args > 1) {
 
 			throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
 		}
@@ -153,12 +153,12 @@ class BaseClass  implements InterfaceBaseClass
 
 		$num_args = (int) func_num_args(); // get number of arguments passed to
 
-		if ($num_args == 0 ||  $num_args > 1) {
+		if ($num_args == 0 || $num_args > 1) {
 
 			throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
 		}
 
-		$boolDeleted = DatabaseHandler::delete($id,self::getClassName());
+		$boolDeleted = DatabaseHandler::delete($id, self::getClassName());
 
 		if ($boolDeleted) {
 
@@ -189,7 +189,7 @@ class BaseClass  implements InterfaceBaseClass
 	 */
 	public function checkIfRecordIsEmpty($arrayOfRecord)
 	{
-		if (count($arrayOfRecord) > 0 ) {
+		if (count($arrayOfRecord) > 0) {
 
 			return true;
 		}
