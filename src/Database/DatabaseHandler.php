@@ -222,8 +222,6 @@ class DatabaseHandler {
 	 */
 	public function findAndWhere(array $params, $tableName, $dbConn)
 	{
-		var_dump($params);
-
 		if (is_null($dbConn)) {
 
 			$dbConn = $this->dbConnection;
