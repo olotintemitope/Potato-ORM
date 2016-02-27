@@ -24,8 +24,6 @@ class DatabaseHandler {
 	 */
 	public function __construct($modelClassName, $dbConn = Null)
 	{
-		$databaseConn = new DatabaseConnection();
-
 		if (is_null($dbConn)) {
 			$this->dbConnection = new DatabaseConnection();
 		} else {
@@ -34,7 +32,7 @@ class DatabaseHandler {
 
 		$this->dbHelperInstance = new DatabaseHelper($this->dbConnection);
 
-		$this->tableFields = $this->dbHelperInstance->getColumnNames($modelClassName);
+		$this->tableFields = $this->dbHelperInstance->getColumnNames($modelClassName, $dbConn);
 	}
 
 	/**
@@ -54,14 +52,15 @@ class DatabaseHandler {
 		unset($this->tableFields[0]);
 
 		if (is_null($dbConn)) {
-
-			$dbhandle = new DatabaseConnection();
-			$dbConn = $dbhandle->connect();
+			$dbConn = $this->dbConnection;
 		}
 
 		$insertQuery = 'INSERT INTO '.$tableName;
 
 		$TableValues = implode(',',array_keys($associative1DArray));
+
+
+		var_dump($associative1DArray);
 
 		foreach ($associative1DArray as $field => $value) {
 
@@ -85,6 +84,8 @@ class DatabaseHandler {
 	 */
 	public function update(array $updateParams, $tableName, $associative1DArray, $dbConn = Null)
 	{
+		$sql = "";
+
 		if (is_null($dbConn)) {
 
 			$dbConn = $this->dbConnection;
@@ -101,12 +102,13 @@ class DatabaseHandler {
 			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
 		}
 
+
 		foreach($associative1DArray as $field => $value)
 		{
-			$sql = "`$field` = '$value'".",";
+			$sql .= "`$field` = '$value'".",";
 		}
 
-		$updateSql.= $this->prepareUpdateQuery($sql);
+		$updateSql .= $this->prepareUpdateQuery($sql);
 
 		foreach ($updateParams as $key => $val) {
 
@@ -131,9 +133,8 @@ class DatabaseHandler {
 
 		if (is_null($dbConn)) {
 
-			$dhl = new DatabaseConnection();
+			$dbConn = new DatabaseConnection();
 
-			$dbConn = $dhl->connect();
 		}
 
 		$sql = $id  ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
