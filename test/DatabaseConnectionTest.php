@@ -34,7 +34,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 //		var_dump($this->dbConnMocked);
 		$this->dbHelper = new DatabaseHelper($this->dbConnMocked);
 
-		$this->dbHandler = new DatabaseHandler('users', $this->dbConnMocked);
+//		$this->dbHandler = new DatabaseHandler('users', $this->dbConnMocked);
 
 		$this->statement = Mockery::mock('\PDOStatement');
 	}
