@@ -79,33 +79,25 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testNoRecordDeletedException()
 	{
-		$this->mockDelete();
-
 		User::destroy(1);
 	}
 
-	public function mockDelete()
-	{
-		$id = 1;
 
-		$sql =  "DELETE FROM gingers WHERE id = ".$id;
-
-		$this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
-
-		$bool = DatabaseHandler::delete($id,'gingers',$this->dbConnMocked);
-
-		$this->assertTrue($bool);
-
-	}
 
 	/**
-	 * @expectedException Laztopaz\potatoORM\EmptyArrayException;
+	 * @expectedException Laztopaz\potatoORM\EmptyArrayException
 	 */
-	public function testEmptyArrayPassedToFindAndWhere()
-	{
-		$dbHandler = new DatabaseHandler('gingers',$this->dbConnMocked);
-
-		$dbHandler->findAndWhere([],"gingers",$this->dbConnMocked);
-	}
+//	public function testEmptyArrayPassedToFindAndWhere()
+//	{
+//		$test = new TestDatabaseConnection;
+//		$test->setUp();
+//		$test->testings();
+//
+////		$this->setExpectedException('Laztopaz\potatoORM\EmptyArrayException');
+//
+//		$dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+//
+//		$dbHandler->findAndWhere([],"gingers",$this->dbConnMocked);
+//	}
 
 }
