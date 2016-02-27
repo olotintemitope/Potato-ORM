@@ -45,8 +45,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
 
 		$this->dbHelper  = new DatabaseHelper($this->dbConnMocked);
 
-		//$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
-
 		$this->statement = Mockery::mock('\PDOStatement');
 
 	}
@@ -76,6 +74,16 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
 		$user = User::find("");
 	}
 
+	/**
+	 * @expectedException Laztopaz\potatoORM\NoRecordDeletionException
+	 */
+	public function testNoRecordDeletedException()
+	{
+		$this->mockDelete();
+
+		User::destroy(1);
+	}
+
 	public function mockDelete()
 	{
 		$id = 1;
@@ -91,25 +99,13 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException Laztopaz\potatoORM\NoRecordDeletionException
+	 * @expectedException Laztopaz\potatoORM\EmptyArrayException;
 	 */
-	public function testNoRecordDeletedException()
+	public function testEmptyArrayPassedToFindAndWhere()
 	{
-		$this->mockDelete();
+		$dbHandler = new DatabaseHandler('gingers',$this->dbConnMocked);
 
-		User::destroy(1);
+		$dbHandler->findAndWhere([],"gingers",$this->dbConnMocked);
 	}
-
-//	/**
-//	 * @expectedException Laztopaz\potatoORM\EmptyArrayException;
-//	 */
-//	public function testEmptyArrayPassedToFindAndWhere()
-//	{
-//		$params = [];
-//		$tableName = "users";
-//
-//		$this->dbHandler->findAndWhere($params,$tableName);
-//	}
-
 
 }
