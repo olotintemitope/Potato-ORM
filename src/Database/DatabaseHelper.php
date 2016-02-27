@@ -9,6 +9,7 @@
 namespace Laztopaz\potatoORM;
 
 use PDO;
+use Laztopaz\potatoORM\TableNotCreatedException;
 
 class DatabaseHelper {
 
@@ -29,7 +30,6 @@ class DatabaseHelper {
 	 */
 	public function createTable($tableName, $conn = NULL)
 	{
-		try {
 
 			if (is_null($conn)) {
 
@@ -42,10 +42,8 @@ class DatabaseHelper {
 
 			return $conn->exec($sql);
 
-		} catch (PDOException $e) {
+		    throw TableNotCreatedException::tableNotCreatedException("Check your database connection");
 
-			echo $e->getMessage();
-		}
 	}
 
 	/**

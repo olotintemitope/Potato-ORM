@@ -213,8 +213,17 @@ class DatabaseHandler {
 		return $mergeData;
 	}
 
+	/**
+	 * @param array $params
+	 * @param $tableName
+	 * @param $dbConn
+	 * @return bool
+	 * @throws EmptyArrayException
+	 */
 	public function findAndWhere(array $params, $tableName, $dbConn)
 	{
+		var_dump($params);
+
 		if (is_null($dbConn)) {
 
 			$dbConn = $this->dbConnection;
@@ -235,7 +244,7 @@ class DatabaseHandler {
 
 			$returnedRowNumbers = $statement->rowCount();
 
-			return $returnedRowNumbers >= 1 ? true : false;
+			return $returnedRowNumbers  ? true : false;
 		}
 
 		throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
