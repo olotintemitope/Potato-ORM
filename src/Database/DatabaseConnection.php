@@ -25,22 +25,14 @@ class DatabaseConnection extends \PDO
 	{
 		self::loadEnv(); // load the environment variables
 
-		$this->databaseHandle   = $this->connect(); // database connection handle
+		//$this->databaseHandle   = $this->connect(); // database connection handle
 
 		$this->databaseName     =  getenv('databaseName');
 		$this->databaseHost     =  getenv('databaseHost');
 		$this->databaseDriver   =  getenv('databaseDriver');
 		$this->databaseUsername =  getenv('databaseUsername');
 		$this->databasePassword =  getenv('databasePassword');
-	}
 
-	/**
-	 * This method connects the specified database chosen by the user
-	 * @params void
-	 * @return boolean true or false
-	 */
-	public function connect()
-	{
 		try {
 
 			$options = [
@@ -50,7 +42,8 @@ class DatabaseConnection extends \PDO
 				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 			];
 
-			$databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
+			parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
+//			$databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
 
 		} catch(PDOException $e) {
 
@@ -58,8 +51,36 @@ class DatabaseConnection extends \PDO
 
 		}
 
-		return $databaseHandle;
+
+
 	}
+
+	/**
+	 * This method connects the specified database chosen by the user
+	 * @params void
+	 * @return boolean true or false
+	 */
+//	public function connect()
+//	{
+//		try {
+//
+//			$options = [
+//
+//				PDO::ATTR_PERSISTENT    => true,
+//
+//				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
+//			];
+//
+//			$databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
+//
+//		} catch(PDOException $e) {
+//
+//			return $e->getMessage();
+//
+//		}
+//
+//		return $databaseHandle;
+//	}
 
 
 	/**
