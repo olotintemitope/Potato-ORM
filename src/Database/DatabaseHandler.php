@@ -22,11 +22,15 @@ class DatabaseHandler {
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
 	 */
-	public function __construct($modelClassName)
+	public function __construct($modelClassName, $dbConn = Null)
 	{
 		$databaseConn = new DatabaseConnection();
 
-		$this->dbConnection = $databaseConn->connect();
+		if (is_null($dbConn)) {
+			$this->dbConnection = new DatabaseConnection();
+		} else {
+			$this->dbConnection = $dbConn;
+		}
 
 		$this->dbHelperInstance = new DatabaseHelper($this->dbConnection);
 
