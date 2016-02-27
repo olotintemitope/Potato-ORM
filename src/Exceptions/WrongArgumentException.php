@@ -12,11 +12,6 @@ use Exception;
 
 class WrongArgumentException extends Exception {
 
-	public function __construct()
-	{
-
-	}
-
 	public function wrongArgumentException($message)
 	{
 		return new static ($message);

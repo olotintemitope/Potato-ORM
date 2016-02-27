@@ -10,9 +10,9 @@ namespace Laztopaz\potatoORM;
 
 use Exception;
 
-class TableNotCreatedException extends  Exception {
+class TableNotCreatedException extends Exception {
 
-	public static  function tableNotCreatedException($message)
+	public static function tableNotCreatedException($message)
 	{
 		return new static($message);
 	}
