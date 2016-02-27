@@ -13,12 +13,11 @@ use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
 use Laztopaz\potatoORM\EmptyArrayException;
 
-class DatabaseHandler  {
+class DatabaseHandler {
 
-	private
-		$tableFields,
-		$dbHelperInstance,
-        $dbConnection;
+	private $tableFields;
+	private $dbHelperInstance;
+	private $dbConnection;
 
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
