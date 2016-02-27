@@ -213,7 +213,7 @@ class DatabaseHandler {
 		return $mergeData;
 	}
 
-	public function findAndWhere(array $params,$tableName)
+	public function findAndWhere(array $params, $tableName)
 	{
 		if (is_array($params) && !empty($params)) {
 
