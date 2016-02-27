@@ -1,11 +1,8 @@
 TAP version 13
-ok 1 - Laztopaz\potatoORM\Test\ExceptionTest::testFindAndWhere
-ok 2 - Laztopaz\potatoORM\Test\ExceptionTest::testUpdateRecord
-ok 3 - Laztopaz\potatoORM\Test\ExceptionTest::testCreate
-not ok 4 - Failure: Laztopaz\potatoORM\Test\ExceptionTest::testDelete
-  ---
-  message: 'Failed asserting that exception of type "BadMethodCallException" matches expected exception "Laztopaz\potatoORM\NoRecordDeletionException". Message was: "Method Mockery_0_Laztopaz_potatoORM_DatabaseConnection::exec() does not exist on this mock object" at'
-  severity: fail
-  ...
-ok 5 - Laztopaz\potatoORM\Test\ExceptionTest::testings
-1..5
+ok 1 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testCreateTable
+ok 2 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testGetColumnNames
+ok 3 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testDeleteRecord
+ok 4 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testInsertData
+ok 5 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadAll
+ok 6 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadSingleRecord
+1..6
