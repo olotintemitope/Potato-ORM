@@ -27,9 +27,8 @@ use Laztopaz\potatoORM\RecordExistsException;
 
 class ExceptionTest extends PHPUnit_Framework_TestCase {
 
-	private
-		$user,
-        $dbHandler;
+	private $user;
+    private $dbHandler;
 
 	public function  setUp()
 	{
