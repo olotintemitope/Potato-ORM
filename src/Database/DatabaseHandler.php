@@ -161,7 +161,6 @@ class DatabaseHandler {
 	 */
 	public static function delete($id, $tableName, $dbConn = Null)
 	{
-
 		if (is_null($dbConn)) {
 
 			$dbhandle = new DatabaseConnection();
@@ -213,11 +212,29 @@ class DatabaseHandler {
 		return $mergeData;
 	}
 
-	public function findAndWhere(array $params, $tableName)
+	public function findAndWhere(array $params, $tableName, $dbConn)
 	{
+		if (is_null($dbConn)) {
+
+			$dbConn = $this->dbConnection;
+		}
+
 		if (is_array($params) && !empty($params)) {
 
-			$sql = "SELECT * FROM ".$tableName." WHERE ";
+			$sql = "SELECT * FROM ".$tableName." WHERE";
+
+			foreach ($params as $key => $val) {
+
+				$sql .= " WHERE $key = $val";
+			}
+
+			$statement = $dbConn->prepare($sql);
+
+			$statement->execute();
+
+			$returnedRowNumbers = $statement->rowCount();
+
+			return $returnedRowNumbers >= 1 ? true : false;
 		}
 		throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
 	}
