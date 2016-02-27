@@ -6,4 +6,15 @@ ok 4 - Laztopaz\potatoORM\Test\TestCrudOperation::testGetAll
 ok 5 - Laztopaz\potatoORM\Test\TestCrudOperation::testResultIfReturnDataIsArray
 ok 6 - Laztopaz\potatoORM\Test\TestCrudOperation::testResultReturnIsEmptyArray
 ok 7 - Laztopaz\potatoORM\Test\TestCrudOperation::testCheckObjectRelatedMapping
-1..7
+ok 8 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testCreateTable
+ok 9 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testGetColumnNames
+ok 10 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testDeleteRecord
+ok 11 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testInsertData
+ok 12 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadAll
+ok 13 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadSingleRecord
+ok 14 - Laztopaz\potatoORM\Test\ExceptionTest::testNoArgumentPassedToFunctionException
+ok 15 - Laztopaz\potatoORM\Test\ExceptionTest::testNoArgumentForDestroy
+ok 16 - Laztopaz\potatoORM\Test\ExceptionTest::testNullArgumentPassedToFunction
+ok 17 - Laztopaz\potatoORM\Test\ExceptionTest::testNoRecordDeletedException
+not ok 18 - Error: Laztopaz\potatoORM\Test\ExceptionTest::testEmptyArrayPassedToFindAndWhere
+1..18
