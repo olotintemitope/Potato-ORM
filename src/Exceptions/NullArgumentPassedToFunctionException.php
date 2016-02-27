@@ -1,9 +1,9 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: andela
- * Date: 2/22/16
- * Time: 9:38 PM
+ * @package  Laztopaz\potato-ORM
+ * @author   Temitope Olotin <temitope.olotin@andela.com>
+ * @license  <https://opensource.org/license/MIT> MIT
  */
 
 namespace Laztopaz\potatoORM;
