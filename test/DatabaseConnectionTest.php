@@ -17,12 +17,11 @@ use Laztopaz\potatoORM\DatabaseConnection;
 
 class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
-	private
-		$setUpConnection,
-		$statement,
-        $dbConnMocked,
-        $dbHelper,
-        $dbHandler;
+	private $setUpConnection;
+	private $statement;
+	private $dbConnMocked;
+	private $dbHelper;
+	private $dbHandler;
 
 	public function setUp()
 	{

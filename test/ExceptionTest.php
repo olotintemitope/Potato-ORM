@@ -10,7 +10,8 @@ namespace Laztopaz\potatoORM\Test;
 
 error_reporting(0);
 
-use Laztopaz\potatoORM\DatabaseHandler;
+use PDO;
+use \Mockery;
 use PHPUnit_Framework_TestCase;
 use Laztopaz\potatoORM\User;
 use Laztopaz\potatoORM\EmptyArrayException;
@@ -24,16 +25,30 @@ use Laztopaz\potatoORM\TableFieldUndefinedException;
 use Laztopaz\potatoORM\Test\TestDatabaseConnection;
 use Laztopaz\potatoORM\WrongArgumentException;
 use Laztopaz\potatoORM\RecordExistsException;
+use Laztopaz\potatoORM\DatabaseConnection;
+use Laztopaz\potatoORM\DatabaseHandler;
+use Laztopaz\potatoORM\DatabaseHelper;
 
 class ExceptionTest extends PHPUnit_Framework_TestCase {
 
 	private $user;
     private $dbHandler;
+	private $dbConnMocked;
+	private $dbHelper;
+	private $statement;
 
-	public function  setUp()
+	public function setUp()
 	{
 		$this->user = new User();
-		$this->dbHandler = new DatabaseHandler('users');
+
+		$this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
+
+		$this->dbHelper  = new DatabaseHelper($this->dbConnMocked);
+
+		//$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+
+		$this->statement = Mockery::mock('\PDOStatement');
+
 	}
 
 	/**
@@ -60,15 +75,31 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
 	{
 		$user = User::find("");
 	}
-//
-//	/**
-//	 * @expectedException Laztopaz\potatoORM\NoRecordDeletionException
-//	 */
-//	public function testNoRecordDeletedException()
-//	{
-//		User::destroy(1);
-//	}
-//
+
+	public function mockDelete()
+	{
+		$id = 1;
+
+		$sql =  "DELETE FROM gingers WHERE id = ".$id;
+
+		$this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
+
+		$bool = DatabaseHandler::delete($id,'gingers',$this->dbConnMocked);
+
+		$this->assertTrue($bool);
+
+	}
+
+	/**
+	 * @expectedException Laztopaz\potatoORM\NoRecordDeletionException
+	 */
+	public function testNoRecordDeletedException()
+	{
+		$this->mockDelete();
+
+		User::destroy(1);
+	}
+
 //	/**
 //	 * @expectedException Laztopaz\potatoORM\EmptyArrayException;
 //	 */
