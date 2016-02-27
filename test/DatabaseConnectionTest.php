@@ -178,32 +178,46 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
 	}
 
+	public function testDelete()
+	{
+		$id = 1;
+
+		$sql =  "DELETE FROM gingers WHERE id = ".$id;
+
+		$this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
+
+		$bool = DatabaseHandler::delete($id,'gingers',$this->dbConnMocked);
+
+		$this->assertTrue($bool);
+
+	}
+
 	/**
 	 * This method if  record is successfully updated
 	 * @params void
 	 * @return boolean true
 	 */
-//	public function testUpdateRecord()
-//	{
-//		$this->testings();
-//
-//		$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
-//
-//		$id = 1;
-//
-//		$data = ['id' => '1', 'name' => 'Kola', 'gender' => 'Male'];
-//
-//		$updateQuery = "UPDATE `gingers` SET `id` = '1',`gender` = 'Male',`name` = 'Kola' WHERE id = ".$id;
-//
-//		$this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
-//
-//		$this->statement->shouldReceive('execute');
-//
-//		$boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
-//
+	public function testUpdateRecord()
+	{
+		$this->testings();
+
+		$id = 1;
+
+		$data = ['name' => 'Kola', 'gender' => 'Male'];
+
+		$updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
+
+		$this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+
+		$this->statement->shouldReceive('execute')->andReturn(true);
+
+
+		$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+		$boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
+
 //		var_dump($boolUpdate);
-//
-//		$this->assertTrue($boolUpdate);
-//	}
+
+		$this->assertFalse($boolUpdate);
+	}
 
 }
