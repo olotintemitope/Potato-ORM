@@ -165,9 +165,8 @@ class DatabaseHandler {
 	{
 		if (is_null($dbConn)) {
 
-			$dbhandle = new DatabaseConnection();
+			$dbConn = new DatabaseConnection();
 
-			$dbConn = $dbhandle->connect();
 		}
 
 		$sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
