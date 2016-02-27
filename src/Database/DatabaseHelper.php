@@ -51,6 +51,7 @@ class DatabaseHelper {
 	/**
 	 * This method returns column fields of a particular table
 	 * @param $table
+	 * @param $conn
 	 * @return array
 	 */
 	public function getColumnNames($table, $conn = Null){
