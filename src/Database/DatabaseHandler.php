@@ -59,9 +59,6 @@ class DatabaseHandler {
 
 		$TableValues = implode(',',array_keys($associative1DArray));
 
-
-		var_dump($associative1DArray);
-
 		foreach ($associative1DArray as $field => $value) {
 
 			$FormValues[] = "'".trim(addslashes($value))."'";
