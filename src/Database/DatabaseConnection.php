@@ -19,13 +19,10 @@ class DatabaseConnection extends \PDO
 	private $databaseDriver;
     private $databaseUsername;
 	private $databasePassword;
-	private $databaseHandle;
 
 	public  function  __construct()
 	{
 		self::loadEnv(); // load the environment variables
-
-		//$this->databaseHandle   = $this->connect(); // database connection handle
 
 		$this->databaseName     =  getenv('databaseName');
 		$this->databaseHost     =  getenv('databaseHost');
@@ -41,47 +38,15 @@ class DatabaseConnection extends \PDO
 
 				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 			];
-
 			parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
-//			$databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
 
-		} catch(PDOException $e) {
+			} catch(PDOException $e) {
 
 			return $e->getMessage();
 
 		}
 
-
-
 	}
-
-	/**
-	 * This method connects the specified database chosen by the user
-	 * @params void
-	 * @return boolean true or false
-	 */
-//	public function connect()
-//	{
-//		try {
-//
-//			$options = [
-//
-//				PDO::ATTR_PERSISTENT    => true,
-//
-//				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
-//			];
-//
-//			$databaseHandle = new PDO($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
-//
-//		} catch(PDOException $e) {
-//
-//			return $e->getMessage();
-//
-//		}
-//
-//		return $databaseHandle;
-//	}
-
 
 	/**
 	 * This method determines the driver to be used for appropriate database server
