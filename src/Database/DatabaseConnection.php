@@ -14,14 +14,12 @@ use PDOException;
 
 class DatabaseConnection extends \PDO
 {
-	private
-		$databaseName,
-		$databaseHost,
-	    $databaseDriver,
-	    $databaseUsername,
-	    $databasePassword,
-	    $databaseHandle,
-        $envFileLoader;
+	private $databaseName;
+    private $databaseHost;
+	private $databaseDriver;
+    private $databaseUsername;
+	private $databasePassword;
+	private $databaseHandle;
 
 	public  function  __construct()
 	{
