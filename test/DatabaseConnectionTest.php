@@ -217,15 +217,12 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($boolUpdate);
 	}
 
-	public function  testGetDatabaseDriver()
+	public function  testGetDatabaseConnection()
 	{
 		$dbConnect = new DatabaseConnection();
 
-		//'mysql';
-
-		$dbDriver = $dbConnect->getDatabaseDriver();
-
-		$this->assertEquals('mysql:host=127.0.0.1:33060;dbname=potatoORM', $dbDriver);
+		$this->assertInstanceOf('PDO', $dbConnect);
 	}
+
 
 }
