@@ -39,7 +39,6 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCreateTable()
 	{
-		//$this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
 
 		$this->dbConnMocked->shouldReceive('exec')->with("CREATE TABLE IF NOT EXISTS gingers( id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )")->andReturn(true);
 
@@ -214,8 +213,6 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
 		$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
 		$boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
-
-//		var_dump($boolUpdate);
 
 		$this->assertFalse($boolUpdate);
 	}
