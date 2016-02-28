@@ -29,6 +29,8 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
 		$this->dbHelper = new DatabaseHelper($this->dbConnMocked);
 
+		$this->dbHandler = new DatabaseHandler("gingers", $this->dbConnMocked);
+
 		$this->statement = Mockery::mock('\PDOStatement');
 	}
 
@@ -70,7 +72,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	public function  testGetColumnNames()
 	{
 		$fieldName = $this->testings();
-		$resultDataSet = $this->dbHelper->getColumnNames("gingers", $this->dbConnMocked);
+		$resultDataSet = $this->dbHandler->getColumnNames("gingers", $this->dbConnMocked);
 
 		$this->assertEquals(['0' => $fieldName[0]['Field'], '1' => $fieldName[1]['Field'], '2' => $fieldName[2]['Field']], $resultDataSet);
 	}
@@ -215,6 +217,24 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
 
 		$this->assertFalse($boolUpdate);
+	}
+
+	/**
+	 *
+	 */
+	public function testFindAndWhere()
+	{
+		$id = 3;
+
+		$sql =  "SELECT * FROM gingers WHERE id = ".$id;
+
+		$this->dbConnMocked->shouldReceive('prepare')->with($sql)->andReturn($this->statement);
+		$this->statement->shouldReceive('execute');
+		$this->statement->shouldReceive('rowCount')->andReturn(true);
+
+		$boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => 3], "gingers", $this->dbConnMocked);
+		
+		$this->assertTrue($boolFindAndWhere);
 	}
 
 }
