@@ -30,58 +30,17 @@ class DatabaseHelper {
 	 */
 	public function createTable($tableName, $conn = NULL)
 	{
+		if (is_null($conn)) {
 
-			if (is_null($conn)) {
-
-				$conn = $this->dbConn;
-			}
-
-			$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(';
-
-			$sql.= ' id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )';
-
-			return $conn->exec($sql);
-
-		    throw TableNotCreatedException::tableNotCreatedException("Check your database connection");
-
-	}
-
-	/**
-	 * This method returns column fields of a particular table
-	 * @param $table
-	 * @param $conn
-	 * @return array
-	 */
-	public function getColumnNames($table, $conn = Null){
-
-		$tableFields = [];
-
-		try {
-
-			if (is_null($conn)) {
-
-				$conn = $this->dbConn;
-			}
-
-			$sql = "SHOW COLUMNS FROM ".$table;
-
-			$stmt = $conn->prepare($sql);
-			$stmt->bindValue(':table', $table, PDO::PARAM_STR);
-			$stmt->execute();
-
-			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-			foreach($results as $result) {
-				array_push($tableFields, $result['Field']);
-			}
-
-			return $tableFields;
-
-		} catch (PDOException $e) {
-
-			trigger_error('Could not connect to MySQL database. ' . $e->getMessage() , E_USER_ERROR);
+			$conn = $this->dbConn;
 		}
-	}
+		$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(';
+		$sql.= ' id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )';
 
+		return $conn->exec($sql);
+
+		throw TableNotCreatedException::tableNotCreatedException("Check your database connection");
+
+	}
 
 }
