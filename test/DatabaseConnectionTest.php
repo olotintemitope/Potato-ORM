@@ -221,11 +221,11 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	{
 		$dbConnect = new DatabaseConnection();
 
-		$dbConnect->databaseDriver = 'mysql';
+		//'mysql';
 
 		$dbDriver = $dbConnect->getDatabaseDriver();
 
-		$this->assertEquals('mysql:host=127.0.0.1:33060;dbname=potatoORM',$dbDriver);
+		$this->assertEquals('mysql:host=127.0.0.1:33060;dbname=potatoORM', $dbDriver);
 	}
 
 }
