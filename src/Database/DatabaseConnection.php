@@ -16,7 +16,7 @@ class DatabaseConnection extends \PDO
 {
 	private $databaseName;
     private $databaseHost;
-	private $databaseDriver;
+	public $databaseDriver;
     private $databaseUsername;
 	private $databasePassword;
 
@@ -61,21 +61,21 @@ class DatabaseConnection extends \PDO
 			case 'mysql':
 
 				// Set DSN
-				$dsn = 'mysql:host='.    $this->databaseHost. ';dbname='. $this->databaseName;
+				$dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
 				break;
 			case 'sqlite':
 
 				// Set DSN
-				$dsn = 'sqlite:host='.   $this->databaseHost. ';dbname='. $this->databaseName;
+				$dsn = 'sqlite:host='.$this->databaseHost.';dbname='. $this->databaseName;
 				break;
 			case 'pgsql':
 
 				// Set DSN
-				$dsn = 'pgsqlsql:host='. $this->databaseHost. ';dbname='. $this->databaseName;
+				$dsn = 'pgsqlsql:host='.$this->databaseHost.';dbname='. $this->databaseName;
 				break;
 			default:
 				// Set DSN
-				$dsn = 'mysql:host='.    $this->databaseHost. ';dbname='. $this->databaseName;
+				$dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
 		}
 		return $dsn;
 	}
