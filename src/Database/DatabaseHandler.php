@@ -18,6 +18,7 @@ class DatabaseHandler {
 	private $tableFields;
 	private $dbHelperInstance;
 	private $dbConnection;
+	private $model;
 
 	/**
 	 * This is a constructor; a default method  that will be called automatically during class instantiation
@@ -28,11 +29,12 @@ class DatabaseHandler {
 			$this->dbConnection = new DatabaseConnection();
 		} else {
 			$this->dbConnection = $dbConn;
+			$this->model = $modelClassName;
 		}
 
-		$this->dbHelperInstance = new DatabaseHelper($this->dbConnection);
+		//$this->dbHelperInstance = new DatabaseHelper($this->dbConnection);
 
-		$this->tableFields = $this->dbHelperInstance->getColumnNames($modelClassName, $dbConn);
+		//$this->tableFields = $this->dbHelperInstance->getColumnNames($modelClassName, $dbConn);
 	}
 
 	/**
@@ -42,14 +44,14 @@ class DatabaseHandler {
 	 */
 	public function create($associative1DArray, $tableName, $dbConn = Null)
 	{
-		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->tableFields,$associative1DArray);
+		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->getColumnNames($this->model, $this->dbConnection),$associative1DArray);
 
 		if (count($unexpectedFields) > 0)
 		{
 			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
 		}
 
-		unset($this->tableFields[0]);
+		unset($this->getColumnNames($this->model, $this->dbConnection)[0]);
 
 		if (is_null($dbConn)) {
 			$dbConn = $this->dbConnection;
@@ -92,7 +94,7 @@ class DatabaseHandler {
 
 		unset($associative1DArray['id']);
 
-		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->tableFields,$associative1DArray);
+		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->getColumnNames($this->model, $this->dbConnection),$associative1DArray);
 
 		if (count($unexpectedFields) > 0) {
 
@@ -247,5 +249,43 @@ class DatabaseHandler {
 
 		throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
 	}
+
+	/**
+	 * This method returns column fields of a particular table
+	 * @param $table
+	 * @param $conn
+	 * @return array
+	 */
+	public function getColumnNames($table, $dbConn = Null){
+
+		$tableFields = [];
+
+		try {
+
+			if (is_null($dbConn)) {
+
+				$dbConn = $this->dbConnection;
+			}
+
+			$sql = "SHOW COLUMNS FROM ".$table;
+
+			$stmt = $dbConn->prepare($sql);
+			$stmt->bindValue(':table', $table, PDO::PARAM_STR);
+			$stmt->execute();
+
+			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach($results as $result) {
+				array_push($tableFields, $result['Field']);
+			}
+
+			return $tableFields;
+
+		} catch (PDOException $e) {
+
+			trigger_error('Could not connect to MySQL database. ' . $e->getMessage() , E_USER_ERROR);
+		}
+	}
+
 
 }
