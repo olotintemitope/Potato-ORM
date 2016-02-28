@@ -23,22 +23,20 @@ class DatabaseConnection extends \PDO {
 	{
 	    $this->loadEnv(); // load the environment variables
 	    $this->databaseName     =  getenv('databaseName');
-		$this->databaseHost     =  getenv('databaseHost');
-		$this->databaseDriver   =  getenv('databaseDriver');
-		$this->databaseUsername =  getenv('databaseUsername');
-		$this->databasePassword =  getenv('databasePassword');
-
-		try {
-			$options = [
-			PDO::ATTR_PERSISTENT    => true,
+	    $this->databaseHost     =  getenv('databaseHost');
+	    $this->databaseDriver   =  getenv('databaseDriver');
+	    $this->databaseUsername =  getenv('databaseUsername');
+	    $this->databasePassword =  getenv('databasePassword');
+	    
+	    try {
+	    	$options = [
+	    		PDO::ATTR_PERSISTENT    => true,
 			PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 			];
 			parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
-			} catch(PDOException $e) {
-
-			return $e->getMessage();
-		}
-
+	    } catch(PDOException $e) {
+	    	return $e->getMessage();
+	    }
 	}
 
 	/**
