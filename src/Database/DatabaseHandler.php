@@ -252,36 +252,28 @@ class DatabaseHandler {
 	 * @param $conn
 	 * @return array
 	 */
-	public function getColumnNames($table, $dbConn = Null){
+	public function getColumnNames($table, $dbConn = Null) {
 
 		$tableFields = [];
 
-		try {
+		if (is_null($dbConn)) {
+			$dbConn = $this->dbConnection;
+		}
+		$sql = "SHOW COLUMNS FROM ".$table;
 
-			if (is_null($dbConn)) {
+		$stmt = $dbConn->prepare($sql);
+		$stmt->bindValue(':table', $table, PDO::PARAM_STR);
+		$stmt->execute();
 
-				$dbConn = $this->dbConnection;
-			}
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			$sql = "SHOW COLUMNS FROM ".$table;
+		foreach($results as $result) {
 
-			$stmt = $dbConn->prepare($sql);
-			$stmt->bindValue(':table', $table, PDO::PARAM_STR);
-			$stmt->execute();
-
-			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-			foreach($results as $result) {
-				array_push($tableFields, $result['Field']);
-			}
-
+			array_push($tableFields, $result['Field']);
+		}
 			return $tableFields;
 
-		} catch (PDOException $e) {
-
-			trigger_error('Could not connect to MySQL database. ' . $e->getMessage() , E_USER_ERROR);
 		}
-	}
 
 
 }
