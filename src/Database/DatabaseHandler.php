@@ -45,9 +45,6 @@ class DatabaseHandler {
 		if (count($unexpectedFields) > 0) {
 			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
 		}
-//		if ($this->findAndWhere(['alias' => $associative1DArray['alias']], $this->model, $this->dbConnection)) {
-//			throw NoRecordInsertionException::checkNoRecordAddedException("Insertion Error: Record already exist");
-//		}
 		unset($this->getColumnNames($this->model, $this->dbConnection)[0]);
 
 		if (is_null($dbConn)) {
