@@ -188,7 +188,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->statement->shouldReceive('execute');
 		$this->statement->shouldReceive('rowCount')->andReturn(true);
 
-		$boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => 3], "gingers", $this->dbConnMocked);
+		$boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => '3'], "gingers", $this->dbConnMocked);
 		$this->assertTrue($boolFindAndWhere);
 	}
 
