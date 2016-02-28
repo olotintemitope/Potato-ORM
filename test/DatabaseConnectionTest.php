@@ -233,8 +233,20 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->statement->shouldReceive('rowCount')->andReturn(true);
 
 		$boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => 3], "gingers", $this->dbConnMocked);
-		
+
 		$this->assertTrue($boolFindAndWhere);
+	}
+
+
+	public function testPrepareUpdateQuery()
+	{
+		$expectedSql = "UPDATE `gingers` SET `name` = 'Olotin Temitope',`gender` = 'Male'";
+
+		$sql = "UPDATE `gingers` SET `name` = 'Olotin Temitope',`gender` = 'Male',";
+
+		$prepareSql = $this->dbHandler->prepareUpdateQuery($sql);
+
+		$this->assertEquals($expectedSql, $prepareSql);
 	}
 
 }
