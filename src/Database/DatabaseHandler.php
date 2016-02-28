@@ -220,7 +220,7 @@ class DatabaseHandler {
 	 * @return bool
 	 * @throws EmptyArrayException
 	 */
-	public function findAndWhere(array $params, $tableName, $dbConn)
+	public function findAndWhere($params, $tableName, $dbConn)
 	{
 		if (is_null($dbConn)) {
 
@@ -229,7 +229,7 @@ class DatabaseHandler {
 
 		if (is_array($params) && !empty($params)) {
 
-			$sql = "SELECT * FROM ".$tableName." WHERE";
+			$sql = "SELECT * FROM ".$tableName;
 
 			foreach ($params as $key => $val) {
 
