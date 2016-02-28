@@ -31,10 +31,6 @@ class DatabaseHandler {
 			$this->dbConnection = $dbConn;
 			$this->model = $modelClassName;
 		}
-
-		//$this->dbHelperInstance = new DatabaseHelper($this->dbConnection);
-
-		//$this->tableFields = $this->dbHelperInstance->getColumnNames($modelClassName, $dbConn);
 	}
 
 	/**
@@ -204,7 +200,7 @@ class DatabaseHandler {
 	 * @param $sql
 	 * @return string
 	 */
-	private function prepareUpdateQuery($sql)
+	public function prepareUpdateQuery($sql)
 	{
 		$splittedQuery = explode(",",$sql);
 
