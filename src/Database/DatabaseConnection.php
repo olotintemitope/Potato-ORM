@@ -16,13 +16,13 @@ class DatabaseConnection extends \PDO
 {
 	private $databaseName;
     private $databaseHost;
-	public $databaseDriver;
+	private $databaseDriver;
     private $databaseUsername;
 	private $databasePassword;
 
 	public  function  __construct()
 	{
-		self::loadEnv(); // load the environment variables
+		$this->loadEnv(); // load the environment variables
 
 		$this->databaseName     =  getenv('databaseName');
 		$this->databaseHost     =  getenv('databaseHost');
@@ -31,15 +31,12 @@ class DatabaseConnection extends \PDO
 		$this->databasePassword =  getenv('databasePassword');
 
 		try {
-
 			$options = [
-
 				PDO::ATTR_PERSISTENT    => true,
 
 				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 			];
 			parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
-
 			} catch(PDOException $e) {
 
 			return $e->getMessage();
@@ -59,12 +56,10 @@ class DatabaseConnection extends \PDO
 		switch ($this->databaseDriver)
 		{
 			case 'mysql':
-
 				// Set DSN
 				$dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
 				break;
 			case 'sqlite':
-
 				// Set DSN
 				$dsn = 'sqlite:host='.$this->databaseHost.';dbname='. $this->databaseName;
 				break;
@@ -86,7 +81,6 @@ class DatabaseConnection extends \PDO
 	public function loadEnv()
 	{
 		if (!getenv("APP_ENV")) {
-
 			$dotenv = new Dotenv(__DIR__.'/../../');
 		    $dotenv->load();
 		}
