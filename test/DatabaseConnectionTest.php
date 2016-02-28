@@ -217,12 +217,4 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($boolUpdate);
 	}
 
-	public function  testGetDatabaseConnection()
-	{
-		$dbConnect = new DatabaseConnection();
-
-		$this->assertInstanceOf('PDO', $dbConnect);
-	}
-
-
 }
