@@ -12,19 +12,17 @@ use PDO;
 use Dotenv\Dotenv;
 use PDOException;
 
-class DatabaseConnection extends \PDO
-{
+class DatabaseConnection extends \PDO {
 	private $databaseName;
-    private $databaseHost;
+	private $databaseHost;
 	private $databaseDriver;
-    private $databaseUsername;
+	private $databaseUsername;
 	private $databasePassword;
 
-	public  function  __construct()
+	public  function  __construct() 
 	{
-		$this->loadEnv(); // load the environment variables
-
-		$this->databaseName     =  getenv('databaseName');
+	    $this->loadEnv(); // load the environment variables
+	    $this->databaseName     =  getenv('databaseName');
 		$this->databaseHost     =  getenv('databaseHost');
 		$this->databaseDriver   =  getenv('databaseDriver');
 		$this->databaseUsername =  getenv('databaseUsername');
@@ -32,9 +30,8 @@ class DatabaseConnection extends \PDO
 
 		try {
 			$options = [
-				PDO::ATTR_PERSISTENT    => true,
-
-				PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
+			PDO::ATTR_PERSISTENT    => true,
+			PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 			];
 			parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
 			} catch(PDOException $e) {
@@ -52,7 +49,6 @@ class DatabaseConnection extends \PDO
 	public function getDatabaseDriver()
 	{
 		$dsn = "";
-
 		switch ($this->databaseDriver)
 		{
 			case 'mysql':
