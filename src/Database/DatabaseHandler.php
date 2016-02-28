@@ -40,12 +40,14 @@ class DatabaseHandler {
 	 */
 	public function create($associative1DArray, $tableName, $dbConn = Null)
 	{
-		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->getColumnNames($this->model, $this->dbConnection),$associative1DArray);
+		$tableFields = $this->getColumnNames($this->model, $this->dbConnection);
+
+		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($tableFields,$associative1DArray);
 
 		if (count($unexpectedFields) > 0) {
 			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
 		}
-		unset($this->getColumnNames($this->model, $this->dbConnection)[0]);
+		unset($tableFields[0]);
 
 		if (is_null($dbConn)) {
 			$dbConn = $this->dbConnection;
