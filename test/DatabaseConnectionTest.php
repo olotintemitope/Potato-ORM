@@ -8,6 +8,7 @@
 
 namespace Laztopaz\potatoORM\Test;
 
+use Laztopaz\potatoORM\User;
 use PDO;
 use \Mockery;
 use PHPUnit_Framework_TestCase;
@@ -247,6 +248,12 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$prepareSql = $this->dbHandler->prepareUpdateQuery($sql);
 
 		$this->assertEquals($expectedSql, $prepareSql);
+	}
+
+
+	public function testSave()
+	{
+
 	}
 
 }
