@@ -29,8 +29,8 @@ class DatabaseHandler {
 			$this->dbConnection = new DatabaseConnection();
 		} else {
 			$this->dbConnection = $dbConn;
-			$this->model = $modelClassName;
 		}
+		$this->model = $modelClassName;
 	}
 
 	/**
@@ -42,31 +42,33 @@ class DatabaseHandler {
 	{
 		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->getColumnNames($this->model, $this->dbConnection),$associative1DArray);
 
-		if (count($unexpectedFields) > 0)
-		{
+		if (count($unexpectedFields) > 0) {
 			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
 		}
-
+		if ($this->findAndWhere(['alias' => $associative1DArray['alias']], $this->model, $this->dbConnection)) {
+			throw NoRecordInsertionException::checkNoRecordAddedException("Insertion Error: Record already exist");
+		}
 		unset($this->getColumnNames($this->model, $this->dbConnection)[0]);
 
 		if (is_null($dbConn)) {
 			$dbConn = $this->dbConnection;
 		}
 
+		$this->insertRecord($dbConn, $tableName, $associative1DArray);
+	}
+
+
+	private function  insertRecord($dbConn, $tableName, $associative1DArray) {
+
 		$insertQuery = 'INSERT INTO '.$tableName;
-
 		$TableValues = implode(',',array_keys($associative1DArray));
-
 		foreach ($associative1DArray as $field => $value) {
 
 			$FormValues[] = "'".trim(addslashes($value))."'";
 		}
 		$splittedTableValues = implode(',', $FormValues);
-
 		$insertQuery.= ' ('.$TableValues.')';
-
 		$insertQuery.= ' VALUES ('.$splittedTableValues.')';
-
 		$executeQuery = $dbConn->exec($insertQuery);
 
 		return $executeQuery ? : false;
@@ -80,38 +82,28 @@ class DatabaseHandler {
 	public function update(array $updateParams, $tableName, $associative1DArray, $dbConn = Null)
 	{
 		$sql = "";
-
 		if (is_null($dbConn)) {
-
 			$dbConn = $this->dbConnection;
 		}
 
 		$updateSql = "UPDATE `$tableName` SET ";
-
 		unset($associative1DArray['id']);
-
 		$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->getColumnNames($this->model, $this->dbConnection),$associative1DArray);
 
 		if (count($unexpectedFields) > 0) {
-
-			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
+			throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields, "needs to be created as table field");
 		}
 
-
-		foreach($associative1DArray as $field => $value)
-		{
+		foreach($associative1DArray as $field => $value) {
 			$sql .= "`$field` = '$value'".",";
 		}
 
 		$updateSql .= $this->prepareUpdateQuery($sql);
 
 		foreach ($updateParams as $key => $val) {
-
 			$updateSql .= " WHERE $key = $val";
 		}
-
 		$stmt = $dbConn->prepare($updateSql);
-
 		$boolResponse = $stmt->execute();
 
 		return $boolResponse ?  : false;
@@ -124,14 +116,11 @@ class DatabaseHandler {
 	 */
 	public static function read($id, $tableName, $dbConn = Null)
 	{
-		$tableData = array();
+		$tableData = [];
 
 		if (is_null($dbConn)) {
-
 			$dbConn = new DatabaseConnection();
-
 		}
-
 		$sql = $id  ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
 
 		try {
@@ -139,15 +128,12 @@ class DatabaseHandler {
 			$stmt->bindValue(':table', $tableName);
 			$stmt->bindValue(':id', $id);
 			$stmt->execute();
-
 		} catch (PDOException $e) {
-
 			return  $e->getMessage();
 		}
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		foreach($results as $result) {
-
 			array_push($tableData, $result);
 		}
 
@@ -162,13 +148,9 @@ class DatabaseHandler {
 	public static function delete($id, $tableName, $dbConn = Null)
 	{
 		if (is_null($dbConn)) {
-
 			$dbConn = new DatabaseConnection();
-
 		}
-
 		$sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
-
 		$boolResponse = $dbConn->exec($sql);
 
 		return $boolResponse ? : false;
@@ -184,14 +166,12 @@ class DatabaseHandler {
 	{
 		$unexpectedFields = [];
 
-		foreach ($userSetterArray as $key => $val)
-		{
+		foreach ($userSetterArray as $key => $val) {
 			if (!in_array($key,$tableColumn)) {
 
 				$unexpectedFields[] = $key;
 			}
 		}
-
 		return $unexpectedFields;
 	}
 
@@ -203,9 +183,7 @@ class DatabaseHandler {
 	public function prepareUpdateQuery($sql)
 	{
 		$splittedQuery = explode(",",$sql);
-
 		array_pop($splittedQuery);
-
 		$mergeData = implode(",",$splittedQuery);
 
 		return $mergeData;
@@ -221,25 +199,16 @@ class DatabaseHandler {
 	public function findAndWhere($params, $tableName, $dbConn)
 	{
 		if (is_null($dbConn)) {
-
 			$dbConn = $this->dbConnection;
 		}
-
 		if (is_array($params) && !empty($params)) {
-
 			$sql = "SELECT * FROM ".$tableName;
-
 			foreach ($params as $key => $val) {
-
-				$sql .= " WHERE $key = $val";
+				$sql .= " WHERE `$key` = '$val'";
 			}
-
 			$statement = $dbConn->prepare($sql);
-
 			$statement->execute();
-
 			$returnedRowNumbers = $statement->rowCount();
-
 			return $returnedRowNumbers  ? true : false;
 		}
 
@@ -264,15 +233,12 @@ class DatabaseHandler {
 		$stmt = $dbConn->prepare($sql);
 		$stmt->bindValue(':table', $table, PDO::PARAM_STR);
 		$stmt->execute();
-
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		foreach($results as $result) {
-
 			array_push($tableFields, $result['Field']);
 		}
 			return $tableFields;
-
 		}
 
 

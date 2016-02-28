@@ -21,19 +21,14 @@ use Laztopaz\potatoORM\EmptyArrayException;
 class BaseClass  implements InterfaceBaseClass
 {
 	protected $databaseModel; // Private variable that contains instance of database
-
 	protected $tableName; // Class variable holding class name pluralized
-
 	protected $properties = []; // Properties will later contain key, value pairs from the magic setter, getter methods
-
 	use Inflector; // Inject the inflector trait
 
 	public function  __construct()
 	{
 		$this->tableName = $this->getClassName();
-
 		$this->databaseModel = new DatabaseHandler($this->tableName);
-
 		$this->properties['id'] = 0;
 	}
 
@@ -67,9 +62,7 @@ class BaseClass  implements InterfaceBaseClass
 	public static function getAll()
 	{
 		$allData = DatabaseHandler::read($id = false, self::getClassName());
-
-		if (count($allData) > 0)
-		{
+		if (count($allData) > 0) {
 			return $allData;
 		}
 
@@ -87,32 +80,22 @@ class BaseClass  implements InterfaceBaseClass
 	public function save()
 	{
 		$boolCommit = false;
-
 		if ($this->properties['id']) {
-
 			$allData = DatabaseHandler::read($id = $this->properties['id'], self::getClassName());
-
 			if ($this->checkIfRecordIsEmpty($allData)) {
-
 				$boolCommit = $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
-
 				if ($boolCommit) {
-
 					return true;
 				}
-
 				throw NoRecordUpdateException::checkNoRecordUpdateException("Record not updated successfully");
 			}
 			throw EmptyArrayException::checkEmptyArrayException("Value passed didn't match any record");
 		}
-
 		$boolCommit = $this->databaseModel->create($this->properties, $this->tableName);
 
 		if ($boolCommit) {
-
 			return true;
 		}
-
 		throw NoRecordInsertionException::checkNoRecordAddedException("Record not created successfully");
 	}
 
@@ -125,17 +108,13 @@ class BaseClass  implements InterfaceBaseClass
 	public static function find($id)
 	{
 		$num_args = (int) func_num_args(); // get number of arguments passed to
-
 		if ($num_args == 0 || $num_args > 1) {
-
 			throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
 		}
 		if ($id == "") {
-
 			throw NullArgumentPassedToFunction::ckeckNullArgumentPassedToFunction("This function expect a value");
 		}
 		$staticFindInstance = new static();
-
 		$staticFindInstance->id = $id == "" ? false : $id;
 
 		return $staticFindInstance;
@@ -150,18 +129,14 @@ class BaseClass  implements InterfaceBaseClass
 	public static function destroy($id)
 	{
 		$boolDeleted = false;
-
 		$num_args = (int) func_num_args(); // get number of arguments passed to
 
 		if ($num_args == 0 || $num_args > 1) {
-
 			throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
 		}
-
 		$boolDeleted = DatabaseHandler::delete($id, self::getClassName());
 
 		if ($boolDeleted) {
-
 			return true;
 		}
 
@@ -176,9 +151,7 @@ class BaseClass  implements InterfaceBaseClass
 	public static function getClassName()
 	{
 		$tableName = preg_split('/(?=[A-Z])/', get_called_class());
-
 		$className = end($tableName);
-
 		return self::pluralize(strtolower($className));
 	}
 
@@ -190,7 +163,6 @@ class BaseClass  implements InterfaceBaseClass
 	public function checkIfRecordIsEmpty($arrayOfRecord)
 	{
 		if (count($arrayOfRecord) > 0) {
-
 			return true;
 		}
 		return false;
