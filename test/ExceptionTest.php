@@ -69,17 +69,17 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
 
-    // /**
-    //  * @expectedException Laztopaz\potatoORM\TableFieldUndefinedException
-    //  */
-    // public  function testCreate()
-    // {
-    //     $this->testings();
-    //     $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
-    //     $insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('1','Kola','Male')";
-    //     $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
-    //     $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
-    // }
+    /**
+     * @expectedException Laztopaz\potatoORM\TableFieldUndefinedException
+     */
+    public  function testCreate()
+    {
+        $this->testings();
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+        $insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('1','Kola','Male')";
+        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+        $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
+    }
 
     public function testings()
     {
