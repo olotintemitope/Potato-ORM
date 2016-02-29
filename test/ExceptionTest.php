@@ -81,14 +81,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase {
         $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
     }
 
-    /**
-     * @expectedException Laztopaz\potatoORM\NoRecordDeletionException
-     */
-    public function testDelete()
-    {
-        DatabaseHandler::delete(1, "gingers", $this->dbConnMocked);
-    }
-
     public function testings()
     {
         $fieldName1 = ['Field' => 'id', 'Type' => 'int', 'NULL' => 'NO'];
