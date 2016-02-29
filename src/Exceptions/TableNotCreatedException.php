@@ -6,13 +6,13 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM\Test;
+namespace Laztopaz\potatoORM;
 
 use Exception;
 
-class TableFieldNotFoundException extends Exception {
+class TableNotCreatedException extends Exception {
 
-	public function reportUnknownTableField($message)
+	public static function checkTableNotCreatedException($message)
 	{
 		return new static($message);
 	}
