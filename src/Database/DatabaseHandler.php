@@ -12,6 +12,9 @@ use PDO;
 use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
 use Laztopaz\potatoORM\EmptyArrayException;
+use Laztopaz\potatoORM\NoRecordDeletionException;
+use Laztopaz\potatoORM\NoRecordInsertionException;
+use Laztopaz\potatoORM\NoRecordUpdateException;
 
 class DatabaseHandler {
     private $tableFields;
@@ -62,7 +65,12 @@ class DatabaseHandler {
     	$insertQuery.= ' ('.$TableValues.')';
     	$insertQuery.= ' VALUES ('.$splittedTableValues.')';
     	$executeQuery = $dbConn->exec($insertQuery);
-    	return $executeQuery ? : false;
+
+      if ($executeQuery) {
+        return true;
+      }
+
+    	throw NoRecordInsertionException::checkNoRecordAddedException("Record not inserted successfully");
     	
 	}
 
@@ -95,7 +103,13 @@ class DatabaseHandler {
     	}
     	$stmt = $dbConn->prepare($updateSql);
     	$boolResponse = $stmt->execute();
-    	return $boolResponse ?  : false;
+
+      if ($boolResponse) {
+         return true;
+      }
+
+      throw NoRecordUpdateException::checkNoRecordUpdateException("Record not updated successfully");
+    	//return $boolResponse ?  : false;
     }
     
   /**
@@ -138,10 +152,16 @@ class DatabaseHandler {
       if (is_null($dbConn)) {
           $dbConn = new DatabaseConnection();
       }
-      
       $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
+
       $boolResponse = $dbConn->exec($sql);
-      return $boolResponse ? : false;
+
+      if ($boolean) {
+
+        return true;
+      }
+
+      throw NoRecordDeletionException::checkNoRecordDeleteException("Record not deleted successfully");
   }
   
   /**

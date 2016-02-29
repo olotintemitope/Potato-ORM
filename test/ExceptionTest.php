@@ -18,9 +18,12 @@ use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\EmptyArrayException;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
 use Laztopaz\potatoORM\TableNotCreatedException;
+use Laztopaz\potatoORM\NoRecordDeletionException;
+use Laztopaz\potatoORM\NoRecordInsertionException;
+use Laztopaz\potatoORM\NoRecordUpdateException;
 
-class ExceptionTest extends PHPUnit_Framework_TestCase
-{
+class ExceptionTest extends PHPUnit_Framework_TestCase {
+
     private $dbConnMocked;
     private $dbHelper;
     private $dbHandler;
@@ -28,11 +31,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
-
         $this->dbHelper = new DatabaseHelper($this->dbConnMocked);
-
         $this->dbHandler = new DatabaseHandler("gingers", $this->dbConnMocked);
-
         $this->statement = Mockery::mock('\PDOStatement');
     }
 
@@ -79,6 +79,14 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('1','Kola','Male')";
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
+    }
+
+    /**
+     * @expectedException Laztopaz\potatoORM\NoRecordDeletionException
+     */
+    public function testDelete()
+    {
+        DatabaseHandler::delete(1, "gingers", $this->dbConnMocked);
     }
 
     public function testings()
