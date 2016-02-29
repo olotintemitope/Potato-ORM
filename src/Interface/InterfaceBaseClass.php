@@ -15,7 +15,7 @@ interface InterfaceBaseClass {
      * @params void
      * @return associative array
      */
-   public static function getAll();
+    public static function getAll();
    
    /**
     * This method create or update record in a database table
