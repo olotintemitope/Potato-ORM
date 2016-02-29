@@ -173,12 +173,15 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
 		$this->assertFalse($boolUpdate);
 	}
-
+	/**
+	 * This method check if a field can be located from a database table
+	 * @return boolean true 
+	 */
 	public function testFindAndWhere()
 	{
 		$id = 3;
 
-		$sql =  "SELECT * FROM gingers WHERE id = ".$id;
+		$sql =  "SELECT * FROM gingers WHERE `id` = '$id'";
 
 		$this->dbConnMocked->shouldReceive('prepare')->with($sql)->andReturn($this->statement);
 		$this->statement->shouldReceive('execute');
@@ -187,7 +190,10 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => '3'], "gingers", $this->dbConnMocked);
 		$this->assertTrue($boolFindAndWhere);
 	}
-
+	/**
+	 * This method checks if the update query matches the one prepared by the update method
+	 * @return boolean
+	 */
 	public function testPrepareUpdateQuery()
 	{
 		$expectedSql = "UPDATE `gingers` SET `name` = 'Olotin Temitope',`gender` = 'Male'";
