@@ -33,10 +33,10 @@ class DatabaseHandler {
      }
      
     /**
-      * This method create a record and store it in a table row
-      * @params associative array, string tablename
-      * @return boolean true or false
-      */
+     * This method create a record and store it in a table row
+     * @params associative array, string tablename
+     * @return boolean true or false
+     */
     public function create($associative1DArray, $tableName, $dbConn = Null)
     {
     	$tableFields = $this->getColumnNames($this->model, $this->dbConnection);
@@ -67,7 +67,7 @@ class DatabaseHandler {
     	
 	}
 
-    /*
+    /**
      * This method updates any table by supplying 3 parameter
      * @params: $updateParams, $tableName, $associative1DArray
      * @return boolean true or false
@@ -100,10 +100,10 @@ class DatabaseHandler {
     }
     
   /**
-    * This method retrieves record from a table
-    * @params int id, string tableName
-    * @return array
-    */
+   * This method retrieves record from a table
+   * @params int id, string tableName
+   * @return array
+   */
    public static function read($id, $tableName, $dbConn = Null)
    {
    	$tableData = [];
@@ -129,11 +129,11 @@ class DatabaseHandler {
    	return $tableData;
    }
    
-   /**
-     * This method deletes a record  from a table row
-     * @params int id, string tableName
-     * @return boolean true or false
-     */
+  /**
+   * This method deletes a record  from a table row
+   * @params int id, string tableName
+   * @return boolean true or false
+   */
   public static function delete($id, $tableName, $dbConn = Null)
   {
       if (is_null($dbConn)) {
@@ -146,11 +146,11 @@ class DatabaseHandler {
   }
   
   /**
-    * This method checks if the magic setters array is the same as the table columns
-    * @param array $tableColumn
-    * @param array $userSetterArray
-    * @return array $unexpectedFields
-    */
+   * This method checks if the magic setters array is the same as the table columns
+   * @param array $tableColumn
+   * @param array $userSetterArray
+   * @return array $unexpectedFields
+   */
   public static function checkIfMagicSetterContainsIsSameAsClassModel(array $tableColumn, array $userSetterArray)
   {
       $unexpectedFields = [];
@@ -163,10 +163,10 @@ class DatabaseHandler {
   }
   
   /**
-    * This method returns sql query
-    * @param $sql
-    * @return string
-    */
+   * This method returns sql query
+   * @param $sql
+   * @return string
+   */
   public function prepareUpdateQuery($sql)
   {
       $splittedQuery = explode(",",$sql);
@@ -176,12 +176,12 @@ class DatabaseHandler {
   }
   
   /**
-    * @param array $params
-    * @param $tableName
-    * @param $dbConn
-    * @return bool
-    * @throws EmptyArrayException
-    */
+   * @param array $params
+   * @param $tableName
+   * @param $dbConn
+   * @return bool
+   * @throws EmptyArrayException
+   */
   public function findAndWhere($params, $tableName, $dbConn)
   {
       if (is_null($dbConn)) {
@@ -203,11 +203,11 @@ class DatabaseHandler {
   }
   
   /**
-    * This method returns column fields of a particular table
-    * @param $table
-    * @param $conn
-    * @return array
-    */
+   * This method returns column fields of a particular table
+   * @param $table
+   * @param $conn
+   * @return array
+   */
  public function getColumnNames($table, $dbConn = Null) {
      $tableFields = [];
      
@@ -226,6 +226,5 @@ class DatabaseHandler {
      }
      return $tableFields;
  }
-
 
 }
