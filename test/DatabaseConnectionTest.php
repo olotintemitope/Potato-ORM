@@ -23,7 +23,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	private $dbConnMocked;
 	private $dbHelper;
 	private $dbHandler;
-
+	
 	public function setUp()
 	{
 		$this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
