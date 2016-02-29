@@ -28,8 +28,8 @@ class BaseClass  implements InterfaceBaseClass
     public function  __construct()
     {
         $this->tableName = $this->getClassName();
-	$this->databaseModel = new DatabaseHandler($this->tableName);
-	$this->properties['id'] = 0;
+        $this->databaseModel = new DatabaseHandler($this->tableName);
+        $this->properties['id'] = 0;
     }
     
     /**

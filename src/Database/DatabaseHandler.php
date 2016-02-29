@@ -40,16 +40,15 @@ class DatabaseHandler {
     public function create($associative1DArray, $tableName, $dbConn = Null)
     {
     	$tableFields = $this->getColumnNames($this->model, $this->dbConnection);
-    	
     	$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($tableFields,$associative1DArray);
     	if (count($unexpectedFields) > 0) {
     	    throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
     	}
-    	unset($tableFields[0]);
+      unset($associative1DArray[0]);
     	if (is_null($dbConn)) {
     	    $dbConn = $this->dbConnection;
     	}
-    	$this->insertRecord($dbConn, $tableName, $associative1DArray);
+    	  return $this->insertRecord($dbConn, $tableName, $associative1DArray);
     }
     
     private function  insertRecord($dbConn, $tableName, $associative1DArray) 
@@ -182,14 +181,13 @@ class DatabaseHandler {
    * @return bool
    * @throws EmptyArrayException
    */
-  public function findAndWhere($params, $tableName, $dbConn)
+  public function findAndWhere($params, $tableName, $dbConn = Null)
   {
       if (is_null($dbConn)) {
           $dbConn = $this->dbConnection;
       }
       if (is_array($params) && !empty($params)) {
           $sql = "SELECT * FROM ".$tableName;
-          
           foreach ($params as $key => $val) {
               $sql .= " WHERE `$key` = '$val'";
           }

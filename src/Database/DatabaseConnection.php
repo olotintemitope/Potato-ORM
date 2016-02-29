@@ -33,7 +33,7 @@ class DatabaseConnection extends \PDO {
     	    $options = [
     	    	PDO::ATTR_PERSISTENT    => true,
     	    	PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
-    	    	];
+                ];
     	    	parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
     		
     	} catch(PDOException $e) {
@@ -53,7 +53,7 @@ class DatabaseConnection extends \PDO {
      	
      	switch ($this->databaseDriver)
      	{
-     	    case 'mysql':
+            case 'mysql':
      	    // Set DSN
      	    $dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
      	    break;
