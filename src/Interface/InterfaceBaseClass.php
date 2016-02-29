@@ -29,7 +29,7 @@ interface InterfaceBaseClass {
     * @params int $id
     * @return boolean true or false
     */
-     public static function destroy($id);
+   public static function destroy($id);
      
    /**
     * This method find a record by id
