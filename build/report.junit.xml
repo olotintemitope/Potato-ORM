@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Potato ORM Test Suite" tests="6" assertions="6" failures="0" errors="0" time="0.274473">
-    <testsuite name="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" tests="6" assertions="6" failures="0" errors="0" time="0.274473">
-      <testcase name="testCreateTable" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="45" assertions="1" time="0.171305"/>
-      <testcase name="testGetColumnNames" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="59" assertions="1" time="0.003566"/>
-      <testcase name="testDeleteRecord" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="82" assertions="1" time="0.002818"/>
-      <testcase name="testInsertData" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="98" assertions="1" time="0.002719"/>
-      <testcase name="testReadAll" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="114" assertions="1" time="0.090246"/>
-      <testcase name="testReadSingleRecord" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="150" assertions="1" time="0.003819"/>
-    </testsuite>
+  <testsuite name="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" tests="11" assertions="10" failures="0" errors="0" time="0.017231">
+    <testcase name="testCreateTable" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="40" assertions="1" time="0.013503"/>
+    <testcase name="testings" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="47" assertions="0" time="0.000561"/>
+    <testcase name="testGetColumnNames" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="66" assertions="1" time="0.000608"/>
+    <testcase name="testDeleteRecord" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="78" assertions="1" time="0.000262"/>
+    <testcase name="testCreate" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="91" assertions="1" time="0.000372"/>
+    <testcase name="testReadAll" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="106" assertions="1" time="0.000346"/>
+    <testcase name="testReadSingleRecord" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="133" assertions="1" time="0.000341"/>
+    <testcase name="testDelete" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="149" assertions="1" time="0.000224"/>
+    <testcase name="testUpdateRecord" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="164" assertions="1" time="0.000548"/>
+    <testcase name="testFindAndWhere" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="180" assertions="1" time="0.000309"/>
+    <testcase name="testPrepareUpdateQuery" class="Laztopaz\potatoORM\Test\TestDatabaseConnection" file="/Users/andeladev/Code/potato-ORM/test/DatabaseConnectionTest.php" line="197" assertions="1" time="0.000157"/>
   </testsuite>
 </testsuites>

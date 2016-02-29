@@ -1,8 +1,13 @@
 TAP version 13
 ok 1 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testCreateTable
-ok 2 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testGetColumnNames
-ok 3 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testDeleteRecord
-ok 4 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testInsertData
-ok 5 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadAll
-ok 6 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadSingleRecord
-1..6
+ok 2 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testings
+ok 3 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testGetColumnNames
+ok 4 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testDeleteRecord
+ok 5 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testCreate
+ok 6 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadAll
+ok 7 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testReadSingleRecord
+ok 8 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testDelete
+ok 9 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testUpdateRecord
+ok 10 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testFindAndWhere
+ok 11 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testPrepareUpdateQuery
+1..11
