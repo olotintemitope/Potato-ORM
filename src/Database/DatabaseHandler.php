@@ -107,9 +107,9 @@ class DatabaseHandler {
       if ($boolResponse) {
          return true;
       }
+      return false;
 
       throw NoRecordUpdateException::checkNoRecordUpdateException("Record not updated successfully");
-    	//return $boolResponse ?  : false;
     }
     
   /**
@@ -156,7 +156,7 @@ class DatabaseHandler {
 
       $boolResponse = $dbConn->exec($sql);
 
-      if ($boolean) {
+      if ($boolResponse) {
 
         return true;
       }
