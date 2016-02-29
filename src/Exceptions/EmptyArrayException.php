@@ -11,10 +11,10 @@ namespace Laztopaz\potatoORM;
 use Exception;
 
 class EmptyArrayException extends Exception {
-
-	public static function checkEmptyArrayException($message)
-	{
-		return new static($message);
-	}
+	
+    public static function checkEmptyArrayException($message)
+    {
+    	return new static($message);
+    }
 
 }
