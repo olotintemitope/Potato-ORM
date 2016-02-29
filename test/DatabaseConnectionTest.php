@@ -26,7 +26,6 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
 	public function setUp()
 	{
-
 		$this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
 		$this->dbHelper = new DatabaseHelper($this->dbConnMocked);
 		$this->dbHandler = new DatabaseHandler("gingers", $this->dbConnMocked);
@@ -175,9 +174,6 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($boolUpdate);
 	}
 
-	/**
-	 *
-	 */
 	public function testFindAndWhere()
 	{
 		$id = 3;
@@ -191,7 +187,6 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => '3'], "gingers", $this->dbConnMocked);
 		$this->assertTrue($boolFindAndWhere);
 	}
-
 
 	public function testPrepareUpdateQuery()
 	{
