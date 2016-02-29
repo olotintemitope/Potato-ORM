@@ -16,18 +16,18 @@ class DatabaseHelper {
     public $dbConn;
     
     /**
-      * This is a constructor; a default method  that will be called automatically during class instantiation
-      */
+     * This is a constructor; a default method  that will be called automatically during class instantiation
+     */
     public function __construct($dbConnect)
     {
     	$this->dbConn = $dbConnect;
     }
     
     /**
-      * This method creates a particular table
-      * @param tableName
-      * $return boolean true or false
-      */
+     * This method creates a particular table
+     * @param tableName
+     * $return boolean true or false
+     */
    public function createTable($tableName, $conn = NULL)
    {
    	if (is_null($conn)) {
