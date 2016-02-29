@@ -42,7 +42,7 @@ class DatabaseHandler {
     	$tableFields = $this->getColumnNames($this->model, $this->dbConnection);
     	$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($tableFields,$associative1DArray);
     	if (count($unexpectedFields) > 0) {
-    	    throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields,"needs to be created as table field");
+    	    throw TableFieldUndefinedException::reportUnknownTableField($unexpectedFields,"needs to be created as table field");
     	}
       unset($associative1DArray[0]);
     	if (is_null($dbConn)) {
@@ -80,9 +80,9 @@ class DatabaseHandler {
     	$updateSql = "UPDATE `$tableName` SET ";
     	unset($associative1DArray['id']);
     	$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->getColumnNames($this->model, $this->dbConnection),$associative1DArray);
-    	
+  
     	if (count($unexpectedFields) > 0) {
-    		throw TableFieldUndefinedException::fieldsNotDefinedException($unexpectedFields, "needs to be created as table field");
+    		throw TableFieldUndefinedException::reportUnknownTableField($unexpectedFields, "needs to be created as table field");
     	}
     	foreach($associative1DArray as $field => $value) {
     	    $sql .= "`$field` = '$value'".",";
