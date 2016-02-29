@@ -54,9 +54,9 @@ class DatabaseConnection extends \PDO {
      	switch ($this->databaseDriver)
      	{
      	    case 'mysql':
-     	    	// Set DSN
-     	    	$dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
-     	    	break;
+     	    // Set DSN
+     	    $dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
+     	    break;
      	    case 'sqlite':
      	    // Set DSN
      	    $dsn = 'sqlite:host='.$this->databaseHost.';dbname='. $this->databaseName;
