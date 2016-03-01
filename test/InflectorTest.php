@@ -12,11 +12,19 @@ use PHPUnit_Framework_TestCase;
 class InflectorClassTest extends PHPUnit_Framework_TestCase {
 
 
-	public function testPluralize()
+	public function testPluralizeThatEndsWithS()
 	{
 		$user = "user";
 		$userPlural = Inflector::pluralize($user);
 		$this->assertEquals('users',$userPlural);
 	}
+
+	public function testPluralizeThatEndsWithEn()
+	{
+		$child = "child";
+		$childPlural = Inflector::pluralize($child);
+		$this->assertEquals('children',$childPlural);
+	}
+
 
 }
