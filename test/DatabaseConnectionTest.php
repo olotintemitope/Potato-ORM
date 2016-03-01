@@ -11,10 +11,12 @@ namespace Laztopaz\potatoORM\Test;
 use Laztopaz\potatoORM\User;
 use PDO;
 use \Mockery;
+use Dotenv\Dotenv;
 use PHPUnit_Framework_TestCase;
 use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\DatabaseHandler;
 use Laztopaz\potatoORM\DatabaseConnection;
+use Laztopaz\potatoORM\Inflector;
 
 class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
@@ -23,6 +25,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	private $dbConnMocked;
 	private $dbHelper;
 	private $dbHandler;
+	//use Inflector; // Inject the inflector trait
 	
 	public function setUp()
 	{
