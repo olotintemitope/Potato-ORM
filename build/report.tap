@@ -10,4 +10,8 @@ ok 8 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testDelete
 ok 9 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testUpdateRecord
 ok 10 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testFindAndWhere
 ok 11 - Laztopaz\potatoORM\Test\TestDatabaseConnection::testPrepareUpdateQuery
-1..11
+ok 12 - Laztopaz\potatoORM\Test\ExceptionTest::testFindAndWhere
+ok 13 - Laztopaz\potatoORM\Test\ExceptionTest::testUpdateRecord
+ok 14 - Laztopaz\potatoORM\Test\ExceptionTest::testCreate
+ok 15 - Laztopaz\potatoORM\Test\ExceptionTest::testings
+1..15

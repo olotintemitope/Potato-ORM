@@ -12,6 +12,7 @@ use PDO;
 use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
 use Laztopaz\potatoORM\EmptyArrayException;
+
 use Laztopaz\potatoORM\NoRecordDeletionException;
 use Laztopaz\potatoORM\NoRecordInsertionException;
 use Laztopaz\potatoORM\NoRecordUpdateException;
@@ -25,14 +26,13 @@ class DatabaseHandler {
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation
      */
-     public function __construct($modelClassName, $dbConn = Null)
-     {
-     	if (is_null($dbConn)) {
-     		$this->dbConnection = new DatabaseConnection();
-     	} else {
-     	    $this->dbConnection = $dbConn;
-     	}
-     	$this->model = $modelClassName;
+    public function __construct($modelClassName, $dbConn = Null) {
+        if (is_null($dbConn)) {
+            $this->dbConnection = new DatabaseConnection();
+          } else {
+            $this->dbConnection = $dbConn;
+          }
+          $this->model = $modelClassName;
      }
      
     /**
@@ -40,8 +40,7 @@ class DatabaseHandler {
      * @params associative array, string tablename
      * @return boolean true or false
      */
-    public function create($associative1DArray, $tableName, $dbConn = Null)
-    {
+    public function create($associative1DArray, $tableName, $dbConn = Null) {
     	$tableFields = $this->getColumnNames($this->model, $this->dbConnection);
     	$unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($tableFields,$associative1DArray);
     	if (count($unexpectedFields) > 0) {
@@ -54,8 +53,7 @@ class DatabaseHandler {
     	  return $this->insertRecord($dbConn, $tableName, $associative1DArray);
     }
     
-    private function  insertRecord($dbConn, $tableName, $associative1DArray) 
-    {
+    private function  insertRecord($dbConn, $tableName, $associative1DArray) {
     	$insertQuery = 'INSERT INTO '.$tableName;
     	$TableValues = implode(',',array_keys($associative1DArray));
     	foreach ($associative1DArray as $field => $value) {
@@ -69,10 +67,10 @@ class DatabaseHandler {
       if ($executeQuery) {
         return true;
       }
+      return false;
 
     	throw NoRecordInsertionException::checkNoRecordAddedException("Record not inserted successfully");
-    	
-	}
+    }
 
     /**
      * This method updates any table by supplying 3 parameter
@@ -102,6 +100,7 @@ class DatabaseHandler {
     	    $updateSql .= " WHERE $key = $val";
     	}
     	$stmt = $dbConn->prepare($updateSql);
+
     	$boolResponse = $stmt->execute();
 
       if ($boolResponse) {
@@ -152,6 +151,7 @@ class DatabaseHandler {
       if (is_null($dbConn)) {
           $dbConn = new DatabaseConnection();
       }
+
       $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
 
       $boolResponse = $dbConn->exec($sql);

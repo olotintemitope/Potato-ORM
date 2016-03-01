@@ -16,8 +16,6 @@ class TableFieldUndefinedException extends Exception {
 	{
 		$fields = implode(", ",$unExpectedFields);
 
-		//var_dump($fields);
-
 		return new static($fields." ".$message);
 	}
 
