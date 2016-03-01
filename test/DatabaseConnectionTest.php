@@ -207,13 +207,23 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	 */
 	public function testDatabaseDriver()
 	{
-		$getDriver = $dsn = 'mysql:host=127.0.0.1:33060;dbname=potatoORM';
+		$getDriver = 'mysql:host=127.0.0.1:33060;dbname=potatoORM';
 
 		$dbConn = new DatabaseConnection();
 
 		$dsn = $dbConn->getDatabaseDriver();
 
 		$this->assertEquals($dsn, $getDriver);
+	}
+
+	/**
+	 * This method check for an instance of PDO Connection
+	 */
+	public function testDatabaseConnection()
+	{
+		$pdo = new PDO('mysql:host=127.0.0.1:33060;dbname=potatoORM', 'homestead', 'secret');
+        //$connection = new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($pdo, 'potatoORM');
+        //return new PHPUnit_Extensions_Database_DefaultTester($connection);
 	}
 
 }
