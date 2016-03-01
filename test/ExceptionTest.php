@@ -75,22 +75,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
     }
 
-    // /**
-    //  * @expectedException NoArgumentPassedToFunctionException
-    //  */
-    // public function testNoArgumentException()
-    // {
-    //     User::find();
-    // }
-
-    // /**
-    //  * @expectedException NullArgumentPassedToFunction
-    //  */
-    // public function testNullArgumentException()
-    // {
-    //     User::find("");
-    // }
-
     public function testings()
     {
         $fieldName1 = ['Field' => 'id', 'Type' => 'int', 'NULL' => 'NO'];
