@@ -109,7 +109,7 @@ class BaseClass  implements InterfaceBaseClass
     	    throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
     	}
     	if ($id == "") {
-    		throw NullArgumentPassedToFunction::ckeckNullArgumentPassedToFunction("This function expect a value");
+    		throw NullArgumentPassedToFunction::checkNullArgumentPassedToFunction("This function expect a value");
     	}
     	$staticFindInstance = new static();
     	$staticFindInstance->id = $id == "" ? false : $id;
