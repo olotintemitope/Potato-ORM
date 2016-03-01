@@ -91,6 +91,14 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         User::find("");
     }
 
+    /**
+     * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
+     */
+    public function testNoArgumentForDestroy()
+    {
+        User::destroy();
+    }
+
     public function testings()
     {
         $fieldName1 = ['Field' => 'id', 'Type' => 'int', 'NULL' => 'NO'];
