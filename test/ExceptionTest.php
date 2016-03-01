@@ -8,8 +8,6 @@
 
 namespace Laztopaz\potatoORM\Test;
 
-require_once '../vendor/autoload.php';
-
 use \Mockery;
 use Laztopaz\potatoORM\BaseClass;
 use Laztopaz\potatoORM\User;
