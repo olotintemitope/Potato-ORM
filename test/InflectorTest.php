@@ -33,11 +33,4 @@ class InflectorClassTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('churches',$churchPlural);
 	}
 
-	// public function testWordCannotBePluralize()
-	// {
-	// 	$noPlural = 'information';
-	// 	$bool = Inflector::pluralize();
-	// 	$this->assertFalse($bool);
-	// }
-
 }

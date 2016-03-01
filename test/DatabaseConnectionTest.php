@@ -16,6 +16,7 @@ use PHPUnit_Framework_TestCase;
 use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\DatabaseHandler;
 use Laztopaz\potatoORM\DatabaseConnection;
+use Laztopaz\potatoORM\BaseClass;
 
 class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
@@ -204,37 +205,14 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedSql, $prepareSql);
 	}
 
-	// /**
-	//  * This method test the database driver
-	//  */
-	// public function testDatabaseDriver()
-	// {
-	// 	$getDriver = 'mysql:host=127.0.0.1:33060;dbname=potatoORM';
+	/**
+	 * 
+	 */
+	public function testEmptyArray()
+	{
+		$baseModel = new BaseClass();
 
-	// 	$dbConn = new DatabaseConnection();
-
-	// 	$dsn = $dbConn->getDatabaseDriver();
-
-	// 	$this->assertEquals($dsn, $getDriver);
-	// }
-
-	// /**
-	//  * This method check for an instance of PDO Connection
-	//  */
-	// public function testDatabaseConnection()
-	// {
-	// 	$dbConnection = new DatabaseConnection();        
-	// 	$this->assertInstanceOf('PDO', $dbConnection);
-	// }
-
-	// /**
-	//  * This method checks for instance of dotenv
-	//  */
-	// public function testLoadEnv()
-	// {
-	// 	 $dotenv = new Dotenv(__DIR__.'/../../');
-
-	// 	 $this->assertInstanceOf('Dotenv', $dotenv);
-	// }
+		$this->assertFalse($baseModel->checkIfRecordIsEmpty([]));
+	}
 
 }

@@ -1,10 +1,15 @@
 <?php
+
 /**
  * @package  Laztopaz\potato-ORM
  * @author   Temitope Olotin <temitope.olotin@andela.com>
  * @license  <https://opensource.org/license/MIT> MIT
  */
+
 namespace Laztopaz\potatoORM\Test;
+
+require_once '../vendor/autoload.php';
+
 use \Mockery;
 use Laztopaz\potatoORM\BaseClass;
 use Laztopaz\potatoORM\User;
@@ -15,11 +20,15 @@ use Laztopaz\potatoORM\DatabaseHelper;
 use Laztopaz\potatoORM\EmptyArrayException;
 use Laztopaz\potatoORM\TableFieldUndefinedException;
 use Laztopaz\potatoORM\TableNotCreatedException;
+use Laztopaz\potatoORM\NoArgumentPassedToFunctionException;
+use Laztopaz\potatoORM\NullArgumentPassedToFunction;
+
 class ExceptionTest extends PHPUnit_Framework_TestCase
 {
     private $dbConnMocked;
     private $dbHelper;
     private $dbHandler;
+
     public function setUp()
     {
         $this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
@@ -65,6 +74,23 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
     }
+
+    // /**
+    //  * @expectedException NoArgumentPassedToFunctionException
+    //  */
+    // public function testNoArgumentException()
+    // {
+    //     User::find();
+    // }
+
+    // /**
+    //  * @expectedException NullArgumentPassedToFunction
+    //  */
+    // public function testNullArgumentException()
+    // {
+    //     User::find("");
+    // }
+
     public function testings()
     {
         $fieldName1 = ['Field' => 'id', 'Type' => 'int', 'NULL' => 'NO'];
