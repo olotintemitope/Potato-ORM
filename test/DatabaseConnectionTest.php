@@ -221,9 +221,8 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	 */
 	public function testDatabaseConnection()
 	{
-		$pdo = new PDO('mysql:host=127.0.0.1:33060;dbname=potatoORM', 'homestead', 'secret');
-        //$connection = new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($pdo, 'potatoORM');
-        //return new PHPUnit_Extensions_Database_DefaultTester($connection);
+		$dbConnection = new DatabaseConnection();        
+		$this->assertInstanceOf('PDO', $dbConnection);
 	}
 
 }
