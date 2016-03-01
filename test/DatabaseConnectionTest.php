@@ -206,13 +206,23 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * 
+	 * This method checks if the argument passed is empty array
 	 */
 	public function testEmptyArray()
 	{
 		$baseModel = new BaseClass();
 
 		$this->assertFalse($baseModel->checkIfRecordIsEmpty([]));
+	}
+
+	/**
+	 * This method checks if the argument passed is an array
+	 */
+	public function testArgumentPassedIsArray()
+	{
+		$baseModel = new BaseClass();
+
+		$this->assertTrue($baseModel->checkIfRecordIsEmpty(['name' => 'prosper', 'alias' => 'gingers']));
 	}
 
 }
