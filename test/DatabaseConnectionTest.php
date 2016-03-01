@@ -219,13 +219,13 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($dsn, $getDriver);
 	}
 
-	/**
-	 * This method check for an instance of PDO Connection
-	 */
-	public function testDatabaseConnection()
-	{
-		$dbConnection = new DatabaseConnection();        
-		$this->assertInstanceOf('PDO', $dbConnection);
-	}
+	// /**
+	//  * This method check for an instance of PDO Connection
+	//  */
+	// public function testDatabaseConnection()
+	// {
+	// 	$dbConnection = new DatabaseConnection();        
+	// 	$this->assertInstanceOf('PDO', $dbConnection);
+	// }
 
 }
