@@ -8,6 +8,8 @@
 
 namespace Laztopaz\potatoORM\Test;
 
+error_reporting(0);
+
 use \Mockery;
 use Laztopaz\potatoORM\BaseClass;
 use Laztopaz\potatoORM\User;
@@ -71,6 +73,22 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('1','Kola','Male')";
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
+    }
+
+    /**
+     * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
+     */
+    public function testNoArgument()
+    {
+        User::find();
+    }
+
+    /**
+     * @expectedException Laztopaz\potatoORM\NullArgumentPassedToFunction
+     */
+    public function testNullValuePassedAsArgument()
+    {
+        User::find("");
     }
 
     public function testings()
