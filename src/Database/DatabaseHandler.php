@@ -161,16 +161,10 @@ class DatabaseHandler {
 
        $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
 
-       try {
-           $stmt = $dbConn->prepare($sql);
-           $stmt->bindValue(':table', $tableName);
-           $stmt->bindValue(':id', $id);
-           $stmt->execute();
-
-       } catch (PDOException $e) {
-        return  $e->getMessage();
-
-       }
+       $stmt = $dbConn->prepare($sql);
+       $stmt->bindValue(':table', $tableName);
+       $stmt->bindValue(':id', $id);
+       $stmt->execute();
 
        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -268,7 +262,7 @@ class DatabaseHandler {
           $returnedRowNumbers = $statement->rowCount();
           
           return $returnedRowNumbers ? true : false;
-          
+
       }
 
       throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
