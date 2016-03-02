@@ -31,7 +31,7 @@ After you have installed the package via composer, then you are set to go. Next 
     
     use Laztopaz\potatoORM;
     
-    class User extends BaseClass {
+    class User extends BaseModel {
        
     }
 
