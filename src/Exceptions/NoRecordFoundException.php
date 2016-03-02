@@ -14,7 +14,8 @@ class NoRecordFoundException extends Exception {
 
     public static function checkNoRecordFoundException($message)
     {
-	return new static($message);
+        return new static($message);
+        
     }
 
 }

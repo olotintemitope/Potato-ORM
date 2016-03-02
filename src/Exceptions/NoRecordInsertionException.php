@@ -6,7 +6,7 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM	;
+namespace Laztopaz\potatoORM    ;
 
 use Exception;
 
@@ -14,6 +14,7 @@ class NoRecordInsertionException extends Exception {
 
     public static function checkNoRecordAddedException($mesaage)
     {
-    	return new static($mesaage);
+        return new static($mesaage);
+        
     }
 }

@@ -14,7 +14,8 @@ class TableNotCreatedException extends Exception {
 
     public static function checkTableNotCreatedException($message)
     {
-	return new static($message);
+        return new static($message);
+        
     }
 
 }

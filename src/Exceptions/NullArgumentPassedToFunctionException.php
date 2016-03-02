@@ -14,7 +14,8 @@ class NullArgumentPassedToFunction extends Exception {
 
     public static function checkNullArgumentPassedToFunction($message)
     {
-    	return new static ($message);
+        return new static ($message);
+
     }
 
 }

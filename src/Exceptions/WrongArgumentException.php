@@ -14,7 +14,8 @@ class WrongArgumentException extends Exception {
 
     public function checkWrongArgumentException($message)
     {
-    	return new static ($message);
+        return new static ($message);
+        
     }
 
 }

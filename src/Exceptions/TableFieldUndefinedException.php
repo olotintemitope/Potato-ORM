@@ -12,11 +12,12 @@ use Exception;
 
 class TableFieldUndefinedException extends Exception {
 
-	public static function reportUnknownTableField($unExpectedFields, $message)
-	{
-		$fields = implode(", ",$unExpectedFields);
+    public static function reportUnknownTableField($unExpectedFields, $message)
+    {
+        $fields = implode(", ", $unExpectedFields);
 
-		return new static($fields." ".$message);
-	}
+        return new static($fields." ".$message);
+        
+    }
 
 }

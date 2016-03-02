@@ -12,8 +12,8 @@ use PDO;
 use Dotenv\Dotenv;
 use PDOException;
 
-class DatabaseConnection extends \PDO {
-	
+class DatabaseConnection extends PDO {
+    
     private $databaseName;
     private $databaseHost;
     private $databaseDriver;
@@ -22,24 +22,27 @@ class DatabaseConnection extends \PDO {
     
     public  function  __construct() 
     {
-    	$this->loadEnv(); // load the environment variables
-    	$this->databaseName     =  getenv('databaseName');
-    	$this->databaseHost     =  getenv('databaseHost');
-    	$this->databaseDriver   =  getenv('databaseDriver');
-    	$this->databaseUsername =  getenv('databaseUsername');
-    	$this->databasePassword =  getenv('databasePassword');
-    	
-    	try {
-    	    $options = [
-    	    	PDO::ATTR_PERSISTENT    => true,
-    	    	PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
-                ];
-    	    	parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
-    		
-    	} catch(PDOException $e) {
-    	    return $e->getMessage();
-    	}
-    	
+        $this->loadEnv(); // load the environment variables
+
+        $this->databaseName     =  getenv('databaseName');
+        $this->databaseHost     =  getenv('databaseHost');
+        $this->databaseDriver   =  getenv('databaseDriver');
+        $this->databaseUsername =  getenv('databaseUsername');
+        $this->databasePassword =  getenv('databasePassword');
+        
+        try {
+            $options = [
+                PDO::ATTR_PERSISTENT => true,
+                PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION
+            ];
+
+        parent::__construct($this->getDatabaseDriver(), $this->databaseUsername, $this->databasePassword, $options);
+            
+        } catch(PDOException $e) {
+            return $e->getMessage();
+
+        }
+        
     }
 
     /**
@@ -49,27 +52,25 @@ class DatabaseConnection extends \PDO {
      */
      public function getDatabaseDriver()
      {
-     	$dsn = "";
-     	
-     	switch ($this->databaseDriver)
-     	{
+        $dsn = "";
+
+        switch ($this->databaseDriver) {
             case 'mysql':
-     	    // Set DSN
-     	    $dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
-     	    break;
-     	    case 'sqlite':
-     	    // Set DSN
-     	    $dsn = 'sqlite:host='.$this->databaseHost.';dbname='. $this->databaseName;
-     	    break;
-     	    case 'pgsql':
-     	    // Set DSN
-     	    $dsn = 'pgsqlsql:host='.$this->databaseHost.';dbname='. $this->databaseName;
-     	    break;
-     	    default:
-     	    // Set DSN
-     	    $dsn = 'mysql:host='.$this->databaseHost.';dbname='. $this->databaseName;
-     	}
-     	return $dsn;
+                $dsn = 'mysql:host='.$this->databaseHost.';dbname='.$this->databaseName; // Set DSN
+                break;
+            case 'sqlite':
+                $dsn = 'sqlite:host='.$this->databaseHost.';dbname='.$this->databaseName;
+                break;
+            case 'pgsql':
+                $dsn = 'pgsqlsql:host='.$this->databaseHost.';dbname='.$this->databaseName;
+                break;
+            default:
+                $dsn = 'mysql:host='.$this->databaseHost.';dbname='.$this->databaseName;
+                break;
+        }
+
+        return $dsn;
+
      }
 
      /**
@@ -77,10 +78,11 @@ class DatabaseConnection extends \PDO {
       */
      public function loadEnv()
      {
-     	if (!getenv("APP_ENV")) {
-     	    $dotenv = new Dotenv(__DIR__.'/../../');
-     	    $dotenv->load();
-     	}
+        if (! getenv("APP_ENV")) {
+            $dotenv = new Dotenv(__DIR__.'/../../');
+            $dotenv->load();
+        }
+        
      }
 
 }

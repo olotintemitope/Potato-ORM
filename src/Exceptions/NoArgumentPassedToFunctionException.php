@@ -11,10 +11,11 @@ namespace Laztopaz\potatoORM;
 use Exception;
 
 class NoArgumentPassedToFunctionException extends Exception {
-	
+
     public static function checkNoArgumentPassedToFunction($message)
     {
-    	return new static($message);
+        return new static($message);
+        
     }
 
 }

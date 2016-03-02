@@ -15,5 +15,6 @@ class NoRecordDeletionException extends  Exception
     public static function checkNoRecordDeleteException($message)
     {
         return new static($message);
+        
     }
 }
