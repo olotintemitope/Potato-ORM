@@ -90,7 +90,7 @@ $user->save();
 
 To delete a record 
 <?php 
-Ã¥
+å
 User::destroy(1);
 
 You need set your environment varible and define your database parameters
@@ -142,3 +142,4 @@ To delete a record
     <?php 
     
     User::destroy(1);
+
