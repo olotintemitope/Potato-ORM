@@ -50,18 +50,18 @@ class DatabaseHandler {
 
         $unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($tableFields, $associative1DArray);
       
-      if (count($unexpectedFields) > 0) {
-          throw TableFieldUndefinedException::reportUnknownTableField($unexpectedFields,"needs to be created as a table field");
-      }
+        if (count($unexpectedFields) > 0) {
+            throw TableFieldUndefinedException::reportUnknownTableField($unexpectedFields,"needs to be created as a table field");
+        }
 
-      unset($associative1DArray[0]);
+        unset($associative1DArray[0]);
 
-      if (is_null($dbConn)) {
-          $dbConn = $this->dbConnection;
+        if (is_null($dbConn)) {
+            $dbConn = $this->dbConnection;
 
-      }
+        }
 
-      return $this->insertRecord($dbConn, $tableName, $associative1DArray);
+        return $this->insertRecord($dbConn, $tableName, $associative1DArray);
 
     }
     
@@ -109,6 +109,7 @@ class DatabaseHandler {
 
         if (is_null($dbConn)) {
             $dbConn = $this->dbConnection;
+
         }
 
         $updateSql = "UPDATE `$tableName` SET ";
@@ -137,6 +138,7 @@ class DatabaseHandler {
 
         if ($boolResponse) {
             return true;
+
         }
 
         return false;
@@ -266,6 +268,7 @@ class DatabaseHandler {
           $returnedRowNumbers = $statement->rowCount();
           
           return $returnedRowNumbers ? true : false;
+          
       }
 
       throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
