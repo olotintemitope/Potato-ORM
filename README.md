@@ -68,6 +68,17 @@ Save a new record
     $user->stack = "php/laravel";
     $user->save();
 
+Read all records from the users table
+=====================================
+
+ <?php
+    
+    $users = User::getAll();
+
+    print_r($users);
+   
+
+
 Update an existing record
 ============================
 
@@ -101,6 +112,21 @@ To make this package degrade gracefully,  you will need to wrap it around  try a
        } catch (Exception $e) {
              echo $e->getMessage();
         }
+
+Read all records from the users table
+
+ <?php
+        
+    try {
+    
+        $users = User::getAll();
+
+        print_r($users);
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+   
 Also for find and update method, you can also wrap it around try and catch.
 
     <?php
