@@ -6,8 +6,6 @@ Potato ORM
 
 Potato-ORM is a simple agnostic ORM (Object Relational Mapping) package that can perform basic CRUD (Create, Read, Update and Delete) operations.
 
-`[TOC]`:
-
 How to use this package 
 -----------------------
 Composer installation is required before using this package. To  install a composer,  try running this command on your terminal.
@@ -136,7 +134,7 @@ Run this command on your terminal
 Contributing
 ==========
 
-To contribute and extend the scope of this package, Please check out [CONTRIBUTING file](https://github.com/andela-tolotin/Potato-ORM/contribution.md) for detailed contribution guidelines.
+To contribute and extend the scope of this package, Please check out [CONTRIBUTING file](https://github.com/andela-tolotin/Potato-ORM/blob/test/contribution.md) for detailed contribution guidelines.
 
 Credit
 =====
