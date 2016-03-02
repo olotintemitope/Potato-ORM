@@ -25,7 +25,6 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 	private $dbConnMocked;
 	private $dbHelper;
 	private $dbHandler;
-	//use Inflector; // Inject the inflector trait
 	
 	public function setUp()
 	{
