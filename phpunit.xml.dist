@@ -17,9 +17,6 @@
    <filter>
        <whitelist>
            <directory suffix=".php">src</directory>
-           <exclude>
-            <directory>./src/helper/Inflector.php</directory>
-           </exclude>
        </whitelist>
    </filter>
    <logging>
