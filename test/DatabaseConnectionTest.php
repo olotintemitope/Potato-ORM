@@ -56,6 +56,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $fieldName2 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
         $fieldName3 = ['Field' => 'gender', 'Type' => 'varchar', 'NULL' => 'YES'];
         $fieldName = [$fieldName1, $fieldName2, $fieldName3];
+        
         $this->dbConnMocked->shouldReceive('prepare')->with("SHOW COLUMNS FROM gingers")->andReturn($this->statement);
 
         $this->statement->shouldReceive('bindValue')->with(':table', 'gingers', 2);
