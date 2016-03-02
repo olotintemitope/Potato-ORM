@@ -26,7 +26,8 @@ class DatabaseHandler {
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation
      */
-    public function __construct($modelClassName, $dbConn = Null) {
+    public function __construct($modelClassName, $dbConn = Null) 
+    {
 
         if (is_null($dbConn)) {
             $this->dbConnection = new DatabaseConnection();
@@ -72,32 +73,31 @@ class DatabaseHandler {
      * @param  $associative1DArray 
      * @return boolean true         
      */
-    private function  insertRecord($dbConn, $tableName, $associative1DArray) {
+    private function  insertRecord($dbConn, $tableName, $associative1DArray) 
+    {
+        $insertQuery = 'INSERT INTO '.$tableName;
 
-      $insertQuery = 'INSERT INTO '.$tableName;
+        $TableValues = implode(',',array_keys($associative1DArray));
 
-      $TableValues = implode(',',array_keys($associative1DArray));
+        foreach ($associative1DArray as $field => $value) {
+            $FormValues[] = "'".trim(addslashes($value))."'";
+        }
 
-      foreach ($associative1DArray as $field => $value) {
-          $FormValues[] = "'".trim(addslashes($value))."'";
+        $splittedTableValues = implode(',', $FormValues);
+
+        $insertQuery.= ' ('.$TableValues.')';
+        $insertQuery.= ' VALUES ('.$splittedTableValues.')';
+
+        $executeQuery = $dbConn->exec($insertQuery);
+
+        if ($executeQuery) {
+            return true;
+        }
+
+        return false;
+
+        throw NoRecordInsertionException::checkNoRecordAddedException("Record not inserted successfully");
       }
-
-      $splittedTableValues = implode(',', $FormValues);
-
-      $insertQuery.= ' ('.$TableValues.')';
-      $insertQuery.= ' VALUES ('.$splittedTableValues.')';
-
-      $executeQuery = $dbConn->exec($insertQuery);
-
-      if ($executeQuery) {
-          return true;
-
-      }
-
-      return false;
-
-      throw NoRecordInsertionException::checkNoRecordAddedException("Record not inserted successfully");
-    }
 
     /**
      * This method updates any table by supplying 3 parameter
@@ -212,15 +212,15 @@ class DatabaseHandler {
    */
   public static function checkIfMagicSetterContainsIsSameAsClassModel(array $tableColumn, array $userSetterArray)
   {
-    $unexpectedFields = [];
+      $unexpectedFields = [];
 
-    foreach ($userSetterArray as $key => $val) {
-        if (!in_array($key,$tableColumn)) {
-            $unexpectedFields[] = $key;
-        }
-    }
+      foreach ($userSetterArray as $key => $val) {
+          if (!in_array($key,$tableColumn)) {
+              $unexpectedFields[] = $key;
+          }
+      }
 
-    return $unexpectedFields;
+      return $unexpectedFields;
 
   }
   
