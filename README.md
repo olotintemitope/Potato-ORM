@@ -146,9 +146,9 @@ For deleting a record too, It is expected that you wrapped your code around try 
     
       try {
           User::destroy(1);
-     } catch (Exception $e) {
+      } catch (Exception $e) {
            echo $e->getMessage();
-     }
+      }
 
 
 Testing
