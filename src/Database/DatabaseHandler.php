@@ -53,6 +53,13 @@ class DatabaseHandler {
     	  return $this->insertRecord($dbConn, $tableName, $associative1DArray);
     }
     
+    /**
+     * This method runs the insertion query
+     * @param  $dbConn           
+     * @param  $tableName          
+     * @param  $associative1DArray 
+     * @return boolean true         
+     */
     private function  insertRecord($dbConn, $tableName, $associative1DArray) {
     	$insertQuery = 'INSERT INTO '.$tableName;
     	$TableValues = implode(',',array_keys($associative1DArray));
