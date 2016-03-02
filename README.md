@@ -64,7 +64,8 @@ The default database used here is mysql. If you wish to change to a new database
     }
 
 To save a new record, you will need to instatiation the class that extends the base model class. Assume your model class is User.
-
+To add a new record
+============================
     <?php
     
     $user = new User();
