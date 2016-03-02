@@ -81,7 +81,6 @@ To update an existing record
     <?php
     
     $users = User::find(1);
-    $user = new User();
     $user->name = "Olotin Temitope";
     $user->stack = "Java/Android";
     $user->alias = "Laztopaz";
