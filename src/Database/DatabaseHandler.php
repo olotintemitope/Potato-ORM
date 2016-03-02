@@ -28,7 +28,6 @@ class DatabaseHandler {
      */
     public function __construct($modelClassName, $dbConn = Null) 
     {
-
         if (is_null($dbConn)) {
             $this->dbConnection = new DatabaseConnection();
 
