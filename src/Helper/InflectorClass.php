@@ -9,6 +9,6 @@
 namespace Laztopaz\potatoORM
 
 class Inflector {
-
-	use Inflector;
+	
+    use Inflector;
 }
