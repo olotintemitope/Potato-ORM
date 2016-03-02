@@ -95,8 +95,13 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
 
-        $this->dbHandler->create(['id' => '1', 'kiss' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
-
+        $this->dbHandler->create([
+            'id' => '1', 
+            'kiss' => 'Kola', 
+            'gender' => 'Male'], 
+            'gingers', 
+            $this->dbConnMocked
+        );
     }
 
     /**

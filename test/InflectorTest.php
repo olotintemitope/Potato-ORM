@@ -11,43 +11,43 @@ use PHPUnit_Framework_TestCase;
 
 class InflectorClassTest extends PHPUnit_Framework_TestCase {
 
-	/**
-	 * This test fot plural of words ending with s
-	 * @return boolean true
-	 */
-	public function testPluralizeThatEndsWithS()
-	{
-		$user = "user";
+    /**
+     * This test fot plural of words ending with s
+     * @return boolean true
+     */
+    public function testPluralizeThatEndsWithS()
+    {
+        $user = "user";
 
-		$userPlural = Inflector::pluralize($user);
+        $userPlural = Inflector::pluralize($user);
 
-		$this->assertEquals('users',$userPlural);
-	}
+        $this->assertEquals('users', $userPlural);
+    }
 
-	/**
-	 * This test fot plural of words ending with en
-	 * @return boolean true
-	 */
-	public function testPluralizeThatEndsWithEn()
-	{
-		$child = "child";
+    /**
+     * This test fot plural of words ending with en
+     * @return boolean true
+     */
+    public function testPluralizeThatEndsWithEn()
+    {
+        $child = "child";
 
-		$childPlural = Inflector::pluralize($child);
+        $childPlural = Inflector::pluralize($child);
 
-		$this->assertEquals('children',$childPlural);
-	}
+        $this->assertEquals('children', $childPlural);
+    }
 
-	/**
-	 * This test fot plural of words ending with es
-	 * @return boolean true
-	 */
-	public function testPluralizeThatEndsWithEs()
-	{
-		$church = "church";
+    /**
+     * This test fot plural of words ending with es
+     * @return boolean true
+     */
+    public function testPluralizeThatEndsWithEs()
+    {
+        $church = "church";
 
-		$churchPlural = Inflector::pluralize($church);
+        $churchPlural = Inflector::pluralize($church);
 
-		$this->assertEquals('churches',$churchPlural);
-	}
+        $this->assertEquals('churches', $churchPlural);
+    }
 
 }
