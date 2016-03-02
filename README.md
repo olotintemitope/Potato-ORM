@@ -60,12 +60,12 @@ Save a new record
 ===============
     <?php
     
-    $user = new User();
-    $user->name = "Temitope Olotin";
-    $user->gender = "Male";
-    $user->alias = "Laztopaz";
-    $user->class = "14";
-    $user->stack = "php/laravel";
+    $user          = new User();
+    $user->name    = "Temitope Olotin";
+    $user->gender  = "Male";
+    $user->alias   = "Laztopaz";
+    $user->class   = "14";
+    $user->stack   = "php/laravel";
     $user->save();
 
 Read all records from the users table
@@ -84,10 +84,10 @@ Update an existing record
 
     <?php
     
-    $user = User::find(1);
-    $user->name = "Olotin Temitope";
-    $user->stack = "Java/Android";
-    $user->alias = "Laztopaz";
+    $user         = User::find(1);
+    $user->name   = "Olotin Temitope";
+    $user->stack  = "Java/Android";
+    $user->alias  = "Laztopaz";
     $user->save();
 
 Delete a record
@@ -102,12 +102,13 @@ To make this package degrade gracefully,  you will need to wrap it around  try a
      <?php
         
         try {
-            $user = new User();
-            $user->name = "Temitope Olotin";
+          
+            $user         = new User();
+            $user->name   = "Temitope Olotin";
             $user->gender = "Male";
-            $user->alias = "Laztopaz";
-            $user->class = "14";
-            $user->stack = "php/laravel";
+            $user->alias  = "Laztopaz";
+            $user->class  = "14";
+            $user->stack  = "php/laravel";
             $user->save();
        } catch (Exception $e) {
              echo $e->getMessage();
@@ -117,6 +118,7 @@ Read all records from the users table
        
      <?php
          try {
+
              $users = User::getAll();
              print_r($users);
          } catch (Exception $e) {
@@ -129,10 +131,11 @@ Also for find and update method, you can also wrap it around try and catch.
     <?php
         
       try {
-          $user = User::find(1);
-          $user->name = "Olotin Temitope";
-          $user->stack = "Java/Android";
-          $user->alias = "Laztopaz";
+
+          $user         = User::find(1);
+          $user->name   = "Olotin Temitope";
+          $user->stack  = "Java/Android";
+          $user->alias  = "Laztopaz";
           $user->save();
      } catch (Exception $e) {
            echo $e->getMessage();
