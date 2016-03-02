@@ -73,7 +73,7 @@ Update an existing record
 
     <?php
     
-    $users = User::find(1);
+    $user = User::find(1);
     $user->name = "Olotin Temitope";
     $user->stack = "Java/Android";
     $user->alias = "Laztopaz";
@@ -106,7 +106,7 @@ Also for find and update method, you can also wrap it around try and catch.
     <?php
         
       try {
-          $users = User::find(1);
+          $user = User::find(1);
           $user->name = "Olotin Temitope";
           $user->stack = "Java/Android";
           $user->alias = "Laztopaz";
