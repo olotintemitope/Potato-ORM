@@ -55,55 +55,6 @@ databaseHost      = 127.0.0.1:33060
 
 The default database used here is mysql. If you wish to change to a new database, define the database parameters in the environment variable file. You also need to add a table to your newly created database, that has the plural of your model class.
 
-
-<?php
-
-use Laztopaz\potatoORM;
-
-class User extends BaseClass {
-    
-
-}
-
-To save a new record, you will need to instatiation the class that extends the base model class. Assume your model class is User.
-
-<?php
-
-$user = new User();
-$user->name = "Temitope Olotin";
-$user->gender = "Male";
-$user->alias = "Laztopaz";
-$user->class = "14";
-$user->stack = "php/laravel";
-$user->save();
-
-To update an existing record 
-
-<?php
-
-$users = User::find(1);
-$user = new User();
-$user->name = "Olotin Temitope";
-$user->stack = "Java/Android";
-$user->alias = "Laztopaz";
-$user->save();
-
-To delete a record 
-<?php 
-å
-User::destroy(1);
-
-You need set your environment varible and define your database parameters
-
-    databaseName      = xxxxxxx
-    databaseDriver    = mysql
-    databaseUsername  = xxxxxxx
-    databasePassword  = xxxxxxx
-    databasePort      = 33060
-    databaseHost      = 127.0.0.1:33060
-
-The default database used here is mysql. If you wish to change to a new database, define the database parameters in the environment variable file. You also need to add a table to your newly created database, that has the plural of your model class.
-
     <?php
     
     use Laztopaz\potatoORM;
