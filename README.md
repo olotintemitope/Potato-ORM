@@ -43,16 +43,6 @@ You need set your environment varible and define your database parameters
     databasePort      = 33060
     databaseHost      = 127.0.0.1:33060
 
-The default database used here is mysql. If you wish to change to a new database, define the database parameters in the environment variable file. You also need to add a table to your newly created database.
-You need set your environment varible and define your database parameters
-
-databaseName      = xxxxxxx
-databaseDriver    = mysql
-databaseUsername  = xxxxxxx
-databasePassword  = xxxxxxx
-databasePort      = 33060
-databaseHost      = 127.0.0.1:33060
-
 The default database used here is mysql. If you wish to change to a new database, define the database parameters in the environment variable file. You also need to add a table to your newly created database, that has the plural of your model class.
 
     <?php
