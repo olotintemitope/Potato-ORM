@@ -12,9 +12,9 @@ use Exception;
 
 class TableNotCreatedException extends Exception {
 
-	public static function checkTableNotCreatedException($message)
-	{
-		return new static($message);
-	}
+    public static function checkTableNotCreatedException($message)
+    {
+	return new static($message);
+    }
 
 }
