@@ -112,7 +112,7 @@ To make this package degrade gracefully,  you will need to wrap it around  try a
             $user->save();
        } catch (Exception $e) {
              echo $e->getMessage();
-        }
+       }
 
 Read all records from the users table
        
@@ -123,7 +123,7 @@ Read all records from the users table
              print_r($users);
          } catch (Exception $e) {
                echo $e->getMessage();
-          }
+         }
 
    
 Also for find and update method, you can also wrap it around try and catch.
@@ -139,7 +139,7 @@ Also for find and update method, you can also wrap it around try and catch.
           $user->save();
      } catch (Exception $e) {
            echo $e->getMessage();
-      }
+     }
 For deleting a record too, It is expected that you wrapped your code around try and catch also.
 
     <?php
@@ -148,7 +148,7 @@ For deleting a record too, It is expected that you wrapped your code around try 
           User::destroy(1);
      } catch (Exception $e) {
            echo $e->getMessage();
-      }
+     }
 
 
 Testing
