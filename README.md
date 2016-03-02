@@ -102,7 +102,6 @@ To make this package degrade gracefully,  you will need to wrap it around  try a
      <?php
         
         try {
-          
             $user         = new User();
             $user->name   = "Temitope Olotin";
             $user->gender = "Male";
@@ -110,19 +109,20 @@ To make this package degrade gracefully,  you will need to wrap it around  try a
             $user->class  = "14";
             $user->stack  = "php/laravel";
             $user->save();
-       } catch (Exception $e) {
-             echo $e->getMessage();
-       }
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
 
 Read all records from the users table
        
      <?php
          try {
-
              $users = User::getAll();
              print_r($users);
+
          } catch (Exception $e) {
-               echo $e->getMessage();
+             echo $e->getMessage();
          }
 
    
@@ -131,14 +131,14 @@ Also for find and update method, you can also wrap it around try and catch.
     <?php
         
       try {
-
           $user         = User::find(1);
           $user->name   = "Olotin Temitope";
           $user->stack  = "Java/Android";
           $user->alias  = "Laztopaz";
           $user->save();
+
      } catch (Exception $e) {
-           echo $e->getMessage();
+         echo $e->getMessage();
      }
 For deleting a record too, It is expected that you wrapped your code around try and catch also.
 
