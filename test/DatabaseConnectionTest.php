@@ -50,7 +50,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testGetTableFields()
+    public function getTableFields()
     {
         $fieldName1 = ['Field' => 'id', 'Type' => 'int', 'NULL' => 'NO'];
         $fieldName2 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
@@ -75,7 +75,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
      */
     public function  testGetColumnNames()
     {
-        $fieldName = $this->testGetTableFields();
+        $fieldName = $this->getTableFields();
 
         $resultDataSet = $this->dbHandler->getColumnNames("gingers", $this->dbConnMocked);
 
@@ -105,7 +105,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
      */
     public  function testCreate()
     {
-        $this->testGetTableFields();
+        $this->getTableFields();
 
         $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
 
@@ -215,7 +215,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
     {
         $id = 1;
 
-        $this->testGetTableFields();
+        $this->getTableFields();
         
         $data = [
             'name' => 'Kola', 

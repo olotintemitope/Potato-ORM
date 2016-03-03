@@ -63,7 +63,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateRecord()
     {
-        $this->testGetTableFields();
+        $this->getTableColumnFields();
 
         $id = 1;
 
@@ -87,7 +87,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public  function testCreate()
     {
-        $this->testGetTableFields();
+        $this->getTableColumnFields();
 
         $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
 
@@ -128,7 +128,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         User::destroy();
     }
 
-    public function testGetTableFields()
+    public function getTableColumnFields()
     {
         $fieldName1 = [
             'Field' => 'id', 
