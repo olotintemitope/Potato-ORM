@@ -265,7 +265,7 @@ class DatabaseHandler {
 
       }
 
-      throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
+      throw EmptyArrayException::checkEmptyArrayException("Record deletion unsuccessful because id does not match any record");
   }
   
   /**
