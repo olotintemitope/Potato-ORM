@@ -6,22 +6,22 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM\Test;
+namespace Laztopaz\PotatoORM\Test;
 
 error_reporting(0);
 
 use \Mockery;
-use Laztopaz\potatoORM\BaseClass;
-use Laztopaz\potatoORM\User;
 use PHPUnit_Framework_TestCase;
-use Laztopaz\potatoORM\DatabaseConnection;
-use Laztopaz\potatoORM\DatabaseHandler;
-use Laztopaz\potatoORM\DatabaseHelper;
-use Laztopaz\potatoORM\EmptyArrayException;
-use Laztopaz\potatoORM\TableFieldUndefinedException;
-use Laztopaz\potatoORM\TableNotCreatedException;
-use Laztopaz\potatoORM\NoArgumentPassedToFunctionException;
-use Laztopaz\potatoORM\NullArgumentPassedToFunction;
+use Laztopaz\PotatoORM\User;
+use Laztopaz\PotatoORM\BaseClass;
+use Laztopaz\PotatoORM\DatabaseConnection;
+use Laztopaz\PotatoORM\DatabaseHandler;
+use Laztopaz\PotatoORM\DatabaseHelper;
+use Laztopaz\PotatoORM\EmptyArrayException;
+use Laztopaz\PotatoORM\TableFieldUndefinedException;
+use Laztopaz\PotatoORM\TableNotCreatedException;
+use Laztopaz\PotatoORM\NoArgumentPassedToFunctionException;
+use Laztopaz\PotatoORM\NullArgumentPassedToFunction;
 
 class ExceptionTest extends PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laztopaz\potatoORM\EmptyArrayException
+     * @expectedException Laztopaz\PotatoORM\EmptyArrayException
      */
     public function testFindAndWhere()
     {
@@ -59,11 +59,11 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laztopaz\potatoORM\TableFieldUndefinedException
+     * @expectedException Laztopaz\PotatoORM\TableFieldUndefinedException
      */
     public function testUpdateRecord()
     {
-        $this->getTablesColumnFields();
+        $this->getTableColumnFields();
 
         $id = 1;
 
@@ -83,11 +83,11 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     }
     /**
-     * @expectedException Laztopaz\potatoORM\TableFieldUndefinedException
+     * @expectedException Laztopaz\PotatoORM\TableFieldUndefinedException
      */
     public  function testCreate()
     {
-        $this->getTablesColumnFields();
+        $this->getTableColumnFields();
 
         $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
 
@@ -105,7 +105,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
+     * @expectedException Laztopaz\PotatoORM\NoArgumentPassedToFunctionException
      */
     public function testIfFindMethodHasAnArgument()
     {
@@ -113,7 +113,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laztopaz\potatoORM\NullArgumentPassedToFunction
+     * @expectedException Laztopaz\PotatoORM\NullArgumentPassedToFunction
      */
     public function testIfEmptyStringIsPassedToDestroyMethodAsArgument()
     {
@@ -121,14 +121,14 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
+     * @expectedException Laztopaz\PotatoORM\NoArgumentPassedToFunctionException
      */
     public function testIfDestroyMethodHasAnArgument()
     {
         User::destroy();
     }
 
-    public function getTablesColumnFields()
+    public function getTableColumnFields()
     {
         $fieldName1 = [
             'Field' => 'id', 

@@ -6,17 +6,17 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM;
+namespace Laztopaz\PotatoORM;
 
-use Laztopaz\potatoORM\DatabaseHandler;
-use Laztopaz\potatoORM\InterfaceBaseClass;
-use Laztopaz\potatoORM\NoRecordDeletionException;
-use Laztopaz\potatoORM\NoRecordFoundException;
-use Laztopaz\potatoORM\NoRecordInsertionException;
-use Laztopaz\potatoORM\NullArgumentPassedToFunction;
-use Laztopaz\potatoORM\WrongArgumentException;
-use Laztopaz\potatoORM\NoArgumentPassedToFunctionException;
-use Laztopaz\potatoORM\EmptyArrayException;
+use Laztopaz\PotatoORM\DatabaseHandler;
+use Laztopaz\PotatoORM\BaseModelInterface;
+use Laztopaz\PotatoORM\NoRecordDeletionException;
+use Laztopaz\PotatoORM\NoRecordFoundException;
+use Laztopaz\PotatoORM\NoRecordInsertionException;
+use Laztopaz\PotatoORM\NullArgumentPassedToFunction;
+use Laztopaz\PotatoORM\WrongArgumentException;
+use Laztopaz\PotatoORM\NoArgumentPassedToFunctionException;
+use Laztopaz\PotatoORM\EmptyArrayException;
 
 class BaseModel implements BaseModelInterface
 {
@@ -128,12 +128,11 @@ class BaseModel implements BaseModelInterface
      */
     public static function find($id)
     {
-        $num_args = (int) func_num_args(); // get number of arguments passed to
-
+        $num_args = (int) func_num_args(); // get number of arguments passed to this function 
         if ($num_args == 0 || $num_args > 1) {
             throw NoArgumentPassedToFunctionException::create("Argument missing: only one argument is allowed");
         }
-
+        
         if ($id == "") {
             throw NullArgumentPassedToFunction::create("This function expect a value");
         }
@@ -155,7 +154,7 @@ class BaseModel implements BaseModelInterface
     {
         $boolDeleted = false;
 
-        $num_args = (int) func_num_args(); // get number of arguments passed to
+        $num_args = (int) func_num_args(); // get number of arguments passed to this function 
         
         if ($num_args == 0 || $num_args > 1) {
             throw NoArgumentPassedToFunctionException::create("Argument missing: only one argument is allowed");

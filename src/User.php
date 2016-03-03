@@ -6,9 +6,9 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM;
+namespace Laztopaz\PotatoORM;
 
-use Laztopaz\potatoORM\BaseClass;
+use Laztopaz\potatoORM\BaseModel;
 
 class User extends BaseModel {
 

@@ -6,7 +6,9 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-use Laztopaz\potatoORM\Inflector;
+namespace Laztopaz\PotatoORM\Test;
+
+use Laztopaz\PotatoORM\Inflector;
 use PHPUnit_Framework_TestCase;
 
 class InflectorClassTest extends PHPUnit_Framework_TestCase {
@@ -38,7 +40,7 @@ class InflectorClassTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * This test fot plural of words ending with es
+     * This test for plural of words ending with es
      * @return boolean true
      */
     public function testPluralizeThatEndsWithEs()

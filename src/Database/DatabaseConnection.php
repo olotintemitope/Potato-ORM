@@ -6,7 +6,7 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM;
+namespace Laztopaz\PotatoORM;
 
 use PDO;
 use Dotenv\Dotenv;

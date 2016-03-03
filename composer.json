@@ -10,13 +10,13 @@
     ],
     "autoload":{
         "psr-4":{
-            "Laztopaz\\potatoORM\\": "src/"
+            "Laztopaz\\PotatoORM\\": "src/"
         },
         "classmap":["src/"]
     },
     "autoload-dev":{
         "psr-4": {
-            "Laztopaz\\potatoORM\\Test\\": "test/"
+            "Laztopaz\\PotatoORM\\Test\\": "test/"
         },
         "classmap":["test/"]
     },

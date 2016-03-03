@@ -6,9 +6,9 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM;
+namespace Laztopaz\PotatoORM;
 
-use Laztopaz\potatoORM\TableNotCreatedException;
+use Laztopaz\PotatoORM\TableNotCreatedException;
 
 class DatabaseHelper {
   
@@ -20,7 +20,7 @@ class DatabaseHelper {
     public function __construct($dbConnect)
     {
         $this->dbConn = $dbConnect;
-
+        
     }
     
     /**

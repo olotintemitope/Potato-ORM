@@ -6,15 +6,15 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\potatoORM;
+namespace Laztopaz\PotatoORM;
 
 use PDO;
-use Laztopaz\potatoORM\DatabaseHelper;
-use Laztopaz\potatoORM\TableFieldUndefinedException;
-use Laztopaz\potatoORM\EmptyArrayException;
-use Laztopaz\potatoORM\NoRecordDeletionException;
-use Laztopaz\potatoORM\NoRecordInsertionException;
-use Laztopaz\potatoORM\NoRecordUpdateException;
+use Laztopaz\PotatoORM\DatabaseHelper;
+use Laztopaz\PotatoORM\TableFieldUndefinedException;
+use Laztopaz\PotatoORM\EmptyArrayException;
+use Laztopaz\PotatoORM\NoRecordDeletionException;
+use Laztopaz\PotatoORM\NoRecordInsertionException;
+use Laztopaz\PotatoORM\NoRecordUpdateException;
 
 class DatabaseHandler {
 
@@ -48,7 +48,7 @@ class DatabaseHandler {
     {
         $tableFields = $this->getColumnNames($this->model, $this->dbConnection);
 
-        $unexpectedFields = self::filterTheAttributesThatDoesNotBelongToThisClass($tableFields, $associative1DArray);
+        $unexpectedFields = self::filterClassAttributes($tableFields, $associative1DArray);
       
         if (count($unexpectedFields) > 0) {
             throw TableFieldUndefinedException::create($unexpectedFields,"needs to be created as a table field");
@@ -115,7 +115,7 @@ class DatabaseHandler {
 
         unset($associative1DArray['id']);
 
-        $unexpectedFields = self::filterTheAttributesThatDoesNotBelongToThisClass($this->getColumnNames($this->model, $this->dbConnection), $associative1DArray);
+        $unexpectedFields = self::filterClassAttributes($this->getColumnNames($this->model, $this->dbConnection), $associative1DArray);
 
         if (count($unexpectedFields) > 0) {
             throw TableFieldUndefinedException::create($unexpectedFields, "needs to be created as a table field");
@@ -203,7 +203,7 @@ class DatabaseHandler {
    * @param array $userSetterArray
    * @return array $unexpectedFields
    */
-  public static function filterTheAttributesThatDoesNotBelongToThisClass(array $tableColumn, array $userSetterArray)
+  public static function filterClassAttributes(array $tableColumn, array $userSetterArray)
   {
       $unexpectedFields = [];
 
