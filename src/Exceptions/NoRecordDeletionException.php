@@ -12,7 +12,7 @@ use Exception;
 
 class NoRecordDeletionException extends  Exception
 {
-    public static function checkNoRecordDeleteException($message)
+    public static function create($message)
     {
         return new static($message);
         

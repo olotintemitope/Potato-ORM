@@ -48,10 +48,10 @@ class DatabaseHandler {
     {
         $tableFields = $this->getColumnNames($this->model, $this->dbConnection);
 
-        $unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($tableFields, $associative1DArray);
+        $unexpectedFields = self::filterTheAttributesThatDoesNotBelongToThisClass($tableFields, $associative1DArray);
       
         if (count($unexpectedFields) > 0) {
-            throw TableFieldUndefinedException::reportUnknownTableField($unexpectedFields,"needs to be created as a table field");
+            throw TableFieldUndefinedException::create($unexpectedFields,"needs to be created as a table field");
         }
 
         unset($associative1DArray[0]);
@@ -95,7 +95,6 @@ class DatabaseHandler {
 
         return false;
 
-        throw NoRecordInsertionException::checkNoRecordAddedException("Record not inserted successfully");
       }
 
     /**
@@ -116,10 +115,10 @@ class DatabaseHandler {
 
         unset($associative1DArray['id']);
 
-        $unexpectedFields = self::checkIfMagicSetterContainsIsSameAsClassModel($this->getColumnNames($this->model, $this->dbConnection), $associative1DArray);
+        $unexpectedFields = self::filterTheAttributesThatDoesNotBelongToThisClass($this->getColumnNames($this->model, $this->dbConnection), $associative1DArray);
 
         if (count($unexpectedFields) > 0) {
-            throw TableFieldUndefinedException::reportUnknownTableField($unexpectedFields, "needs to be created as a table field");
+            throw TableFieldUndefinedException::create($unexpectedFields, "needs to be created as a table field");
         }
 
         foreach ($associative1DArray as $field => $value) {
@@ -143,7 +142,6 @@ class DatabaseHandler {
 
         return false;
 
-        throw NoRecordUpdateException::checkNoRecordUpdateException("Record not updated successfully");
     }
     
   /**
@@ -192,11 +190,11 @@ class DatabaseHandler {
       $boolResponse = $dbConn->exec($sql);
 
       if ($boolResponse) {
-        return true;
+          return true;
 
       }
 
-      throw NoRecordDeletionException::checkNoRecordDeleteException("Record deletion unsuccessful because id does not match any record");
+      throw NoRecordDeletionException::create("Record deletion unsuccessful because id does not match any record");
   }
   
   /**
@@ -205,12 +203,12 @@ class DatabaseHandler {
    * @param array $userSetterArray
    * @return array $unexpectedFields
    */
-  public static function checkIfMagicSetterContainsIsSameAsClassModel(array $tableColumn, array $userSetterArray)
+  public static function filterTheAttributesThatDoesNotBelongToThisClass(array $tableColumn, array $userSetterArray)
   {
       $unexpectedFields = [];
 
       foreach ($userSetterArray as $key => $val) {
-          if (!in_array($key,$tableColumn)) {
+          if (! in_array($key, $tableColumn)) {
               $unexpectedFields[] = $key;
           }
       }
@@ -265,7 +263,7 @@ class DatabaseHandler {
 
       }
 
-      throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
+      throw EmptyArrayException::create("Array Expected: parameter passed to this function is not an array");
   }
   
   /**
@@ -274,28 +272,28 @@ class DatabaseHandler {
    * @param $conn
    * @return array
    */
- public function getColumnNames($table, $dbConn = null) 
- {
-     $tableFields = [];
+  public function getColumnNames($table, $dbConn = null) 
+  {
+      $tableFields = [];
      
-     if (is_null($dbConn)) {
+      if (is_null($dbConn)) {
          $dbConn = $this->dbConnection;
-     }
+      }
 
-     $sql = "SHOW COLUMNS FROM ".$table;
+      $sql = "SHOW COLUMNS FROM ".$table;
      
-     $stmt = $dbConn->prepare($sql);
-     $stmt->bindValue(':table', $table, PDO::PARAM_STR);
-     $stmt->execute();
+      $stmt = $dbConn->prepare($sql);
+      $stmt->bindValue(':table', $table, PDO::PARAM_STR);
+      $stmt->execute();
 
-     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
      
-     foreach ($results as $result) {
-         array_push($tableFields, $result['Field']);
-     }
+      foreach ($results as $result) {
+          array_push($tableFields, $result['Field']);
+      }
 
-     return $tableFields;
+      return $tableFields;
      
-   }
+  }
 
 }

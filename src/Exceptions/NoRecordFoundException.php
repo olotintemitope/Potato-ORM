@@ -12,7 +12,7 @@ use Exception;
 
 class NoRecordFoundException extends Exception {
 
-    public static function checkNoRecordFoundException($message)
+    public static function create($message)
     {
         return new static($message);
         

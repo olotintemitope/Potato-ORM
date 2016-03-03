@@ -12,7 +12,7 @@ use Exception;
 
 class WrongArgumentException extends Exception {
 
-    public function checkWrongArgumentException($message)
+    public function create($message)
     {
         return new static ($message);
         

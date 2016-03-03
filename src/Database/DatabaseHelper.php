@@ -39,7 +39,7 @@ class DatabaseHelper {
 
         return $conn->exec($sql);
 
-        throw TableNotCreatedException::checkTableNotCreatedException("Check your database connection");
+        throw TableNotCreatedException::create("Check your database connection");
    }
   
 }

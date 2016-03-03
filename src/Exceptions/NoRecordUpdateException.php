@@ -12,7 +12,7 @@ use Exception;
 
 class NoRecordUpdateException extends  Exception {
     
-    public static function checkNoRecordUpdateException($message)
+    public static function create($message)
     {
         return new static($message);
         

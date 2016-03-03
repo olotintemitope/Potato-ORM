@@ -18,13 +18,19 @@ use Laztopaz\potatoORM\WrongArgumentException;
 use Laztopaz\potatoORM\NoArgumentPassedToFunctionException;
 use Laztopaz\potatoORM\EmptyArrayException;
 
-class BaseModel  implements InterfaceBaseClass
+class BaseModel implements BaseModelInterface
 {
-    protected $databaseModel; // Private variable that contains instance of database
-    protected $tableName; // Class variable holding class name pluralized
-    protected $properties = []; // Properties will later contain key, value pairs from the magic setter, getter methods
+    // Inject the inflector trait
+    use Inflector; 
+    
+    // Private variable that contains instance of database
+    protected $databaseModel; 
 
-    use Inflector; // Inject the inflector trait
+    // Class variable holding class name pluralized
+    protected $tableName; 
+
+    // Properties will later contain key, value pairs from the magic setter, getter methods
+    protected $properties = []; 
 
     public function  __construct()
     {
@@ -72,7 +78,7 @@ class BaseModel  implements InterfaceBaseClass
 
         }
 
-        throw NoRecordFoundException::checkNoRecordFoundException("There is no record to display");
+        throw NoRecordFoundException::create("There is no record to display");
 
     }
     
@@ -99,10 +105,10 @@ class BaseModel  implements InterfaceBaseClass
 
                 }
 
-                throw NoRecordUpdateException::checkNoRecordUpdateException("Record not updated successfully");
+                throw NoRecordUpdateException::create("Record not updated successfully");
             }
 
-            throw EmptyArrayException::checkEmptyArrayException("Value passed didn't match any record");
+            throw EmptyArrayException::create("Value passed didn't match any record");
         }
 
         $boolCommit = $this->databaseModel->create($this->properties, $this->tableName);
@@ -111,7 +117,7 @@ class BaseModel  implements InterfaceBaseClass
             return true;
         }
 
-        throw NoRecordInsertionException::checkNoRecordAddedException("Record not created successfully");
+        throw NoRecordInsertionException::create("Record not created successfully");
     }
 
     /**
@@ -125,11 +131,11 @@ class BaseModel  implements InterfaceBaseClass
         $num_args = (int) func_num_args(); // get number of arguments passed to
 
         if ($num_args == 0 || $num_args > 1) {
-            throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
+            throw NoArgumentPassedToFunctionException::create("Argument missing: only one argument is allowed");
         }
 
         if ($id == "") {
-            throw NullArgumentPassedToFunction::checkNullArgumentPassedToFunction("This function expect a value");
+            throw NullArgumentPassedToFunction::create("This function expect a value");
         }
 
         $staticFindInstance = new static();
@@ -152,7 +158,7 @@ class BaseModel  implements InterfaceBaseClass
         $num_args = (int) func_num_args(); // get number of arguments passed to
         
         if ($num_args == 0 || $num_args > 1) {
-            throw NoArgumentPassedToFunctionException::checkNoArgumentPassedToFunction("Argument missing: only one argument is allowed");
+            throw NoArgumentPassedToFunctionException::create("Argument missing: only one argument is allowed");
         }
 
         $boolDeleted = DatabaseHandler::delete($id, self::getClassName());
@@ -162,7 +168,7 @@ class BaseModel  implements InterfaceBaseClass
 
         }
 
-        throw NoRecordDeletionException::checkNoRecordUpdateException("Record deletion unsuccessful because id does not match any record");
+        throw NoRecordDeletionException::create("Record deletion unsuccessful because id does not match any record");
     }
 
    /**
