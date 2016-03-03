@@ -6,7 +6,7 @@
  * @license  <https://opensource.org/license/MIT> MIT
  */
 
-namespace Laztopaz\PotatoORM
+namespace Laztopaz\PotatoORM;
 
 class Inflector {
     
