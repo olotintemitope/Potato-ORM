@@ -55,6 +55,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $fieldName1 = ['Field' => 'id', 'Type' => 'int', 'NULL' => 'NO'];
         $fieldName2 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
         $fieldName3 = ['Field' => 'gender', 'Type' => 'varchar', 'NULL' => 'YES'];
+
         $fieldName = [$fieldName1, $fieldName2, $fieldName3];
         
         $this->dbConnMocked->shouldReceive('prepare')->with("SHOW COLUMNS FROM gingers")->andReturn($this->statement);
@@ -229,6 +230,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $this->assertFalse($boolUpdate);
 
     }
+
     /**
      * This method check if a field can be located from a database table
      * @return boolean true 
@@ -248,6 +250,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($boolFindAndWhere);
     }
+    
     /**
      * This method checks if the update query matches the one prepared by the update method
      * @return boolean

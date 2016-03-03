@@ -63,7 +63,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateRecord()
     {
-        $this->testings();
+        $this->getTablesColumnFields();
 
         $id = 1;
 
@@ -87,7 +87,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public  function testCreate()
     {
-        $this->testings();
+        $this->getTablesColumnFields();
 
         $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
 
@@ -107,7 +107,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
      */
-    public function testNoArgument()
+    public function testIfFindMethodHasAnArgument()
     {
         User::find();
     }
@@ -115,7 +115,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Laztopaz\potatoORM\NullArgumentPassedToFunction
      */
-    public function testNullValuePassedAsArgument()
+    public function testIfEmptyStringIsPassedToDestroyMethodAsArgument()
     {
         User::find("");
     }
@@ -123,12 +123,12 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Laztopaz\potatoORM\NoArgumentPassedToFunctionException
      */
-    public function testNoArgumentForDestroy()
+    public function testIfDestroyMethodHasAnArgument()
     {
         User::destroy();
     }
 
-    public function testings()
+    public function getTablesColumnFields()
     {
         $fieldName1 = [
             'Field' => 'id', 
