@@ -1,53 +1,48 @@
 <?php
 
 /**
- * @package  Laztopaz\potato-ORM
  * @author   Temitope Olotin <temitope.olotin@andela.com>
  * @license  <https://opensource.org/license/MIT> MIT
  */
-
 namespace Laztopaz\PotatoORM\Test;
 
-use PDO;
-use \Mockery;
-use Dotenv\Dotenv;
-use PHPUnit_Framework_TestCase;
-use Laztopaz\PotatoORM\User;
-use Laztopaz\PotatoORM\DatabaseHelper;
-use Laztopaz\PotatoORM\DatabaseHandler;
-use Laztopaz\PotatoORM\DatabaseConnection;
 use Laztopaz\PotatoORM\BaseModel;
+use Laztopaz\PotatoORM\DatabaseHandler;
+use Laztopaz\PotatoORM\DatabaseHelper;
+use Mockery;
+use PHPUnit_Framework_TestCase;
 
-class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
-
+class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
+{
     private $setUpConnection;
     private $statement;
     private $dbConnMocked;
     private $dbHelper;
     private $dbHandler;
-    
+
     public function setUp()
     {
         $this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
 
         $this->dbHelper = new DatabaseHelper($this->dbConnMocked);
 
-        $this->dbHandler = new DatabaseHandler("gingers", $this->dbConnMocked);
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
 
         $this->statement = Mockery::mock('\PDOStatement');
     }
 
     /**
-     * This method test if table is successfully created
+     * This method test if table is successfully created.
+     *
      * @params void
-     * @return boolean true
+     *
+     * @return bool true
      */
     public function testCreateTable()
     {
-        $this->dbConnMocked->shouldReceive('exec')->with("CREATE TABLE IF NOT EXISTS gingers( id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )")->andReturn(true);
+        $this->dbConnMocked->shouldReceive('exec')->with('CREATE TABLE IF NOT EXISTS gingers( id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )')->andReturn(true);
 
         $this->assertTrue($this->dbHelper->createTable('gingers', $this->dbConnMocked));
-
     }
 
     public function getTableFields()
@@ -57,35 +52,38 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $fieldName3 = ['Field' => 'gender', 'Type' => 'varchar', 'NULL' => 'YES'];
 
         $fieldName = [$fieldName1, $fieldName2, $fieldName3];
-        
-        $this->dbConnMocked->shouldReceive('prepare')->with("SHOW COLUMNS FROM gingers")->andReturn($this->statement);
+
+        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM gingers')->andReturn($this->statement);
 
         $this->statement->shouldReceive('bindValue')->with(':table', 'gingers', 2);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
 
         return $fieldName;
-
     }
 
     /**
-     * This method returns column fields from a table
+     * This method returns column fields from a table.
+     *
      * @params void
+     *
      * @return array $fieldNames
      */
-    public function  testGetColumnNames()
+    public function testGetColumnNames()
     {
         $fieldName = $this->getTableFields();
 
-        $resultDataSet = $this->dbHandler->getColumnNames("gingers", $this->dbConnMocked);
+        $resultDataSet = $this->dbHandler->getColumnNames('gingers', $this->dbConnMocked);
 
         $this->assertEquals(['0' => $fieldName[0]['Field'], '1' => $fieldName[1]['Field'], '2' => $fieldName[2]['Field']], $resultDataSet);
     }
 
     /**
-     * This method checks if a record is successfully deleted from a table
+     * This method checks if a record is successfully deleted from a table.
+     *
      * @params void
-     * @return boolean true
+     *
+     * @return bool true
      */
     public function testDeleteRecord()
     {
@@ -93,17 +91,19 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
 
         $this->dbConnMocked->shouldReceive('exec')->with('DELETE FROM gingers WHERE id = '.$id)->andReturn(true);
 
-        $bool = DatabaseHandler::delete($id,'gingers',$this->dbConnMocked);
+        $bool = DatabaseHandler::delete($id, 'gingers', $this->dbConnMocked);
 
         $this->assertTrue($bool);
     }
 
     /**
-     * This method checks if a record is successfully committed to  a table
+     * This method checks if a record is successfully committed to  a table.
+     *
      * @params void
-     * @return boolean true
+     *
+     * @return bool true
      */
-    public  function testCreate()
+    public function testCreate()
     {
         $this->getTableFields();
 
@@ -119,9 +119,11 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * This method test that there are records to be retrieved from a table
+     * This method test that there are records to be retrieved from a table.
+     *
      * @params void
-     * @return boolean true
+     *
+     * @return bool true
      */
     public function testReadAll()
     {
@@ -131,7 +133,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $row2 = ['id' => 5, 'name' => 'Ogunde Kehinde', 'alias' => 'codekenn', 'class' => 13];
         $row3 = ['id' => 7, 'name' => 'Raimi Ademola', 'alias' => 'demo', 'class' => 14];
 
-        $results = [$row1,$row2,$row3];
+        $results = [$row1, $row2, $row3];
 
         $readQuery = $id  ? 'SELECT * FROM gingers WHERE id = '.$id : 'SELECT * FROM gingers';
 
@@ -142,31 +144,32 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
-        $allDataset = DatabaseHandler::read($id,'gingers',$this->dbConnMocked);
+        $allDataset = DatabaseHandler::read($id, 'gingers', $this->dbConnMocked);
 
-        $this->assertEquals($allDataset,[
-            '0'=> 
-            ['id' => $row1['id'], 'name' => $row1['name'], 'alias' => $row1['alias'], 'class' => $row1['class']],
+        $this->assertEquals($allDataset, [
+            '0'   => ['id' => $row1['id'], 'name' => $row1['name'], 'alias' => $row1['alias'], 'class' => $row1['class']],
             ['id' => $row2['id'], 'name' => $row2['name'], 'alias' => $row2['alias'], 'class' => $row2['class']],
-            ['id' => $row3['id'], 'name' => $row3['name'], 'alias' => $row3['alias'], 'class' => $row3['class']]
+            ['id' => $row3['id'], 'name' => $row3['name'], 'alias' => $row3['alias'], 'class' => $row3['class']],
 
         ]);
     }
 
     /**
-     * This method get a single record based on the row id supplied
+     * This method get a single record based on the row id supplied.
+     *
      * @params void
-     * @return boolean true
+     *
+     * @return bool true
      */
     public function testReadSingleRecord()
     {
         $id = 3;
 
         $row = [
-            'id' => 3, 
-            'name' => 'Olotin Temitope', 
-            'alias' => 'laztopaz', 
-            'class' => 14
+            'id'    => 3,
+            'name'  => 'Olotin Temitope',
+            'alias' => 'laztopaz',
+            'class' => 14,
         ];
 
         $results = [$row];
@@ -180,46 +183,46 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
-        $allDataset = DatabaseHandler::read($id,'gingers',$this->dbConnMocked);
+        $allDataset = DatabaseHandler::read($id, 'gingers', $this->dbConnMocked);
 
-        $this->assertEquals($allDataset,[
+        $this->assertEquals($allDataset, [
             '0' => [
-            'id' => $row['id'], 
-            'name' => $row['name'], 
+            'id'    => $row['id'],
+            'name'  => $row['name'],
             'alias' => $row['alias'],
-            'class' => $row['class']
-        ]]);
-
+            'class' => $row['class'],
+        ], ]);
     }
 
     public function testDelete()
     {
         $id = 1;
 
-        $sql =  "DELETE FROM gingers WHERE id = ".$id;
+        $sql = 'DELETE FROM gingers WHERE id = '.$id;
 
         $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
 
-        $bool = DatabaseHandler::delete($id,'gingers',$this->dbConnMocked);
+        $bool = DatabaseHandler::delete($id, 'gingers', $this->dbConnMocked);
 
         $this->assertTrue($bool);
-
     }
 
     /**
-     * This method if  record is successfully updated
+     * This method if  record is successfully updated.
+     *
      * @params void
-     * @return boolean true
+     *
+     * @return bool true
      */
     public function testUpdateRecord()
     {
         $id = 1;
 
         $this->getTableFields();
-        
+
         $data = [
-            'name' => 'Kola', 
-            'gender' => 'Male'
+            'name'   => 'Kola',
+            'gender' => 'Male',
         ];
 
         $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
@@ -233,32 +236,33 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
         $boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
 
         $this->assertFalse($boolUpdate);
-
     }
 
     /**
-     * This method check if a field can be located from a database table
-     * @return boolean true 
+     * This method check if a field can be located from a database table.
+     *
+     * @return bool true
      */
     public function testFindAndWhere()
     {
         $id = 3;
 
-        $sql =  "SELECT * FROM gingers WHERE `id` = '$id'";
+        $sql = "SELECT * FROM gingers WHERE `id` = '$id'";
 
         $this->dbConnMocked->shouldReceive('prepare')->with($sql)->andReturn($this->statement);
 
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('rowCount')->andReturn(true);
 
-        $boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => '3'], "gingers", $this->dbConnMocked);
+        $boolFindAndWhere = $this->dbHandler->findAndWhere(['id' => '3'], 'gingers', $this->dbConnMocked);
 
         $this->assertTrue($boolFindAndWhere);
     }
-    
+
     /**
-     * This method checks if the update query matches the one prepared by the update method
-     * @return boolean
+     * This method checks if the update query matches the one prepared by the update method.
+     *
+     * @return bool
      */
     public function testPrepareUpdateQuery()
     {
@@ -272,7 +276,7 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * This method checks if the argument passed is empty array
+     * This method checks if the argument passed is empty array.
      */
     public function testEmptyArray()
     {
@@ -282,16 +286,15 @@ class TestDatabaseConnection extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * This method checks if the argument passed is an array
+     * This method checks if the argument passed is an array.
      */
     public function testArgumentPassedIsArray()
     {
         $baseModel = new BaseModel();
 
         $this->assertTrue($baseModel->checkIfRecordIsEmpty([
-            'name' => 'prosper', 
-            'alias' => 'gingers'
+            'name'  => 'prosper',
+            'alias' => 'gingers',
         ]));
     }
-
 }
