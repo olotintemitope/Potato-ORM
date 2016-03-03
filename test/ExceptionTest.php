@@ -1,27 +1,18 @@
 <?php
 
 /**
- * @package  Laztopaz\potato-ORM
  * @author   Temitope Olotin <temitope.olotin@andela.com>
  * @license  <https://opensource.org/license/MIT> MIT
  */
-
 namespace Laztopaz\PotatoORM\Test;
 
 error_reporting(0);
 
-use \Mockery;
-use PHPUnit_Framework_TestCase;
-use Laztopaz\PotatoORM\User;
-use Laztopaz\PotatoORM\BaseClass;
-use Laztopaz\PotatoORM\DatabaseConnection;
 use Laztopaz\PotatoORM\DatabaseHandler;
 use Laztopaz\PotatoORM\DatabaseHelper;
-use Laztopaz\PotatoORM\EmptyArrayException;
-use Laztopaz\PotatoORM\TableFieldUndefinedException;
-use Laztopaz\PotatoORM\TableNotCreatedException;
-use Laztopaz\PotatoORM\NoArgumentPassedToFunctionException;
-use Laztopaz\PotatoORM\NullArgumentPassedToFunction;
+use Laztopaz\PotatoORM\User;
+use Mockery;
+use PHPUnit_Framework_TestCase;
 
 class ExceptionTest extends PHPUnit_Framework_TestCase
 {
@@ -35,7 +26,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
         $this->dbHelper = new DatabaseHelper($this->dbConnMocked);
 
-        $this->dbHandler = new DatabaseHandler("gingers", $this->dbConnMocked);
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
 
         $this->statement = Mockery::mock('\PDOStatement');
     }
@@ -47,15 +38,14 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     {
         $id = 3;
 
-        $sql =  "SELECT * FROM gingers WHERE `id` = '$id'";
+        $sql = "SELECT * FROM gingers WHERE `id` = '$id'";
 
         $this->dbConnMocked->shouldReceive('prepare')->with($sql)->andReturn($this->statement);
 
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('rowCount')->andReturn(true);
 
-        $this->dbHandler->findAndWhere([], "gingers", $this->dbConnMocked);
-        
+        $this->dbHandler->findAndWhere([], 'gingers', $this->dbConnMocked);
     }
 
     /**
@@ -68,8 +58,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $id = 1;
 
         $data = [
-            'kiss' => 'Kola', 
-            'gender' => 'Male'
+            'kiss'   => 'Kola',
+            'gender' => 'Male',
         ];
 
         $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
@@ -80,12 +70,12 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
         $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
         $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
-
     }
+
     /**
      * @expectedException Laztopaz\PotatoORM\TableFieldUndefinedException
      */
-    public  function testCreate()
+    public function testCreate()
     {
         $this->getTableColumnFields();
 
@@ -96,10 +86,10 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
 
         $this->dbHandler->create([
-            'id' => '1', 
-            'kiss' => 'Kola', 
-            'gender' => 'Male'], 
-            'gingers', 
+            'id'     => '1',
+            'kiss'   => 'Kola',
+            'gender' => 'Male', ],
+            'gingers',
             $this->dbConnMocked
         );
     }
@@ -117,7 +107,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testIfEmptyStringIsPassedToDestroyMethodAsArgument()
     {
-        User::find("");
+        User::find('');
     }
 
     /**
@@ -131,32 +121,31 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     public function getTableColumnFields()
     {
         $fieldName1 = [
-            'Field' => 'id', 
-            'Type' => 'int', 
-            'NULL' => 'NO'
+            'Field' => 'id',
+            'Type'  => 'int',
+            'NULL'  => 'NO',
         ];
 
         $fieldName2 = [
-            'Field' => 'name', 
-            'Type' => 'varchar', 
-            'NULL' => 'NO'
+            'Field' => 'name',
+            'Type'  => 'varchar',
+            'NULL'  => 'NO',
         ];
 
         $fieldName3 = [
-            'Field' => 'gender', 
-            'Type' => 'varchar', 
-            'NULL' => 'YES'
+            'Field' => 'gender',
+            'Type'  => 'varchar',
+            'NULL'  => 'YES',
         ];
 
         $fieldName = [$fieldName1, $fieldName2, $fieldName3];
 
-        $this->dbConnMocked->shouldReceive('prepare')->with("SHOW COLUMNS FROM gingers")->andReturn($this->statement);
+        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM gingers')->andReturn($this->statement);
 
         $this->statement->shouldReceive('bindValue')->with(':table', 'gingers', 2);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
 
         return $fieldName;
-
     }
 }
