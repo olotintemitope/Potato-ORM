@@ -196,7 +196,7 @@ class DatabaseHandler {
 
       }
 
-      throw NoRecordDeletionException::checkNoRecordDeleteException("Record not deleted successfully");
+      throw NoRecordDeletionException::checkNoRecordDeleteException("Record deletion unsuccessful because id does not match any record");
   }
   
   /**
@@ -265,7 +265,7 @@ class DatabaseHandler {
 
       }
 
-      throw EmptyArrayException::checkEmptyArrayException("Record deletion unsuccessful because id does not match any record");
+      throw EmptyArrayException::checkEmptyArrayException("Array Expected: parameter passed to this function is not an array");
   }
   
   /**
