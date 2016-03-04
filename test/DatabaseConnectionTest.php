@@ -310,6 +310,7 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
 
     /**
      * This method checks if the argument passed is an array.
+     * 
      */
     public function testArgumentPassedIsArray()
     {
@@ -320,5 +321,19 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
             'alias' => 'gingers',
         ]));
     }
+
+    /**
+     * This method checks for instance of database connection class.
+     * 
+     */
+    
+    public function testDbConnection()
+    {
+        $dbConnMocked = new DatabaseConnection();
+
+        $this->assertInstanceOf('Laztopaz\potatoORM\DatabaseConnection', $dbConnMocked);
+
+    }
+
 
 }
