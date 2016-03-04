@@ -12,7 +12,7 @@ use PHPUnit_Framework_TestCase;
 class InflectorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * This test fot plural of words ending with s.
+     * This test for plural of words ending with s.
      *
      * @return bool true
      */
@@ -26,7 +26,7 @@ class InflectorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * This test fot plural of words ending with en.
+     * This test for plural of words ending with en.
      *
      * @return bool true
      */

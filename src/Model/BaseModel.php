@@ -84,15 +84,20 @@ class BaseModel implements BaseModelInterface
      *
      * @return bool true or false;
      */
-    public function save()
+    public function save($dbConn = Null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DatabaseConnection();
+        }
+
         $boolCommit = false;
 
         if ($this->properties['id']) {
-            $allData = DatabaseHandler::read($id = $this->properties['id'], self::getClassName());
+
+            $allData = DatabaseHandler::read($this->properties['id'], self::getClassName(), $dbConn);
 
             if ($this->checkIfRecordIsEmpty($allData)) {
-                $boolCommit = $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties);
+                $boolCommit = $this->databaseModel->update(['id' => $this->properties['id']], $this->tableName, $this->properties, $dbConn);
 
                 if ($boolCommit) {
                     return true;
@@ -104,7 +109,7 @@ class BaseModel implements BaseModelInterface
             throw EmptyArrayException::create("Value passed didn't match any record");
         }
 
-        $boolCommit = $this->databaseModel->create($this->properties, $this->tableName);
+        $boolCommit = $this->databaseModel->create($this->properties, $this->tableName, $dbConn);
 
         if ($boolCommit) {
             return true;

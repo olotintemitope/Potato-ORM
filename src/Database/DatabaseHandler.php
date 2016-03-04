@@ -107,7 +107,7 @@ class DatabaseHandler
 
         unset($associative1DArray['id']);
 
-        $unexpectedFields = self::filterClassAttributes($this->getColumnNames($this->model, $this->dbConnection), $associative1DArray);
+        $unexpectedFields = self::filterClassAttributes($this->getColumnNames($this->model, $dbConn), $associative1DArray);
 
         if (count($unexpectedFields) > 0) {
             throw TableFieldUndefinedException::create($unexpectedFields, 'needs to be created as a table field');
@@ -202,7 +202,7 @@ class DatabaseHandler
       $unexpectedFields = [];
 
       foreach ($userSetterArray as $key => $val) {
-          if (!in_array($key, $tableColumn)) {
+          if (! in_array($key, $tableColumn)) {
               $unexpectedFields[] = $key;
           }
       }

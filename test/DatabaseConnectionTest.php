@@ -6,10 +6,12 @@
  */
 namespace Laztopaz\PotatoORM\Test;
 
+use Laztopaz\PotatoORM\User;
 use Laztopaz\PotatoORM\BaseModel;
 use Laztopaz\PotatoORM\DatabaseHandler;
 use Laztopaz\PotatoORM\DatabaseHelper;
 use Laztopaz\PotatoORM\DatabaseConnection;
+use Laztopaz\PotatoORM\Test\Ginger;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
@@ -23,7 +25,7 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
+        $this->dbConnMocked = Mockery::mock('\Laztopaz\PotatoORM\DatabaseConnection');
 
         $this->dbHelper = new DatabaseHelper($this->dbConnMocked);
 
@@ -108,11 +110,7 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
     {
         $this->getTableFields();
 
-        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
-
-        $insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('1','Kola','Male')";
-
-        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+        $this->insertRecordHead();
 
         $boolInsert = $this->dbHandler->create(['id' => '1', 'name' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
 
@@ -195,16 +193,7 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
             'class' => 14,
         ];
 
-        $results = [$row];
-
-        $readQuery = $id  ? 'SELECT * FROM gingers WHERE id = '.$id : 'SELECT * FROM gingers';
-
-        $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
-
-        $this->statement->shouldReceive('bindValue')->with(':table', 'gingers');
-        $this->statement->shouldReceive('bindValue')->with(':id', $id);
-        $this->statement->shouldReceive('execute');
-        $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
+        $this->readFromTableHead($id, $row);
 
         $allDataset = DatabaseHandler::read($id, 'gingers', $this->dbConnMocked);
 
@@ -241,20 +230,14 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
     {
         $id = 1;
 
-        $this->getTableFields();
-
         $data = [
             'name'   => 'Kola',
             'gender' => 'Male',
         ];
 
-        $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
+        $this->getTableFields();
 
-        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
-
-        $this->statement->shouldReceive('execute')->andReturn(true);
-
-        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+        $this->updateRecordHead($id);
 
         $boolUpdate = $this->dbHandler->update(['id' => $id], 'gingers', $data, $this->dbConnMocked);
 
@@ -323,17 +306,83 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * This method checks for instance of database connection class.
      * 
      */
     
-    public function testDbConnection()
+    public function testSave()
     {
-        $dbConnMocked = new DatabaseConnection();
+        $id = 1;
 
-        $this->assertInstanceOf('Laztopaz\potatoORM\DatabaseConnection', $dbConnMocked);
+        // $row = [
+        //     'id'    => 3,
+        //     'name'  => 'Olotin Temitope',
+        //     'alias' => 'laztopaz',
+        //     'class' => 14,
+        // ];
+        $this->getTableFields();
+        $this->readFromTableHead($id, $row);
+
+        /* Insert record */
+        
+         $this->updateRecordHead($id);
+       
+
+        /* End Insert record */
+
+        /* Update record */
+        //$this->getTableFields();
+        //$this->insertRecordHead();
+       
+        /* End update record */
+
+        //$baseModel = new BaseModel();
+        
+        $user = Ginger::find(1);
+
+        //$user->id = '1';
+        $user->name = 'Kola';
+        $user->gender = 'Male';
+        $this->setExpectedException('Laztopaz\PotatoORM\NoRecordUpdateException');
+        $bool = $user->save($this->dbConnMocked);
+
+        //$this->assertT($bool);
 
     }
 
+    public function readFromTableHead($id, $row)
+    {
+        
+        $results = [$row];
+
+        $readQuery = $id  ? 'SELECT * FROM gingers WHERE id = '.$id : 'SELECT * FROM gingers';
+
+        $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
+
+        $this->statement->shouldReceive('bindValue')->with(':table', 'gingers');
+        $this->statement->shouldReceive('bindValue')->with(':id', $id);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
+    }
+
+    public function insertRecordHead()
+    {
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+
+        $insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('1','Kola','Male')";
+
+        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+    }
+
+    public function updateRecordHead($id)
+    {
+         $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
+
+        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+
+        $this->statement->shouldReceive('execute')->andReturn(true);
+
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+
+    }
 
 }
