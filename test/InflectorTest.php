@@ -52,4 +52,20 @@ class InflectorTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('churches', $churchPlural);
     }
+
+
+    /**
+     * This test for uncountable noun.
+     *
+     * @return bool true
+     */
+    public function testUncountableNoun()
+    {
+        $uncountable = 'sheep';
+
+        $word = Inflector::pluralize($uncountable);
+
+        $this->assertEquals('sheep', $uncountable);
+    }
+
 }
