@@ -9,6 +9,7 @@ namespace Laztopaz\PotatoORM\Test;
 use Laztopaz\PotatoORM\BaseModel;
 use Laztopaz\PotatoORM\DatabaseHandler;
 use Laztopaz\PotatoORM\DatabaseHelper;
+use Laztopaz\PotatoORM\DatabaseConnection;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
@@ -116,6 +117,28 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
         $boolInsert = $this->dbHandler->create(['id' => '1', 'name' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
 
         $this->assertTrue($boolInsert);
+    }
+
+    /**
+     * This method checks if a record is successfully committed to  a table.
+     *
+     * @params void
+     *
+     * @return bool true
+     */
+    public function testCreateReturnFalse()
+    {
+        $this->getTableFields();
+
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+
+        $insertQuery = "INSERT INTO gingers (id,name,gender) VALUES ('0','Kola','Male')";
+
+        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(false);
+
+        $boolInsert = $this->dbHandler->create(['id' => '0', 'name' => 'Kola', 'gender' => 'Male'], 'gingers', $this->dbConnMocked);
+
+        $this->assertFalse($boolInsert);
     }
 
     /**
@@ -297,4 +320,5 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
             'alias' => 'gingers',
         ]));
     }
+
 }
