@@ -34,7 +34,6 @@ class DatabaseHelper
         $sql .= ' id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, name VARCHAR( 100 ), gender VARCHAR( 10 ), alias VARCHAR( 150 ) NOT NULL, class VARCHAR( 150 ), stack VARCHAR( 50 ) )';
 
         return $conn->exec($sql);
-
-        throw TableNotCreatedException::create('Check your database connection');
+        
     }
 }
