@@ -53,7 +53,6 @@ class InflectorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('churches', $churchPlural);
     }
 
-
     /**
      * This test for uncountable noun.
      *
