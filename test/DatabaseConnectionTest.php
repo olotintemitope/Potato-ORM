@@ -297,4 +297,12 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
             'alias' => 'gingers',
         ]));
     }
+
+    /**
+     * This method get all the record from the database
+     */
+    public function testGetAll()
+    {
+        $this->testReadAll();
+    }
 }
