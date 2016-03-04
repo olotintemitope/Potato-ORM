@@ -95,6 +95,20 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Laztopaz\PotatoORM\NoRecordDeletionException
+     */
+    public function testDelete()
+    {
+        $id = "sade";
+
+        $sql = 'DELETE FROM gingers WHERE id = '.$id;
+
+        $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(false);
+
+        $bool = $this->dbHandler->delete($id, 'gingers',  $this->dbConnMocked);
+    }
+
+    /**
      * @expectedException Laztopaz\PotatoORM\NoArgumentPassedToFunctionException
      */
     public function testIfFindMethodHasAnArgument()
