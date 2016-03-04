@@ -130,7 +130,7 @@ class BaseModel implements BaseModelInterface
         }
 
         if ($id == '') {
-            throw NullArgumentPassedToFunction::create('This function expect a value');
+            throw NullArgumentPassedToFunctionException::create('This function expect a value');
         }
 
         $staticFindInstance = new static();

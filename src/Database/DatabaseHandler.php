@@ -7,6 +7,7 @@
 namespace Laztopaz\PotatoORM;
 
 use PDO;
+
 class DatabaseHandler
 {
     private $tableFields;

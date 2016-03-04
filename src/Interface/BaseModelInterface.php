@@ -6,7 +6,7 @@
  */
 namespace Laztopaz\PotatoORM;
 
-interface InterfaceBaseClass
+interface BaseModelInterface
 {
     /**
      * This method gets all the record from a particular table.

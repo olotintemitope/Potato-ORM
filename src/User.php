@@ -6,7 +6,7 @@
  */
 namespace Laztopaz\PotatoORM;
 
-use Laztopaz\potatoORM\BaseModel;
+use Laztopaz\PotatoORM\BaseModel;
 
 class User extends BaseModel
 {

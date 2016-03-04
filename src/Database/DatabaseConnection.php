@@ -74,7 +74,7 @@ class DatabaseConnection extends PDO
       */
      public function loadEnv()
      {
-         if (!getenv('APP_ENV')) {
+         if (! getenv('APP_ENV')) {
              $dotenv = new Dotenv(__DIR__.'/../../');
              $dotenv->load();
          }

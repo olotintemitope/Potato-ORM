@@ -22,7 +22,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->dbConnMocked = Mockery::mock('\Laztopaz\potatoORM\DatabaseConnection');
+        $this->dbConnMocked = Mockery::mock('\Laztopaz\PotatoORM\DatabaseConnection');
 
         $this->dbHelper = new DatabaseHelper($this->dbConnMocked);
 
@@ -103,7 +103,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laztopaz\PotatoORM\NullArgumentPassedToFunction
+     * @expectedException Laztopaz\PotatoORM\NullArgumentPassedToFunctionException
      */
     public function testIfEmptyStringIsPassedToDestroyMethodAsArgument()
     {
