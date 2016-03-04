@@ -36,9 +36,13 @@ class DatabaseHandler
      *
      * @return bool true or false
      */
-    public function create($associative1DArray, $tableName, $dbConn = null)
+    public function create($associative1DArray, $tableName, $dbConn = Null)
     {
-        $tableFields = $this->getColumnNames($this->model, $this->dbConnection);
+        if (is_null($dbConn)) {
+            $dbConn = $this->dbConnection;
+        }
+
+        $tableFields = $this->getColumnNames($this->model, $dbConn);
 
         $unexpectedFields = self::filterClassAttributes($tableFields, $associative1DArray);
 
@@ -48,11 +52,9 @@ class DatabaseHandler
 
         unset($associative1DArray[0]);
 
-        if (is_null($dbConn)) {
-            $dbConn = $this->dbConnection;
-        }
-
         return $this->insertRecord($dbConn, $tableName, $associative1DArray);
+
+        
     }
 
     /**
@@ -81,11 +83,8 @@ class DatabaseHandler
 
         $executeQuery = $dbConn->exec($insertQuery);
 
-        if ($executeQuery) {
-            return true;
-        }
-
-        return false;
+        return $executeQuery;
+        
     }
 
     /**
