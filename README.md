@@ -54,7 +54,7 @@ This package supports the following drivers;
     2. Postgres 
     3. SQLite
 
-To save a new record, you will need to instatiation the class that extends the base model class. Assume your model class is User.
+To save a new record, you will need to instatiate the class that extends the base model class. Assume your model class is User.
 
 Save a new record
 ===============
