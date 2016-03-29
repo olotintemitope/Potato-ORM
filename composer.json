@@ -1,5 +1,5 @@
 {
-    "name": "laztopaz/potatoORM",
+    "name": "laztopaz/potato-orm",
     "description": "This package aims at building a simple agnostic ORM that can perform the basic crud database operations.",
     "license": "MIT",
     "authors": [
