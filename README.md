@@ -19,7 +19,7 @@ PHP 5.5+ and Composer are required.
 
 Via composer
 
-    $ composer require Laztopaz/potatoORM
+    $ composer require laztopaz/potato-orm
 
 Install
 =======
